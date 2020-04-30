@@ -13,7 +13,7 @@ class DashboardController extends Controller
             'pageHeader' => false
         ];
 
-        return view('admin.pages.dashboard-analytics', [
+        return view('admin.pages.dashboard', [
             'pageConfigs' => $pageConfigs
         ]);
     }

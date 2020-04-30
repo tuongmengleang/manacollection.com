@@ -32,6 +32,8 @@ class LoginController extends Controller
      */
     protected $redirectTo = RouteServiceProvider::ADMIN;
 
+    protected $guard_name = 'admin';
+
     /**
      * Create a new controller instance.
      *
@@ -54,6 +56,22 @@ class LoginController extends Controller
       ]);
     }
 
+    public function loginUser(Request $request)
+    {
+      // Validate the form data
+      $this->validate($request, [
+        'email'   => 'required|email',
+        'password' => 'required'
+      ]);
+      // Attempt to log the user in
+      if (\Auth::guard($this->guard_name)->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
+        // if successful, then redirect to their intended location
+        return redirect()->intended(route('admin.dashboard'));
+      }
+      // if unsuccessful, then redirect back to the login with the form data
+      return back()->withErrors(['email' => 'Email or password are incorrect!'])->withInput($request->only('email', 'remember'));
+    }
+
     /**
      * Log the user out of the application.
      *
@@ -62,7 +80,7 @@ class LoginController extends Controller
      */
     public function logout(Request $request)
     {
-        $this->guard()->logout();
+        $this->guard($this->guard_name)->logout();
 
         $request->session()->invalidate();
 

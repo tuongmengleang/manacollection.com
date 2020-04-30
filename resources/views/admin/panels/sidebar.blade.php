@@ -6,7 +6,7 @@ $configData = Helper::applClasses();
   data-scroll-to-active="true">
   <div class="navbar-header">
     <ul class="nav navbar-nav flex-row">
-      <li class="nav-item mr-auto"><a class="navbar-brand" href="dashboard-analytics">
+      <li class="nav-item mr-auto"><a class="navbar-brand" href="{{ route('admin.dashboard') }}">
           <div class="brand-logo"></div>
           <h2 class="brand-text mb-0">Vuexy</h2>
         </a></li>
@@ -42,7 +42,7 @@ $configData = Helper::applClasses();
       }
       @endphp
       <li class="nav-item {{ (request()->is($menu->url)) ? 'active' : '' }} {{ $custom_classes }}">
-        <a href="{{ $menu->url }}">
+        <a href="/{{ $menu->url }}">
           <i class="{{ $menu->icon }}"></i>
           <span class="menu-title" data-i18n="{{ $translation }}">{{ __('locale.'.$menu->name) }}</span>
           @if (isset($menu->badge))

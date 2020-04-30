@@ -19,11 +19,11 @@
           <div class="card rounded-0 mb-0 px-2">
             <div class="card-header pb-1">
               <div class="card-title">
-                <h4 class="mb-0">Login</h4>
+                <h4 class="mb-0">{{ __('general.login') }}</h4>
               </div>
             </div>
-            <p class="px-2">Welcome back, please login to your account.</p>
-            <div class="card-content">
+            <p class="px-2">{{ __('general.auth_welcome') }}</p>
+            <div class="card-content mb-2">
               <div class="card-body pt-1">
                 <form method="POST" action="{{ route('admin.auth.login') }}">
                   @csrf
@@ -80,22 +80,11 @@
                     @endif
 
                   </div>
-                  <a href="register" class="btn btn-outline-primary float-left btn-inline">Register</a>
-                  <button type="submit" class="btn btn-primary float-right btn-inline">Login</button>
+                  <button type="submit" class="btn btn-primary float-right btn-inline">{{ __('general.login') }}</button>
                 </form>
               </div>
             </div>
-            <div class="login-footer">
-              <div class="divider">
-                <div class="divider-text">OR</div>
-              </div>
-              <div class="footer-btn d-inline">
-                <a href="#" class="btn btn-facebook"><span class="fa fa-facebook"></span></a>
-                <a href="#" class="btn btn-twitter white"><span class="fa fa-twitter"></span></a>
-                <a href="#" class="btn btn-google"><span class="fa fa-google"></span></a>
-                <a href="#" class="btn btn-github"><span class="fa fa-github-alt"></span></a>
-              </div>
-            </div>
+
           </div>
         </div>
       </div>
