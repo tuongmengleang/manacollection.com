@@ -39,8 +39,6 @@
                 </a>
               </div>
             </li>
-            <li class="nav-item d-none d-lg-block"><a class="nav-link nav-link-expand"><i
-                  class="ficon feather icon-maximize"></i></a></li>
             <li class="dropdown dropdown-notification nav-item"><a class="nav-link nav-link-label" href="#"
                 data-toggle="dropdown"><i class="ficon feather icon-bell"></i><span
                   class="badge badge-pill badge-primary badge-up">5</span></a>

@@ -11,6 +11,7 @@ Route::group(['middleware' => ['auth:admin']], function () {
 
   Route::prefix('users')->group(function () {
     Route::get('/', 'UserController@index')->name('user.index');
+    Route::get('/datatables', 'UserController@datatable')->name('user.datatable');
   });
 
   // Access controller

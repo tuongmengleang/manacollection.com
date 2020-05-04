@@ -39,4 +39,15 @@ class Admin extends Authenticatable
   protected $casts = [
     'email_verified_at' => 'datetime',
   ];
+
+  // Attribute
+  public function getRoleNamesAttribute()
+  {
+    $roleName = '';
+    $roles = $this->roles->pluck('display_name');
+    foreach($roles as $role) {
+      $roleName = ($roleName == '' ? '' : $roleName . ', ') . $role;
+    }
+    return $roleName;
+  }
 }
