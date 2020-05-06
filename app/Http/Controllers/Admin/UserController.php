@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\AdminsExport;
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
 {
@@ -15,7 +17,7 @@ class UserController extends Controller
   }
   public function index(){
       $breadcrumbs = [
-          ['link'=>route('admin.dashboard'),'name'=>"Dashboard"], ['name'=> __('general.users_management')]
+          ['link'=>route('admin.dashboard'),'name'=> __('general.dashboard')], ['name'=> __('general.users_management')]
       ];
       return view('admin.users.index', [
           'breadcrumbs' => $breadcrumbs
@@ -25,31 +27,41 @@ class UserController extends Controller
   public function datatable(Request $request) {
     $admins = Admin::all();
     return DataTables::of($admins)
+
       ->editColumn('created_at', function ($admin) {
         return $admin->created_at;
       })
       ->editColumn('avatar', function ($admin) {
-        return '<img src="' . $admin->avatar . '" height="64" width="64">';
+        return '<div class="avatar avatar-lg">
+                    <img src="'. $admin->avatar .'" alt="'. $admin->name .'">
+                </div>';
       })
       ->editColumn('active', function ($admin) {
-        if ($admin->active == 1) {
-          $active_txt = '<span class="badge badge-success">' . __('general.active') . '</span>';
-        } else {
-          $active_txt = '<span class="badge badge-danger">' . __('general.inactive') . '</span>';
-        }
-        return $active_txt;
+        return $admin->active_badge;
+      })
+      ->addColumn('checkbox', function ($admin) {
+        return '';
       })
       ->addColumn('role', function ($admin) {
-        return '<span class="badge badge-info">' . $admin->role_names . '</span>';
+        return $admin->role_badge;
       })
       ->addColumn('actions', function ($admin) {
         $actions = '';
-        $actions .= '<a href="javascript:void(0)" class="mr-1"><span class="action-edit"><i class="feather icon-edit"></i></span></a>';
-        $actions .= '<a href="javascript:void(0)"><span class="action-delete"><i class="feather icon-trash"></i></span></a>';
+        $actions .= '<a href="javascript:void(0)" class="mr-1"><span><i class="feather icon-edit"></i></span></a>';
+        $actions .= '<a href="javascript:void(0)"><span><i class="feather icon-trash"></i></span></a>';
         return $actions;
       })
       ->rawColumns(['avatar', 'active', 'role', 'actions'])
       ->make(true);
+  }
+
+  public function export($type)
+  {
+    if ($type == 'pdf') {
+      return (new AdminsExport)->download('admins_'.time().'.pdf', \Maatwebsite\Excel\Excel::MPDF);
+    } else {
+      return Excel::download(new AdminsExport, 'admins_'.time().'.xlsx');
+    }
   }
 
 }

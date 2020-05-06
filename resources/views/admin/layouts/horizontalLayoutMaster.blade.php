@@ -6,6 +6,11 @@ $configData = Helper::applClasses();
     class="horizontal-layout horizontal-menu {{$configData['horizontalMenuType']}} {{ $configData['blankPageClass'] }} {{ $configData['bodyClass'] }} {{($configData['theme'] === 'dark') ? 'dark-layout' : 'light' }} {{ $configData['sidebarClass'] }} {{ $configData['footerType'] }}  footer-light"
     data-menu="horizontal-menu" data-col="2-columns" data-open="hover">
 
+{{-- Spinner --}}
+<div id="loadingDiv" class="spinner-border text-primary" style="display:none;width: 3rem; height: 3rem; position: fixed;right:45px;top: 90px;z-index: 99" role="status">
+  <span class="sr-only">Loading...</span>
+</div>
+
     {{-- Include Sidebar --}}
     @include('admin.panels.sidebar')
 

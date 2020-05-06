@@ -25,7 +25,7 @@ const path = require('path')
 function mixAssetsDir(query, cb) {
   (glob.sync('resources/' + query) || []).forEach(f => {
     f = f.replace(/[\\\/]+/g, '/');
-    cb(f, f.replace('resources', 'public'));
+    cb(f, f.replace('resources', 'public/admin'));
   });
 }
 
@@ -58,19 +58,19 @@ mixAssetsDir('vendors/js/**/*.js', (src, dest) => mix.scripts(src, dest));
 mixAssetsDir('vendors/css/**/*.css', (src, dest) => mix.copy(src, dest));
 mixAssetsDir('vendors/css/editors/quill/fonts/', (src, dest) => mix.copy(src, dest));
 mix.copyDirectory('resources/images', 'public/images');
-mix.copyDirectory('resources/fonts', 'public/fonts');
+mix.copyDirectory('resources/fonts', 'public/admin/fonts');
 
 
 
 
-mix.js('resources/js/core/app-menu.js', 'public/js/core')
-  .js('resources/js/core/app.js', 'public/js/core')
-  .sass('resources/sass/bootstrap.scss', 'public/css')
-  .sass('resources/sass/bootstrap-extended.scss', 'public/css')
-  .sass('resources/sass/colors.scss', 'public/css')
-  .sass('resources/sass/components.scss', 'public/css')
-  .sass('resources/sass/custom-rtl.scss', 'public/css')
-  .sass('resources/sass/custom-laravel.scss', 'public/css');
+mix.js('resources/js/core/app-menu.js', 'public/admin/js/core')
+  .js('resources/js/core/app.js', 'public/admin/js/core')
+  .sass('resources/sass/bootstrap.scss', 'public/admin/css')
+  .sass('resources/sass/bootstrap-extended.scss', 'public/admin/css')
+  .sass('resources/sass/colors.scss', 'public/admin/css')
+  .sass('resources/sass/components.scss', 'public/admin/css')
+  .sass('resources/sass/custom-rtl.scss', 'public/admin/css')
+  .sass('resources/sass/custom-laravel.scss', 'public/admin/css');
 
 // mix.then(() => {
 //   if (process.env.MIX_CONTENT_DIRECTION === "rtl") {

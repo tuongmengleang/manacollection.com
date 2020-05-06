@@ -50,4 +50,31 @@ class Admin extends Authenticatable
     }
     return $roleName;
   }
+
+  public function getRoleBadgeAttribute()
+  {
+    $active_badge = '<div class="chip chip-info">
+                    <div class="chip-body">
+                      <div class="chip-text">'. $this->role_names .'</div>
+                    </div>
+                  </div>';
+    return $active_badge;
+  }
+
+  public function getActiveBadgeAttribute()
+  {
+    $active_badge = '<div class="chip chip-danger">
+                    <div class="chip-body">
+                      <div class="chip-text">Inactive</div>
+                    </div>
+                  </div>';
+    if ($this->active == 1) {
+      $active_badge = '<div class="chip chip-success">
+                    <div class="chip-body">
+                      <div class="chip-text">Active</div>
+                    </div>
+                  </div>';
+    }
+    return $active_badge;
+  }
 }

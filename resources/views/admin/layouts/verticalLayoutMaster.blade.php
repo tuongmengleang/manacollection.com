@@ -5,6 +5,13 @@ $configData = Helper::applClasses();
 <body
   class="vertical-layout vertical-menu-modern 2-columns {{ $configData['blankPageClass'] }} {{ $configData['bodyClass'] }} {{($configData['theme'] === 'light') ? '' : $configData['layoutTheme'] }} {{ $configData['verticalMenuNavbarType'] }} {{ $configData['sidebarClass'] }} {{ $configData['footerType'] }} "
   data-menu="vertical-menu-modern" data-col="2-columns">
+
+  {{-- Spinner --}}
+  <div id="loadingDiv" class="spinner-border text-primary" style="display:none;width: 3rem; height: 3rem; position: fixed;right:45px;top: 90px;z-index: 99" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+
+
   {{-- Include Sidebar --}}
   @include('admin.panels.sidebar')
 
