@@ -93,15 +93,6 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-/*=========================================================================================
-  File Name: app-menu.js
-  Description: Menu navigation, custom scrollbar, hover scroll bar, multilevel menu
-  initialization and manipulations
-  ----------------------------------------------------------------------------------------
-  Item Name:  Vusax - Vuejs, HTML & Laravel Admin Dashboard Template
-  Author: Pixinvent
-  Author URL: hhttp://www.themeforest.net/user/pixinvent
-==========================================================================================*/
 (function (window, document, $) {
   'use strict';
 

@@ -1,12 +1,3 @@
-/*=========================================================================================
-    File Name: dashboard-analytics.js
-    Description: dashboard analytics page content with Apexchart Examples
-    ----------------------------------------------------------------------------------------
-    Item name: Vuexy  - Vuejs, HTML & Laravel Admin Dashboard Template
-    Author: PIXINVENT
-    Author URL: http://www.themeforest.net/user/pixinvent
-==========================================================================================*/
-
 $(window).on("load", function () {
 
   var $primary = '#7367F0';

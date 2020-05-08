@@ -93,14 +93,6 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-/*=========================================================================================
-  File Name: app.js
-  Description: Template related app JS.
-  ----------------------------------------------------------------------------------------
-  Item Name: Vuexy  - Vuejs, HTML & Laravel Admin Dashboard Template
-  Author: Pixinvent
-  Author URL: hhttp://www.themeforest.net/user/pixinvent
-==========================================================================================*/
 (function (window, document, $) {
   "use strict";
 
@@ -842,7 +834,12 @@
   }); // Waves Effect
 
   Waves.init();
-  Waves.attach(".btn", ["waves-light"]);
+  Waves.attach(".btn", ["waves-light"]); // Select2
+
+  $('select').select2({
+    minimumResultsForSearch: 10,
+    width: '100%'
+  });
 })(window, document, jQuery);
 
 /***/ }),

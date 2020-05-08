@@ -4,7 +4,7 @@
 
 @section('page-style')
 {{-- Page Css files --}}
-<link rel="stylesheet" href="{{ asset(mix('css/pages/authentication.css')) }}">
+<link rel="stylesheet" href="{{ asset(mix('admin/css/pages/authentication.css')) }}">
 @endsection
 
 @section('content')

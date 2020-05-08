@@ -16,14 +16,14 @@ class AdminsExport implements FromView, WithMapping, WithColumnFormatting, Shoul
   public function view(): View
   {
     return view('admin.users.export', [
-      'admins' => Admin::all()
+      'rows' => Admin::all()
     ]);
   }
 
-  public function map($admin): array
+  public function map($row): array
   {
     return [
-      Date::dateTimeToExcel($admin->created_at)
+      Date::dateTimeToExcel($row->created_at)
     ];
   }
 

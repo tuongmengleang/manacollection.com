@@ -87,42 +87,4 @@ $(document).ready(function() {
     $("#data-name, #data-price").val("")
     $("#data-category, #data-status").prop("selectedIndex", 0)
   })
-
-  // On Edit
-  $(document).on('click', '.action-edit', function (e) {
-    e.stopPropagation();
-    $('#data-name').val('Altec Lansing - Bluetooth Speaker');
-    $('#data-price').val('$99');
-    $(".add-new-data").addClass("show");
-    $(".overlay-bg").addClass("show");
-  });
-
-  // On Delete
-  $(document).on('click', '.action-delete', function (e) {
-    e.stopPropagation();
-    $(this).closest('td').parent('tr').fadeOut();
-  });
-
-  // dropzone init
-  Dropzone.options.dataListUpload = {
-    complete: function(files) {
-      var _this = this
-      // checks files in class dropzone and remove that files
-      $(".hide-data-sidebar, .cancel-data-btn, .actions .dt-buttons").on(
-        "click",
-        function() {
-          $(".dropzone")[0].dropzone.files.forEach(function(file) {
-            file.previewElement.remove()
-          })
-          $(".dropzone").removeClass("dz-started")
-        }
-      )
-    }
-  }
-  Dropzone.options.dataListUpload.complete()
-
-  // mac chrome checkbox fix
-  if (navigator.userAgent.indexOf("Mac OS X") != -1) {
-    $(".dt-checkboxes-cell input, .dt-checkboxes").addClass("mac-checkbox")
-  }
-})
+});

@@ -3,7 +3,7 @@
         {
             "url": "admin/dashboard",
             "name": "Dashboard",
-            "badgeClass": "badge badge-warning badge-pill float-right",
+            "badgeClass": "",
             "icon": "feather icon-home"
         },
         {
@@ -13,15 +13,15 @@
         },
         {
             "url": "",
-            "navheader": "Support",
-            "name": "Users Management",
+            "navheader": "Settings",
+            "name": "Settings",
             "icon": "",
             "slug": ""
         },
         {
-            "url": "#",
-            "name": "Documentation",
-            "icon": "feather icon-folder"
+          "url": "admin/settings",
+          "name": "Settings",
+          "icon": "feather icon-home"
         }
     ]
 }

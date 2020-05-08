@@ -6,6 +6,9 @@ Route::post('login', 'Auth\\LoginController@loginUser');
 Route::post('logout', 'Auth\\LoginController@logout')->name('auth.logout');
 
 Route::group(['middleware' => ['auth:admin']], function () {
+  // locale Route
+  Route::get('lang/{locale}',[LanguageController::class,'swap']);
+
   // Route url
   Route::get('/dashboard', 'DashboardController@dashboardAnalytics')->name('dashboard');
 
@@ -20,9 +23,9 @@ Route::group(['middleware' => ['auth:admin']], function () {
   Route::get('/access-control/{roles}', 'AccessController@roles');
   Route::get('/modern-admin', 'AccessController@home')->middleware('permissions:approve-post');
 
-  // Auth::routes();
 
-  // locale Route
-  Route::get('lang/{locale}',[LanguageController::class,'swap']);
-
+  Route::prefix('settings')->group(function () {
+    Route::get('/', 'SettingController@index')->name('setting.index');
+    Route::post('/', 'SettingController@update')->name('setting.udpate');
+  });
 });

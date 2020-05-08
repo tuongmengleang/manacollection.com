@@ -9,4 +9,6 @@ return [
   'dashboard' => 'Dashboard',
   'users_management' => 'Users Management',
   'document' => 'Document',
+  'setting' => 'Setting',
+  'settings' => 'Settings',
 ];

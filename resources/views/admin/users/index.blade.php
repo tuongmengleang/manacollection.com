@@ -26,7 +26,7 @@
           </button>
           <div class="dropdown-menu">
             <a class="dropdown-item" href="{{ route('admin.user.export', 'excel') }}" id="dt-export__excel"><i class="fa fa-file-excel-o"></i>Excel</a>
-            <a class="dropdown-item" href=""{{ route('admin.user.export', 'pdf') }}" id="dt-export__pdf"><i class="fa fa-file-pdf-o"></i>Pdf</a>
+            <a class="dropdown-item" href="{{ route('admin.user.export', 'pdf') }}" id="dt-export__pdf"><i class="fa fa-file-pdf-o"></i>Pdf</a>
             <a class="dropdown-item" href="#" id="dt-export__print"><i class="feather icon-file"></i>Print</a>
           </div>
         </div>
@@ -97,11 +97,7 @@
           {
             text: "<i class='feather icon-plus'></i> Add New",
             action: function() {
-              $(this).removeClass("btn-secondary")
-              $(".add-new-data").addClass("show")
-              $(".overlay-bg").addClass("show")
-              $("#data-name, #data-price").val("")
-              $("#data-category, #data-status").prop("selectedIndex", 0)
+              // $(this).removeClass("btn-secondary");
             },
             className: "btn-outline-primary"
           }

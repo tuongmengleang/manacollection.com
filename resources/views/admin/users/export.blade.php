@@ -1,12 +1,42 @@
+<!DOCTYPE html>
 <html>
 <head>
-  <link rel="stylesheet" href="{{ asset(mix('admin/css/bootstrap.css')) }}">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta charset="utf-8">
+  <title></title>
+  <style>
+    table {
+      border-collapse: collapse;
+      font-family: Tahoma, Geneva, sans-serif;
+    }
+    table td {
+      padding: 15px;
+    }
+    table thead th, table thead td {
+      background-color: #54585d;
+      color: #ffffff;
+      font-weight: bold;
+      font-size: 13px;
+      border: 1px solid #54585d;
+      padding-top: 5px;
+      padding-bottom: 5px;
+    }
+    table tbody td {
+      color: #636363;
+      border: 1px solid #dddfe1;
+    }
+    table tbody tr {
+      background-color: #f9fafb;
+    }
+    table tbody tr:nth-child(odd) {
+      background-color: #ffffff;
+    }
+  </style>
 </head>
 <body>
   <table class="table table-bordered">
     <thead>
     <tr>
-      {{--    <th>Avatar</th>--}}
       <th>Name</th>
       <th>Email</th>
       <th>Status</th>
@@ -15,20 +45,14 @@
     </tr>
     </thead>
     <tbody>
-    @if ($admins)
-      @foreach($admins as $admin)
+    @if ($rows)
+      @foreach($rows as $row)
         <tr>
-          {{--          <td>--}}
-          {{--            <div class="avatar avatar-lg">--}}
-          {{--              <img src="{{ $admin->avatar }}" alt="">--}}
-          {{--            </div>--}}
-          {{--          </td>--}}
-          <td>{{ $admin->name }}</td>
-          <td>{{ $admin->email }}</td>
-          <td>{!! $admin->active_badge !!}</td>
-          <td>{!! $admin->role_badge !!}</td>
-          <td>{{ $admin->created_at }}</td>
-
+          <td>{{ $row->name }}</td>
+          <td>{{ $row->email }}</td>
+          <td>{!! $row->active_badge !!}</td>
+          <td>{!! $row->role_badge !!}</td>
+          <td>{{ $row->created_at }}</td>
         </tr>
       @endforeach
     @endif

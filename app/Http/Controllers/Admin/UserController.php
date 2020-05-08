@@ -8,6 +8,7 @@ use App\Models\Admin;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use Maatwebsite\Excel\Facades\Excel;
+use PDF;
 
 class UserController extends Controller
 {
@@ -15,6 +16,7 @@ class UserController extends Controller
   {
     $this->middleware('auth:admin');
   }
+
   public function index(){
       $breadcrumbs = [
           ['link'=>route('admin.dashboard'),'name'=> __('general.dashboard')], ['name'=> __('general.users_management')]
@@ -58,7 +60,13 @@ class UserController extends Controller
   public function export($type)
   {
     if ($type == 'pdf') {
-      return (new AdminsExport)->download('admins_'.time().'.pdf', \Maatwebsite\Excel\Excel::MPDF);
+        $rows = Admin::all();
+        $pdf = PDF::loadView('admin.users.export', compact('rows'));
+
+        return $pdf->download('admins_'.time().'.pdf');
+
+//      return view('admin.users.export')->withRows($rows);
+//      return (new AdminsExport)->download('admins_'.time().'.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
     } else {
       return Excel::download(new AdminsExport, 'admins_'.time().'.xlsx');
     }
