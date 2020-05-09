@@ -28,7 +28,7 @@
           <li class="nav-item">
             <a class="nav-link d-flex py-75" id="tab-pill-social" data-toggle="pill" href="#tab-vertical-social" aria-expanded="false">
               <i class="feather icon-camera mr-50 font-medium-3"></i>
-              Social links
+              Social Links
             </a>
           </li>
           <li class="nav-item">
@@ -42,63 +42,38 @@
       <!-- right content section -->
       <div class="col-md-9">
         <div class="card">
+          {!! Form::open([ 'url' => route('admin.setting.update'), 'method' => 'POST', 'files' => true ]) !!}
           <div class="card-content">
             <div class="card-body">
               <div class="tab-content">
-
                 <div class="tab-pane active" id="tab-vertical-general" role="tabpanel" aria-labelledby="tab-pill-general" aria-expanded="false">
-                  <form novalidate>
                     <div class="row">
                       <div class="col-12">
                         <div class="form-group">
-                          <label for="accountTextarea">Bio</label>
-                          <textarea class="form-control" id="accountTextarea" rows="3" placeholder="Your Bio data here..."></textarea>
-                        </div>
-                      </div>
-                      <div class="col-12">
-                        <div class="form-group">
                           <div class="controls">
-                            <label for="account-birth-date">Birth date</label>
-                            <input type="text" class="form-control birthdate-picker" required placeholder="Birth date" id="account-birth-date" data-validation-required-message="This birthdate field is required">
+                            <label for="account-birth-date">Project Name</label>
+                            <input type="text" class="form-control" placeholder="Project Name">
                           </div>
                         </div>
                       </div>
+
                       <div class="col-12">
                         <div class="form-group">
-                          <label for="accountSelect">Country</label>
-                          <select class="form-control" id="accountSelect">
-                            <option>USA</option>
-                            <option>India</option>
-                            <option>Canada</option>
-                          </select>
+                          <label for="accountSelect">Format Date</label>
+                          {!! Form::select('format_date', array('Y/m/d' => 'Y/m/d', 'd/m/Y' => 'd/m/Y'), settings('format_date'), ['class' => 'form-control']) !!}
                         </div>
                       </div>
-                      <div class="col-12">
-                        <div class="form-group">
-                          <label for="languageselect2">Languages</label>
-                          <select class="form-control" id="languageselect2" multiple="multiple">
-                            <option value="English" selected>English</option>
-                            <option value="Spanish">Spanish</option>
-                            <option value="French">French</option>
-                            <option value="Russian">Russian</option>
-                            <option value="German">German</option>
-                            <option value="Arabic" selected>Arabic</option>
-                            <option value="Sanskrit">Sanskrit</option>
-                          </select>
-                        </div>
-                      </div>
+
                       <div class="col-12">
                         <div class="form-group">
                           <div class="controls">
-                            <label for="account-phone">Phone</label>
-                            <input type="text" class="form-control" id="account-phone" required placeholder="Phone number" value="(+656) 254 2568" data-validation-required-message="This phone number field is required">
+                            <label for="account-birth-date">Logo</label>
+                            <input type="file" name="logo" class="form-control">
+                            <p class="text-muted ml-75 mt-50"><small>Allowed JPG, GIF or PNG. Max size of 800kB</small></p>
+                            @if (settings('logo'))
+                            <img src="{{ asset(settings('logo')) }}" class="rounded mr-75" alt="profile image" height="100" width="100">
+                            @endif
                           </div>
-                        </div>
-                      </div>
-                      <div class="col-12">
-                        <div class="form-group">
-                          <label for="account-website">Website</label>
-                          <input type="text" class="form-control" id="account-website" placeholder="Website address">
                         </div>
                       </div>
 
@@ -107,47 +82,34 @@
                           changes</button>
                         <button type="reset" class="btn btn-outline-warning">Cancel</button>
                       </div>
+
                     </div>
-                  </form>
                 </div>
 
                 <div class="tab-pane fade " id="tab-vertical-social" role="tabpanel" aria-labelledby="tab-pill-social" aria-expanded="false">
-                  <form>
                     <div class="row">
                       <div class="col-12">
                         <div class="form-group">
                           <label for="account-twitter">Twitter</label>
-                          <input type="text" id="account-twitter" class="form-control" placeholder="Add link" value="https://www.twitter.com">
+                          <input type="text" name="social_twitter" class="form-control" placeholder="Add link" value="{{ settings('social_twitter') }}">
                         </div>
                       </div>
                       <div class="col-12">
                         <div class="form-group">
-                          <label for="account-facebook">Facebook</label>
-                          <input type="text" id="account-facebook" class="form-control" placeholder="Add link">
-                        </div>
-                      </div>
-                      <div class="col-12">
-                        <div class="form-group">
-                          <label for="account-google">Google+</label>
-                          <input type="text" id="account-google" class="form-control" placeholder="Add link">
+                          <label>Facebook</label>
+                          <input type="text" name="social_facebook" class="form-control" placeholder="Add link" value="{{ settings('social_facebook') }}">
                         </div>
                       </div>
                       <div class="col-12">
                         <div class="form-group">
                           <label for="account-linkedin">LinkedIn</label>
-                          <input type="text" id="account-linkedin" class="form-control" placeholder="Add link" value="https://www.linkedin.com">
+                          <input type="text" name="social_linkedin" class="form-control" placeholder="Add link" value="{{ settings('social_linkedin') }}">
                         </div>
                       </div>
                       <div class="col-12">
                         <div class="form-group">
-                          <label for="account-instagram">Instagram</label>
-                          <input type="text" id="account-instagram" class="form-control" placeholder="Add link">
-                        </div>
-                      </div>
-                      <div class="col-12">
-                        <div class="form-group">
-                          <label for="account-quora">Quora</label>
-                          <input type="text" id="account-quora" class="form-control" placeholder="Add link">
+                          <label>Instagram</label>
+                          <input type="text" name="social_instagram" class="form-control" placeholder="Add link" value="{{ settings('social_instagram') }}">
                         </div>
                       </div>
                       <div class="col-12 d-flex flex-sm-row flex-column justify-content-end">
@@ -156,7 +118,6 @@
                         <button type="reset" class="btn btn-outline-warning">Cancel</button>
                       </div>
                     </div>
-                  </form>
                 </div>
 
                 <div class="tab-pane fade" id="tab-vertical-notifications" role="tabpanel" aria-labelledby="tab-pill-notifications" aria-expanded="false">
@@ -220,6 +181,7 @@
               </div>
             </div>
           </div>
+          {!! Form::close() !!}
         </div>
       </div>
     </div>

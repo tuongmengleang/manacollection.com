@@ -1,6 +1,7 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600">
         <link rel="stylesheet" href="{{ asset(mix('admin/vendors/css/vendors.min.css')) }}">
         <link rel="stylesheet" href="{{ asset(mix('admin/vendors/css/ui/prism.min.css')) }}">
+        @notifyCss
         {{-- Vendor Styles --}}
         @yield('vendor-style')
         {{-- Theme Styles --}}

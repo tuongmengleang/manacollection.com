@@ -26,6 +26,6 @@ Route::group(['middleware' => ['auth:admin']], function () {
 
   Route::prefix('settings')->group(function () {
     Route::get('/', 'SettingController@index')->name('setting.index');
-    Route::post('/', 'SettingController@update')->name('setting.udpate');
+    Route::post('/', 'SettingController@update')->name('setting.update');
   });
 });
