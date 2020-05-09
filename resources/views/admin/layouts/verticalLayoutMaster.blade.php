@@ -49,16 +49,6 @@ $configData = Helper::applClasses();
       @endif
 
       <div class="content-body">
-
-        @if(flash()->message)
-          <div class="alert {{ flash()->class }} alert-dismissable" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">×</span>
-            </button>
-            <span class="mb-0 font-weight-bold">{{ __(flash()->message) }}</span>
-          </div>
-        @endif
-
         @if ($errors->any())
           <div class="alert alert-danger">
             <ul>
