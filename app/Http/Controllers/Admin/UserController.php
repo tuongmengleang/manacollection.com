@@ -31,7 +31,7 @@ class UserController extends Controller
     return DataTables::of($admins)
 
       ->editColumn('created_at', function ($admin) {
-        return $admin->created_at;
+        return formatLongDate($admin->created_at);
       })
       ->editColumn('avatar', function ($admin) {
         return '<div class="avatar avatar-lg">

@@ -22,19 +22,19 @@
           <li class="nav-item">
             <a class="nav-link d-flex py-75 active" id="tab-pill-general" data-toggle="pill" href="#tab-vertical-general" aria-expanded="true">
               <i class="feather icon-globe mr-50 font-medium-3"></i>
-              General
+              {{ __('general.general') }}
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link d-flex py-75" id="tab-pill-social" data-toggle="pill" href="#tab-vertical-social" aria-expanded="false">
               <i class="feather icon-camera mr-50 font-medium-3"></i>
-              Social Links
+              {{ __('general.social_links') }}
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link d-flex py-75" id="tab-pill-notifications" data-toggle="pill" href="#tab-vertical-notifications" aria-expanded="false">
               <i class="feather icon-message-circle mr-50 font-medium-3"></i>
-              Notifications
+              {{ __('general.notifications') }}
             </a>
           </li>
         </ul>
@@ -48,39 +48,66 @@
               <div class="tab-content">
                 <div class="tab-pane active" id="tab-vertical-general" role="tabpanel" aria-labelledby="tab-pill-general" aria-expanded="false">
                     <div class="row">
-                      <div class="col-12">
-                        <div class="form-group">
-                          <div class="controls">
-                            <label for="account-birth-date">Project Name</label>
-                            <input type="text" class="form-control" placeholder="Project Name">
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="col-12">
-                        <div class="form-group">
-                          <label for="accountSelect">Format Date</label>
-                          {!! Form::select('format_date', array('Y/m/d' => 'Y/m/d', 'd/m/Y' => 'd/m/Y'), settings('format_date'), ['class' => 'form-control']) !!}
-                        </div>
-                      </div>
 
                       <div class="col-12">
                         <div class="form-group">
                           <div class="controls">
-                            <label for="account-birth-date">Logo</label>
-                            <input type="file" name="logo" class="form-control">
-                            <p class="text-muted ml-75 mt-50"><small>Allowed JPG, GIF or PNG. Max size of 800kB</small></p>
+                            <label>{{ __('general.site_logo') }}</label>
+                            <input type="file" name="logo" class="form-control" accept="image/x-png,image/jpeg,image/svg+xml">
+                            <p class="text-muted ml-75 mt-50"><small>Allowed JPG, GIF, PNG or SVG. Max size of 800kB</small></p>
                             @if (settings('logo'))
-                            <img src="{{ asset(settings('logo')) }}" class="rounded mr-75" alt="profile image" height="100" width="100">
+                              <img src="{{ asset(settings('logo')) }}" class="rounded mr-75" alt="profile image" height="100" width="100">
                             @endif
                           </div>
                         </div>
                       </div>
 
+                      <div class="col-12">
+                        <div class="form-group">
+                          <label>{{ __('general.date_format') }}</label>
+                          {!! Form::select('date_format', array('Y/m/d' => 'Y/m/d', 'd/m/Y' => 'd/m/Y'), settings('date_format'), ['class' => 'form-control']) !!}
+                        </div>
+                      </div>
+
+                      <div class="col-12">
+                        <div class="form-group">
+                          <div class="controls">
+                            <label>{{ __('general.app_title') }}</label>
+                            <input type="text" name="app_title" class="form-control" placeholder="App Title" value="{{ settings('app_title') }}">
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-12">
+                        <div class="form-group">
+                          <div class="controls">
+                            <label>{{ __('general.email') }}</label>
+                            <input type="text" name="email" class="form-control" placeholder="Email" value="{{ settings('email') }}">
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-12">
+                        <div class="form-group">
+                          <div class="controls">
+                            <label>{{ __('general.phone_number') }}</label>
+                            <input type="text" name="phone_number" class="form-control" placeholder="Phone Number" value="{{ settings('phone_number') }}">
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-12">
+                        <div class="form-group">
+                          <div class="controls">
+                            <label>{{ __('general.address') }}</label>
+                            <input type="text" name="address" class="form-control" placeholder="Address" value="{{ settings('address') }}">
+                          </div>
+                        </div>
+                      </div>
+
                       <div class="col-12 d-flex flex-sm-row flex-column justify-content-end">
-                        <button type="submit" class="btn btn-primary mr-sm-1 mb-1 mb-sm-0">Save
-                          changes</button>
-                        <button type="reset" class="btn btn-outline-warning">Cancel</button>
+                        <button type="submit" class="btn btn-primary mr-sm-1 mb-1 mb-sm-0">{{ __('general.save_changes') }}</button>
+                        <button type="reset" class="btn btn-outline-warning">{{ __('general.cancel') }}</button>
                       </div>
 
                     </div>
@@ -113,9 +140,8 @@
                         </div>
                       </div>
                       <div class="col-12 d-flex flex-sm-row flex-column justify-content-end">
-                        <button type="submit" class="btn btn-primary mr-sm-1 mb-1 mb-sm-0">Save
-                          changes</button>
-                        <button type="reset" class="btn btn-outline-warning">Cancel</button>
+                        <button type="submit" class="btn btn-primary mr-sm-1 mb-1 mb-sm-0">{{ __('general.save_changes') }}</button>
+                        <button type="reset" class="btn btn-outline-warning">{{ __('general.cancel') }}</button>
                       </div>
                     </div>
                 </div>
@@ -172,9 +198,8 @@
                       </div>
                     </div>
                     <div class="col-12 d-flex flex-sm-row flex-column justify-content-end">
-                      <button type="submit" class="btn btn-primary mr-sm-1 mb-1 mb-sm-0">Save
-                        changes</button>
-                      <button type="reset" class="btn btn-outline-warning">Cancel</button>
+                      <button type="submit" class="btn btn-primary mr-sm-1 mb-1 mb-sm-0">{{ __('general.save_changes') }}</button>
+                      <button type="reset" class="btn btn-outline-warning">{{ __('general.cancel') }}</button>
                     </div>
                   </div>
                 </div>

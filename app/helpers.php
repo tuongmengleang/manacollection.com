@@ -32,7 +32,7 @@ if (! function_exists('formatDate')) {
   {
     if ($date) {
       if (!$format) {
-        $format = setting('date_format');
+        $format = settings('date_format');
       }
       return \Carbon\Carbon::parse($date)->format($format);
     }
@@ -45,7 +45,7 @@ if (! function_exists('formatLongDate')) {
   {
     if ($date) {
       if (!$format) {
-        $format = setting('date_format') . ' H:i:s';
+        $format = settings('date_format') . ' H:i:s';
       }
       return \Carbon\Carbon::parse($date)->format($format);
     }

@@ -27,7 +27,7 @@
           <div class="dropdown-menu">
             <a class="dropdown-item" href="{{ route('admin.user.export', 'excel') }}" id="dt-export__excel"><i class="fa fa-file-excel-o"></i>Excel</a>
             <a class="dropdown-item" href="{{ route('admin.user.export', 'pdf') }}" id="dt-export__pdf"><i class="fa fa-file-pdf-o"></i>Pdf</a>
-            <a class="dropdown-item" href="#" id="dt-export__print"><i class="feather icon-file"></i>Print</a>
+{{--            <a class="dropdown-item" href="#" id="dt-export__print"><i class="feather icon-file"></i>Print</a>--}}
           </div>
         </div>
       </div>
@@ -89,10 +89,9 @@
           sLengthMenu: "_MENU_",
           sSearch: ""
         },
-        aLengthMenu: [[10, 15, 20], [10, 15, 20]],
+        aLengthMenu: [[10, 15, 20, 50], [10, 15, 20, 50]],
         order: [[5, "desc"]],
         bInfo: false,
-        pageLength: 10,
         buttons: [
           {
             text: "<i class='feather icon-plus'></i> Add New",

@@ -29,8 +29,21 @@ class SettingController extends Controller
 
   public function update(Request $request, Settings $settings) {
 
-    if ($request->format_date)
-      $settings->put('format_date', $request->format_date);
+    // General
+    if ($request->hasFile('logo')) {
+      $request->validate([
+        'logo' => 'required|mimes:jpeg,svg,png|size:800',
+      ]);
+      $logo = $request->file('logo');
+      $logo_name = time() . '.' . $logo->getClientOriginalExtension();
+      $logo_path = Storage::disk('uploads')->putFileAs('logo', $logo, $logo_name);
+      $settings->put('logo', 'uploads/' . $logo_path);
+    }
+    $settings->put('date_format', $request->date_format);
+    $settings->put('app_title', trim($request->app_title));
+    $settings->put('email', trim($request->email));
+    $settings->put('phone_number', trim($request->phone_number));
+    $settings->put('address', trim($request->address));
 
     // Socials
     $settings->put('social_twitter', trim($request->social_twitter));
@@ -38,14 +51,7 @@ class SettingController extends Controller
     $settings->put('social_linkedin', trim($request->social_linkedin));
     $settings->put('social_instagram', trim($request->social_instagram));
 
-    if ($request->hasFile('logo')) {
-      $logo = $request->file('logo');
-      $logo_name = time() . '.' . $logo->getClientOriginalExtension();
-      $logo_path = Storage::disk('uploads')->putFileAs('logo', $logo, $logo_name);
-      $settings->put('logo', 'uploads/' . $logo_path);
-    }
-
-    notify()->success('Data has been update successfully!');
+    notify()->success('Data updated successfully!');
     return back();
   }
 }

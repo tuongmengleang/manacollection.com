@@ -30,7 +30,7 @@
                   <fieldset class="form-label-group form-group position-relative has-icon-left">
 
                     <input id="email" type="email" class="form-control @error('email') is-invalid @enderror"
-                      name="email" placeholder="E-Mail Address" value="{{ old('email') }}" required autocomplete="email"
+                      name="email" placeholder="E-Mail Address" value="{{ old('email')??'admin@test.com' }}" required autocomplete="email"
                       autofocus>
 
                     <div class="form-control-position">
@@ -47,7 +47,7 @@
                   <fieldset class="form-label-group position-relative has-icon-left">
 
                     <input id="password" type="password" class="form-control @error('password') is-invalid @enderror"
-                      name="password" placeholder="Password" required autocomplete="current-password">
+                      name="password" placeholder="Password" value="12345678" required autocomplete="current-password">
 
                     <div class="form-control-position">
                       <i class="feather icon-lock"></i>

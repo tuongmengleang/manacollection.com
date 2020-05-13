@@ -283,15 +283,6 @@ html .pace .pace-progress {
   }
 }
 
-/*=========================================================================================
-    File Name: sidebar.scss
-    Description: content sidebar specific scss.
-    ----------------------------------------------------------------------------------------
-    Item Name: Vuexy  - Vuejs, HTML & Laravel Admin Dashboard Template
-    Author: PIXINVENT
-    Author URL: http://www.themeforest.net/user/pixinvent
-==========================================================================================*/
-
 .sidebar {
   position: relative;
   width: 100%;
