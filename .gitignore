@@ -2,9 +2,7 @@
 /public/css
 /public/js
 /public/hot
-/public/storage/debugbar
-/public/storage/framework
-/public/storage/logs
+/public/storage
 /storage/*.key
 /vendor
 .env
