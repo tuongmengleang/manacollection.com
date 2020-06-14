@@ -21,6 +21,7 @@ class SettingController extends Controller
     $breadcrumbs = [
       ['link'=>route('admin.dashboard'),'name'=> __('general.dashboard')], ['name'=> __('general.settings')]
     ];
+//    dd(Storage::url(settings('logo')));
     return view('admin.settings.index', [
       'breadcrumbs' => $breadcrumbs,
       'settings' => $settings
@@ -31,13 +32,16 @@ class SettingController extends Controller
 
     // General
     if ($request->hasFile('logo')) {
-      $request->validate([
-        'logo' => 'required|mimes:jpeg,svg,png|size:800',
-      ]);
+//      $request->validate([
+//        'logo' => 'required|mimes:jpeg,svg,png|size:1024',
+//      ]);
       $logo = $request->file('logo');
       $logo_name = time() . '.' . $logo->getClientOriginalExtension();
-      $logo_path = Storage::disk('uploads')->putFileAs('logo', $logo, $logo_name);
-      $settings->put('logo', 'uploads/' . $logo_path);
+//      $logo_path = Storage::disk('uploads')->putFileAs('logo', $logo, $logo_name);
+
+      $path = Storage::disk('s3')->put(upload_path(), $logo, 'public');
+
+      $settings->put('logo', $path);
     }
     $settings->put('date_format', $request->date_format);
     $settings->put('app_title', trim($request->app_title));

@@ -8,6 +8,25 @@ if (! function_exists('settings')) {
   }
 }
 
+if (! function_exists('upload_path')) {
+  function upload_path($main_path = 'uploads')
+  {
+    return $main_path . '/' . date('Y') . '/' . date('m');
+  }
+}
+
+if (! function_exists('s3_url')) {
+  function s3_url($url, $s3 = true)
+  {
+    $pretty_url = NULL;
+    if ($s3 === true)
+      $pretty_url = \Illuminate\Support\Facades\Storage::disk('s3')->url($url);
+    else
+      $pretty_url = asset($url);
+    return $pretty_url;
+  }
+}
+
 if (! function_exists('uuid')) {
   function uuid()
   {

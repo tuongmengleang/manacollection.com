@@ -53,10 +53,10 @@
                         <div class="form-group">
                           <div class="controls">
                             <label>{{ __('general.site_logo') }}</label>
-                            <input type="file" name="logo" class="form-control" accept="image/x-png,image/jpeg,image/svg+xml">
+                            <input type="file" name="logo" class="form-control" accept="image/*">
                             <p class="text-muted ml-75 mt-50"><small>Allowed JPG, GIF, PNG or SVG. Max size of 800kB</small></p>
                             @if (settings('logo'))
-                              <img src="{{ asset(settings('logo')) }}" class="rounded mr-75" alt="profile image" height="100" width="100">
+                              <img src="{{ s3_url(settings('logo')) }}" class="rounded mr-75" alt="profile image" height="100" width="100">
                             @endif
                           </div>
                         </div>
