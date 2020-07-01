@@ -43,17 +43,36 @@ class SettingController extends Controller
 
       $settings->put('logo', $path);
     }
-    $settings->put('date_format', $request->date_format);
-    $settings->put('app_title', trim($request->app_title));
-    $settings->put('email', trim($request->email));
-    $settings->put('phone_number', trim($request->phone_number));
-    $settings->put('address', trim($request->address));
+    if ($request->date_format){
+      $settings->put('date_format', $request->date_format);
+    }
+    if ($request->app_title){
+      $settings->put('app_title', trim($request->app_title));
+    }
+    if ($request->email){
+      $settings->put('email', trim($request->email));
+    }
+    if ($request->phone_number){
+      $settings->put('phone_number', trim($request->phone_number));
+    }
+    if ($request->address){
+      $settings->put('address', trim($request->address));
+    }
 
     // Socials
-    $settings->put('social_twitter', trim($request->social_twitter));
-    $settings->put('social_facebook', trim($request->social_facebook));
-    $settings->put('social_linkedin', trim($request->social_linkedin));
-    $settings->put('social_instagram', trim($request->social_instagram));
+    if ($request->social_twitter){
+      $settings->put('social_twitter', trim($request->social_twitter));
+    }
+
+    if ($request->social_facebook){
+      $settings->put('social_facebook', trim($request->social_facebook));
+    }
+    if ($request->social_linkedin){
+      $settings->put('social_linkedin', trim($request->social_linkedin));
+    }
+    if ($request->social_instagram){
+      $settings->put('social_instagram', trim($request->social_instagram));
+    }
 
     notify()->success('Data updated successfully!');
     return back();

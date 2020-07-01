@@ -21,7 +21,7 @@
         {
           "url": "admin/settings",
           "name": "Settings",
-          "icon": "feather icon-home"
+          "icon": "feather icon-settings"
         }
     ]
 }

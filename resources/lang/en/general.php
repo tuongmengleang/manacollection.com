@@ -8,6 +8,8 @@ return [
   // Nav
   'dashboard' => 'Dashboard',
   'users_management' => 'Users Management',
+  'permissions' => 'Permissions',
+  'roles' => 'Roles',
   'document' => 'Document',
   'setting' => 'Setting',
   'settings' => 'Settings',
@@ -29,4 +31,9 @@ return [
   'telephone' => 'Telephone',
   'phone_number' => 'Phone Number',
   'address' => 'Address',
+  'name' => "Name",
+  'display_name' => "Display Name",
+  'guard_name' => "Guard Name",
+  'created_at' => "Created At",
+  'actions' => "Actions",
 ];

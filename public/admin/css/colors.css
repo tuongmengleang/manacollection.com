@@ -3701,7 +3701,8 @@ input:focus ~ .bg-success {
 }
 
 .success {
-  color: #28c76f !important;
+  /*color: #28c76f !important;*/
+  color: #FFF !important;
 }
 
 .bg-success {
@@ -6111,7 +6112,8 @@ input:focus ~ .bg-warning {
 }
 
 .warning {
-  color: #ff9f43 !important;
+  /*color: #ff9f43 !important;*/
+  color: #FFF !important;
 }
 
 .bg-warning {

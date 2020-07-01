@@ -12,16 +12,25 @@
         <script src="{{ asset(mix('admin/js/scripts/footer.js')) }}"></script>
 @endif
     <script>
-      $(document).ready(function () {
-        const $loading = $('#loadingDiv').hide();
-        $(document)
-          .ajaxStart(function () {
-            $loading.show();
-          })
-          .ajaxStop(function () {
-            $loading.hide();
-          });
-      })
+        // Notiflix Notify Init - global.js
+        Notiflix.Notify.Init({
+            width: '300px',
+            fontSize:'15px',
+            timeout: 4000,
+            messageMaxLength:255,
+            cssAnimationStyle:'fade',
+        });
+
+        $(document).ready(function () {
+            const $loading = $('#loadingDiv').hide();
+            $(document)
+                .ajaxStart(function () {
+                  $loading.show();
+                })
+                .ajaxStop(function () {
+                  $loading.hide();
+                });
+        })
     </script>
         {{-- page script --}}
         @yield('page-script')
