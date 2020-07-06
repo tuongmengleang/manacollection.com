@@ -35,7 +35,7 @@
 
     <!-- DataTable starts -->
     <div class="table-responsive">
-      <table class="table data-list-view">
+      <table class="table data-list-view" width="100%">
         <thead>
           <tr>
             <th>Avatar</th>

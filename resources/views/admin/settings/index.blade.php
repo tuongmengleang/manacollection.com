@@ -298,7 +298,7 @@
   </section>
   <!-- account setting page end -->
 
-  <!-- Permission Modal -->
+  <!-- Permission & Role Modal -->
   <div class="modal fade" id="inlineForm" tabindex="-1" role="dialog" aria-labelledby="permissionModalTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
       <div class="modal-content">
@@ -646,7 +646,7 @@
                           success: function (data) {
                               // console.log(data);
                               if (data.message){
-                                  Notiflix.Notify.Warning(data.message);
+                                  Notiflix.Notify.Success(data.message);
                               }
                               roleDataView.ajax.reload();
                           },

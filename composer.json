@@ -13,6 +13,7 @@
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",
         "guzzlehttp/guzzle": "^6.3",
+        "intervention/image": "^2.5",
         "laravel/framework": "^7.0",
         "laravel/passport": "^7.3",
         "laravel/telescope": "^3.3",
@@ -57,7 +58,8 @@
         ],
         "files": [
             "app/Helpers/helpers.php",
-          "app/helpers.php"
+            "app/Helpers/FileHelper.php",
+            "app/helpers.php"
         ]
     },
     "autoload-dev": {

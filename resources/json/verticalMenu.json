@@ -6,10 +6,34 @@
             "badgeClass": "",
             "icon": "feather icon-home"
         },
+
         {
-          "url": "admin/users",
-          "name": "Users Management",
-          "icon": "feather icon-users"
+            "url": "admin/users",
+            "name": "Users Management",
+            "icon": "feather icon-users"
+        },
+
+        {
+            "url": "",
+            "navheader": "Products",
+            "name": "Products",
+            "icon": "",
+            "slug": ""
+        },
+        {
+            "url": "admin/categories",
+            "name": "Product Categories",
+            "icon": "feather icon-align-left"
+        },
+        {
+            "url": "admin/subcategories",
+            "name": "Product Subcategories",
+            "icon" : "feather icon-align-justify"
+        },
+        {
+            "url": "admin/brands",
+            "name": "Product Brands",
+            "icon": "feather icon-bold"
         },
         {
             "url": "",
@@ -19,9 +43,9 @@
             "slug": ""
         },
         {
-          "url": "admin/settings",
-          "name": "Settings",
-          "icon": "feather icon-settings"
+            "url": "admin/settings",
+            "name": "Settings",
+            "icon": "feather icon-settings"
         }
     ]
 }

@@ -14,6 +14,11 @@ return [
   'setting' => 'Setting',
   'settings' => 'Settings',
 
+  // Products
+  'categories' => "Categories",
+  'subcategories' => "Subcategories",
+  'brands' => "Brands",
+
   // Settings
   'general' => 'General',
   'social_links' => 'Social Links',
