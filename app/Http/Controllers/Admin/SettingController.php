@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Media;
 use App\Settings;
+use Spatie\Permission\Models\Permission;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Valuestore\Valuestore;
@@ -76,5 +77,48 @@ class SettingController extends Controller
 
     notify()->success('Data updated successfully!');
     return back();
+  }
+
+  public function general(){
+    $breadcrumbs = [
+      ['link'=>route('admin.dashboard'),'name'=> __('general.dashboard')], ['name'=> __('general.settings')], ['name' => __('general.general')]
+    ];
+    return view('admin.settings.general', [
+      'breadcrumbs' => $breadcrumbs,
+    ]);
+  }
+  public function social_link(){
+    $breadcrumbs = [
+      ['link'=>route('admin.dashboard'),'name'=> __('general.dashboard')], ['name'=> __('general.settings')], ['name' => __('general.social_links')]
+    ];
+    return view('admin.settings.social_link', [
+      'breadcrumbs' => $breadcrumbs,
+    ]);
+  }
+  public function notification(){
+    $breadcrumbs = [
+      ['link'=>route('admin.dashboard'),'name'=> __('general.dashboard')], ['name'=> __('general.settings')], ['name' => __('general.notifications')]
+    ];
+    return view('admin.settings.notification', [
+      'breadcrumbs' => $breadcrumbs,
+    ]);
+  }
+  public function permission(){
+    $breadcrumbs = [
+      ['link'=>route('admin.dashboard'),'name'=> __('general.dashboard')], ['name'=> __('general.settings')], ['name' => __('general.permissions')]
+    ];
+    return view('admin.settings.permission', [
+      'breadcrumbs' => $breadcrumbs,
+    ]);
+  }
+  public function role(){
+    $permissions = Permission::get()->pluck('display_name', 'name');
+    $breadcrumbs = [
+      ['link'=>route('admin.dashboard'),'name'=> __('general.dashboard')], ['name'=> __('general.settings')], ['name' => __('general.roles')]
+    ];
+    return view('admin.settings.role', [
+      'breadcrumbs' => $breadcrumbs,
+      'permissions' => $permissions,
+    ]);
   }
 }

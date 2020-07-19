@@ -10,6 +10,12 @@ use Yajra\DataTables\Facades\DataTables;
 
 class PermissionController extends Controller
 {
+
+    public function __construct()
+    {
+      $this->middleware('auth:admin');
+    }
+
     public function index()
     {
         $breadcrumbs = [
@@ -74,7 +80,10 @@ class PermissionController extends Controller
                 $update_permission->display_name = $request->input('display_name');;
                 $update_permission->save();
             }catch (ModelNotFoundException $e){
-                return response()->json(['message', "Permission Not Found!", 'status' => 403]);
+                return response()->json([
+                    'message',
+                    "Permission Not Found!", 'status' => 403
+                ]);
             }
             return response()->json([
                 'message' => "Your data was updated.",

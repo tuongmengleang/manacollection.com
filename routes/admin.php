@@ -16,30 +16,9 @@ Route::group(['middleware' => ['auth:admin']], function () {
     Route::get('/', 'UserController@index')->name('user.index');
     Route::get('/datatables', 'UserController@datatable')->name('user.datatable');
     Route::get('/export/{type}', 'UserController@export')->name('user.export');
-  });
-
-  // Product category controller
-  Route::prefix('categories')->group(function (){
-    Route::get('/', "ProductCategoryController@index")->name('product.category.index');
-    Route::get('/datatables', "ProductCategoryController@datatable")->name('product.category.datatable');
-    Route::post('/store', "ProductCategoryController@store")->name('product.category.store');
-    Route::post('/delete', "ProductCategoryController@destroy")->name('product.category.delete');
-    Route::get('/edit', "ProductCategoryController@edit")->name('product.category.edit');
-  });
-  // Product subcategory controller
-  Route::prefix('subcategories')->group(function (){
-    Route::get('/', "ProductSubcategoryController@index")->name('product.subcategory.index');
-    Route::get('/datatables', "ProductSubcategoryController@datatable")->name('product.subcategory.datatable');
-    Route::post('/store', "ProductSubcategoryController@store")->name('product.subcategory.store');
-    Route::post('/delete', "ProductSubcategoryController@destroy")->name('product.subcategory.delete');
-    Route::get('/edit', "ProductSubcategoryController@edit")->name('product.subcategory.edit');
-  });
-
-  // Brand controller
-  Route::prefix('brands')->group(function (){
-    Route::get('/', "BrandController@index")->name('product.brand.index');
-    Route::get('/datatables', "BrandController@datatable")->name('product.brand.datatable');
-    Route::post('/store', "BrandController@store")->name('product.brand.store');
+    Route::post('/store', "UserController@store")->name('user.store');
+    Route::post('/delete', "UserController@destroy")->name('user.delete');
+    Route::get('/edit', "UserController@edit")->name('user.edit');
   });
 
   // Access controller
@@ -63,11 +42,18 @@ Route::group(['middleware' => ['auth:admin']], function () {
     Route::post('/store', 'RoleController@store')->name('role.store');
     Route::post('/delete', 'RoleController@destroy')->name('role.delete');
     Route::get('/edit', 'RoleController@edit')->name('role.edit');
+    Route::get('/permissions', "RoleController@getPermissions")->name('role.get.permissions');
   });
 
-
   Route::prefix('settings')->group(function () {
-    Route::get('/', 'SettingController@index')->name('setting.index');
+//    Route::get('/', 'SettingController@index')->name('setting.index');
     Route::post('/', 'SettingController@update')->name('setting.update');
+
+    // Route setting Tap
+    Route::get('/', 'SettingController@general')->name('setting.general');
+    Route::get('/social-link', 'SettingController@social_link')->name('setting.social_link');
+    Route::get('/notification', 'SettingController@notification')->name('setting.notification');
+    Route::get('/permission', 'SettingController@permission')->name('setting.permission');
+    Route::get('/role', 'SettingController@role')->name('setting.role');
   });
 });

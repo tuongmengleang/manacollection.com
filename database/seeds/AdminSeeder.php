@@ -23,7 +23,7 @@ class AdminSeeder extends Seeder
       $admin->created_at = now()->toDateTimeString();
       $admin->save();
       $admin->assignRole('admin');
-      for ($i = 0; $i < 200; $i++) {
+      for ($i = 0; $i < 10; $i++) {
         $admin = new \App\Models\Admin();
         $admin->name = $faker->name;
         $admin->email = $faker->unique()->safeEmail;
