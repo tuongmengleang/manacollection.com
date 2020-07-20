@@ -56,4 +56,28 @@ Route::group(['middleware' => ['auth:admin']], function () {
     Route::get('/permission', 'SettingController@permission')->name('setting.permission');
     Route::get('/role', 'SettingController@role')->name('setting.role');
   });
+
+  // Product category
+  Route::prefix('categories')->group(function (){
+    Route::get('/', "ProductCategoryController@index")->name('product.category.index');
+    Route::get('/datatables', "ProductCategoryController@datatable")->name('product.category.datatable');
+    Route::post('/store', "ProductCategoryController@store")->name('product.category.store');
+    Route::post('/delete', "ProductCategoryController@destroy")->name('product.category.delete');
+    Route::get('/edit', "ProductCategoryController@edit")->name('product.category.edit');
+  });
+  // Product subcategory
+  Route::prefix('subcategories')->group(function (){
+    Route::get('/', "ProductSubcategoryController@index")->name('product.subcategory.index');
+    Route::get('/datatables', "ProductSubcategoryController@datatable")->name('product.subcategory.datatable');
+    Route::post('/store', "ProductSubcategoryController@store")->name('product.subcategory.store');
+    Route::post('/delete', "ProductSubcategoryController@destroy")->name('product.subcategory.delete');
+    Route::get('/edit', "ProductSubcategoryController@edit")->name('product.subcategory.edit');
+  });
+
+  // Product brand
+  Route::prefix('brands')->group(function (){
+    Route::get('/', "BrandController@index")->name('product.brand.index');
+    Route::get('/datatables', "BrandController@datatable")->name('product.brand.datatable');
+    Route::post('/store', "BrandController@store")->name('product.brand.store');
+  });
 });

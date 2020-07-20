@@ -120,7 +120,7 @@
                     <a href="javascript:void(0)" id="select-all" class="text-primary" title="Select All"><i class='feather icon-check'></i></a>
                     <a href="javascript:void(0)" id="deselect-all" class="text-danger" title="Deselect All"><i class='feather icon-x'></i></a>
                   </div>
-                  <select name="permissions" id="permissions" class="select2 form-control" multiple="multiple">
+                  <select name="permissions" id="permissions" class="select2 form-control" multiple="multiple" data-placeholder="Give permissions...">
                     @if(isset($permissions))
                       @foreach($permissions as $value => $permissions)
                         <option value="{{ $value }}" data-select2-id="{{ $value }}">{{ $permissions }}</option>
@@ -229,6 +229,7 @@
               $select2.find('option').prop('selected', '');
               $select2.trigger('change');
           });
+
           // Permission Ajax CRUD
           // Popup modal form
           $(document).on('click', '.add-new-role', function () {

@@ -5,8 +5,8 @@
 @section('vendor-style')
   <!-- vendor css files -->
   <link rel="stylesheet" href="{{ asset(mix('admin/vendors/css/tables/datatable/datatables.min.css')) }}">
-{{--  <link rel="stylesheet" href="{{ asset('admin/vendors/css/fileuploader/font/font-fileuploader.css') }}">--}}
-{{--  <link rel="stylesheet" href="{{ asset('admin/vendors/css/fileuploader/jquery.fileuploader.min.css') }}">--}}
+  {{--  <link rel="stylesheet" href="{{ asset('admin/vendors/css/fileuploader/font/font-fileuploader.css') }}">--}}
+  {{--  <link rel="stylesheet" href="{{ asset('admin/vendors/css/fileuploader/jquery.fileuploader.min.css') }}">--}}
   <link rel="stylesheet" href="{{ asset('admin/vendors/css/forms/select/select2.min.css') }}">
   <link rel="stylesheet" href="{{ asset(mix('admin/vendors/css/tables/datatable/extensions/dataTables.checkboxes.css')) }}">
   <link rel="stylesheet" href="{{ asset('admin/vendors/css/notiflix/notiflix-2.1.2.min.css') }}">
@@ -45,8 +45,8 @@
             Actions
           </button>
           <div class="dropdown-menu">
-{{--            <a class="dropdown-item" href="{{ route('admin.user.export', 'excel') }}" id="dt-export__excel"><i class="fa fa-file-excel-o"></i>Excel</a>--}}
-{{--            <a class="dropdown-item" href="{{ route('admin.user.export', 'pdf') }}" id="dt-export__pdf"><i class="fa fa-file-pdf-o"></i>Pdf</a>--}}
+            {{--            <a class="dropdown-item" href="{{ route('admin.user.export', 'excel') }}" id="dt-export__excel"><i class="fa fa-file-excel-o"></i>Excel</a>--}}
+            {{--            <a class="dropdown-item" href="{{ route('admin.user.export', 'pdf') }}" id="dt-export__pdf"><i class="fa fa-file-pdf-o"></i>Pdf</a>--}}
             {{--            <a class="dropdown-item" href="#" id="dt-export__print"><i class="feather icon-file"></i>Print</a>--}}
           </div>
         </div>
@@ -58,7 +58,7 @@
       <table class="table data-list-view" width="100%">
         <thead>
         <tr>
-          <th>Image</th>
+          <th width="20%">Logo</th>
           <th>Brand name</th>
           <th>Category</th>
           <th>About</th>
@@ -85,9 +85,9 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form id="brand-form" method="POST" enctype="multipart/form-data" action="javascript:void(0)">
+        <form id="brand-form" method="POST" enctype="multipart/form-data">
           <div class="modal-body">
-            <input type="hidden" name="hidden">
+            <input type="hidden" name="id">
             <div class="row">
               <div class="col-12">
                 <div class="form-group">
@@ -110,10 +110,10 @@
               </div>
               <div class="col-12">
                 <fieldset class="form-label-group mb-0">
-                  <textarea data-length=20 class="form-control char-textarea" id="textarea-counter" name="about" rows="3" placeholder="About"></textarea>
+                  <textarea data-length=300 class="form-control char-textarea" id="textarea-counter" name="about" rows="3" placeholder="About"></textarea>
                   <label for="textarea-counter">About</label>
                 </fieldset>
-                <small class="counter-value float-right"><span class="char-count">0</span> / 20 </small>
+                <small class="counter-value float-right"><span class="char-count">0</span> / 300 </small>
               </div>
               <div class="col-12">
                 <div class="form-group">
@@ -148,7 +148,7 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-primary btn-save">{{ __('general.save_changes') }}</button>
+            <button type="submit" class="btn btn-primary btn-save">{{ __('general.save_changes') }}</button>
             <button type="button" class="btn btn-warning" data-dismiss="modal">{{ __('general.cancel') }}</button>
           </div>
         </form>
@@ -159,7 +159,7 @@
 @endsection
 @section('vendor-script')
   <!-- vendor files -->
-{{--  <script src="{{ asset('admin/vendors/js/fileuploader/jquery.fileuploader.min.js') }}"></script>--}}
+  {{--  <script src="{{ asset('admin/vendors/js/fileuploader/jquery.fileuploader.min.js') }}"></script>--}}
   <script src="{{ asset('admin/vendors/js/forms/select/select2.full.min.js') }}"></script>
   <script src="{{ asset(mix('admin/vendors/js/tables/datatable/datatables.min.js')) }}"></script>
   <script src="{{ asset(mix('admin/vendors/js/tables/datatable/datatables.buttons.min.js')) }}"></script>
@@ -199,12 +199,17 @@
                       text: "<i class='feather icon-plus'></i> Add New",
                       action: function() {
                           $('#inlineForm').modal('show');
+                          $("#brand-form")[0].reset();
                           $("#brand_name_error").text('');
                           $("[name='brand_name']").removeClass('validate-input-error');
+                          $("#category").val("");
+                          $(".select2-selection__rendered").text("Select a category...");
                           $("#category_error").text('');
                           $(".select2").removeClass('validate-input-error');
                           $("#brand_image_error").text('');
                           $(".image-uploader").removeClass("validate-error");
+                          $(".thumbnail").addClass('d-none');
+                          $(".thumbnail img").attr('src', "");
                       },
                       className: "btn-outline-primary"
                   }
@@ -216,7 +221,7 @@
                   { data: 'brand_image', name: 'brand_image', orderable: false, searchable: false, class: 'text-center'  },
                   { data: 'brand_name', name: 'brand_name' },
                   { data: 'category', name: 'category'},
-                  { data: 'about', name: 'about'},
+                  { data: 'about', name: 'about', orderable: false, searchable: false, class: 'text-center' },
                   { data: 'created_at', name: 'created_at' },
                   { data: 'actions', name: 'actions', orderable: false, searchable: false, class: 'text-center' }
               ],
@@ -244,93 +249,42 @@
 
           // Category Ajax CRUD
           //  Ajax store
-          $(document).on('click', '.btn-save', function (e) {
+          $("#brand-form").submit(function (e) {
               e.preventDefault();
-              let brand_name = $("input[name='brand_name']").val();
-              let category = $("[name='category'] :selected").val();
-              let about = $("[name='about']").val();
-              let url = $("input[name='url']").val();
-              let brand_image = $("[name='brand_image']").val();
-              const id = $("[name='hidden']").val();
+              $("#brand_name_error").text('');
+              $("[name='brand_name']").removeClass('validate-input-error');
+              $("#category_error").text('');
+              $(".select2").removeClass('validate-input-error');
+              $("#brand_image_error").text('');
+              $(".image-uploader").removeClass("validate-error");
+
               Notiflix.Loading.Dots('Processing...');
               $.ajax({
                   url: "{{ route('admin.product.brand.store') }}",
-                  type: "post",
-                  dataType: 'json',
-                  cache: false,
-                  data: {
-                      id: id,
-                      brand_name: brand_name,
-                      category: category,
-                      about: about,
-                      url: url,
-                      brand_image: brand_image
-                  },
+                  method:"POST",
+                  data: new FormData(this),
+                  contentType: false,
+                  cache:false,
+                  processData: false,
+                  dataType:"json",
                   success: function (data) {
-                      console.log(data);
                       Notiflix.Loading.Remove();
                       if (data.errors){
-                          console.log(data.errors);
-                          if (data.errors.brand_name && data.errors.category && data.errors.brand_image){
+                          if (data.errors.brand_name){
                               $("#brand_name_error").text(data.errors.brand_name);
                               $("[name='brand_name']").addClass('validate-input-error');
+                          }
+                          if (data.errors.category){
                               $("#category_error").text(data.errors.category);
                               $(".select2").addClass('validate-input-error');
-                              $("#brand_image_error").text(data.errors.brand_image);
-                              $(".image-uploader").addClass("validate-error");
                           }
-                          else if (data.errors.category && data.errors.brand_image){
-                              $("#brand_name_error").text('');
-                              $("[name='brand_name']").removeClass('validate-input-error');
-                              $("#category_error").text(data.errors.category);
-                              $(".select2").addClass('validate-input-error');
-                              $("#brand_image_error").text(data.errors.brand_name);
-                              $(".image-uploader").addClass("validate-error");
-                          }
-                          else if (data.errors.brand_name && data.errors.brand_image){
-                              $("#brand_name_error").text(data.errors.brand_name);
-                              $("[name='brand_name']").addClass('validate-input-error');
-                              $("#category_error").text('');
-                              $(".select2").removeClass('validate-input-error');
-                              $("#brand_image_error").text(data.errors.brand_name);
-                              $(".image-uploader").addClass("validate-error");
-                          }
-                          else if (data.errors.brand_name && data.errors.category){
-                              $("#brand_name_error").text(data.errors.brand_name);
-                              $("[name='brand_name']").addClass('validate-input-error');
-                              $("#category_error").text(data.errors.category);
-                              $(".select2").addClass('validate-input-error');
-                              $("#brand_image_error").text('');
-                              $(".image-uploader").removeClass("validate-error");
-                          }
-                          else if (data.errors.brand_name){
-                              $("#brand_name_error").text(data.errors.brand_name);
-                              $("[name='brand_name']").addClass('validate-input-error');
-                              $("#category_error").text('');
-                              $(".select2").removeClass('validate-input-error');
-                              $("#brand_image_error").text('');
-                              $(".image-uploader").removeClass("validate-error");
-                          }
-                          else if (data.errors.category){
-                              $("#brand_name_error").text('');
-                              $("[name='brand_name']").removeClass('validate-input-error');
-                              $("#category_error").text(data.errors.category);
-                              $(".select2").addClass('validate-input-error');
-                              $("#brand_image_error").text('');
-                              $(".image-uploader").removeClass("validate-error");
-                          }
-                          else if(data.errors.brand_image){
-                              $("#brand_name_error").text('');
-                              $("[name='brand_name']").removeClass('validate-input-error');
-                              $("#category_error").text('');
-                              $(".select2").removeClass('validate-input-error');
+                          if (data.errors.brand_image){
                               $("#brand_image_error").text(data.errors.brand_image);
                               $(".image-uploader").addClass("validate-error");
                           }
                       }
                       else{
                           $('#inlineForm').modal('hide');
-                          console.log(data);
                           Notiflix.Notify.Success(data.message);
                           dataListView.ajax.reload();
                       }
@@ -340,6 +294,66 @@
                   }
               });
           });
+        {{--$(document).on('click', '.btn-save', function (e) {--}}
+        {{--    e.preventDefault();--}}
+        {{--    // remove validate error--}}
+        {{--    $("#brand_name_error").text('');--}}
+        {{--    $("[name='brand_name']").removeClass('validate-input-error');--}}
+        {{--    $("#category_error").text('');--}}
+        {{--    $(".select2").removeClass('validate-input-error');--}}
+        {{--    $("#brand_image_error").text('');--}}
+        {{--    $(".image-uploader").removeClass("validate-error");--}}
+        {{--    //get value from input field--}}
+        {{--    let brand_name = $("input[name='brand_name']").val();--}}
+        {{--    let category = $("[name='category'] :selected").val();--}}
+        {{--    let about = $("[name='about']").val();--}}
+        {{--    let url = $("input[name='url']").val();--}}
+        {{--    let brand_image = $("[name='brand_image']").val();--}}
+        {{--    const id = $("[name='hidden']").val();--}}
+        {{--    console.log(brand_image);--}}
+        {{--    Notiflix.Loading.Dots('Processing...');--}}
+        {{--    $.ajax({--}}
+        {{--        url: "{{ route('admin.product.brand.store') }}",--}}
+        {{--        type: "post",--}}
+        {{--        dataType: 'json',--}}
+        {{--        cache: false,--}}
+        {{--        data: {--}}
+        {{--            id: id,--}}
+        {{--            brand_name: brand_name,--}}
+        {{--            category: category,--}}
+        {{--            about: about,--}}
+        {{--            url: url,--}}
+        {{--            brand_image: brand_image--}}
+        {{--        },--}}
+        {{--        success: function (data) {--}}
+        {{--            console.log(data);--}}
+        {{--            Notiflix.Loading.Remove();--}}
+        {{--            if (data.errors){--}}
+        {{--                if (data.errors.brand_name){--}}
+        {{--                    $("#brand_name_error").text(data.errors.brand_name);--}}
+        {{--                    $("[name='brand_name']").addClass('validate-input-error');--}}
+        {{--                }--}}
+        {{--                if (data.errors.category){--}}
+        {{--                    $("#category_error").text(data.errors.category);--}}
+        {{--                    $(".select2").addClass('validate-input-error');--}}
+        {{--                }--}}
+        {{--                if (data.errors.brand_image){--}}
+        {{--                    $("#brand_image_error").text(data.errors.brand_image);--}}
+        {{--                    $(".image-uploader").addClass("validate-error");--}}
+        {{--                }--}}
+        {{--            }--}}
+        {{--            else{--}}
+        {{--                $('#inlineForm').modal('hide');--}}
+        {{--                console.log(data);--}}
+        {{--                Notiflix.Notify.Success(data.message);--}}
+        {{--                dataListView.ajax.reload();--}}
+        {{--            }--}}
+        {{--        },--}}
+        {{--        error: function (data) {--}}
+        {{--            console.log('Error', data);--}}
+        {{--        }--}}
+        {{--    });--}}
+        {{--});--}}
 
           // Ajax update
           $(document).on('click', '#edit', function () {

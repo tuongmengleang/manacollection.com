@@ -63,3 +63,9 @@
 .thumbnail-img{
   width: 50%;
 }
+
+/* Custom Bootstrap modal for scroll modal-body */
+.modal-body{
+  height: 600px;
+  overflow-y: auto;
+}
