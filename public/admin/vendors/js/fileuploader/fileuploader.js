@@ -33,6 +33,7 @@ $(document).ready(function () {
         $('.thumbnail-img').removeClass("d-none");
         $('.thumbnail-img').attr('src', theFile.target.result);
         $('.thumbnail-img').attr('title', title);
+        $(".thumbnail span").removeClass("d-none");
         $('#size').text(size);
         $('.size').removeClass("d-none");
         $('#filename').text(filename);
@@ -44,18 +45,6 @@ $(document).ready(function () {
   }
 
   $('#logo').change(function () {
-    readURL(this);
-  });
-
-  $('#logo-update').bind("change", function () {
-    var select_file = $(this).val();
-    if( select_file.length === 0 ){
-      console.log("No file selected");
-      $('.thumbnail-img').addClass("d-none");
-      $('.thumbnail-img-own').removeClass("d-none");
-      $('.size').addClass("d-none");
-      $('#filename').addClass("d-none");
-    }
     readURL(this);
   });
 });

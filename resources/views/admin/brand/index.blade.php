@@ -1,4 +1,4 @@
-@extends('admin.layouts.contentLayoutMaster')
+6oloip']\@extends('admin.layouts.contentLayoutMaster')
 
 @section('title', __('general.brands'))
 
@@ -101,8 +101,7 @@
                   <label for="type_name">Category<strong class="text-danger">*</strong></label>
                   <select id="category" name="category" class="select2 form-control" data-placeholder="Select a category...">
                     <option value="" selected></option>
-                    <option value="women">Women</option>
-                    <option value="men">Men</option>
+                    <option value="fashion">Fashion</option>
                     <option value="beauty">Beauty</option>
                   </select>
                   <span id="category_error" class="validate text error-validate"></span>
@@ -137,6 +136,7 @@
                     </div>
                   </div>
                   <input id="logo" name="brand_image" type="file" accept="image/*" />
+                  <input type="hidden" name="hidden_image" id="hidden_image">
                   <div class="thumbnail d-none" style="position: relative; top: -20px">
                     <img class="thumbnail-img" src="" alt=""> <br>
                     <span><strong id="size"></strong>MB</span> <br>
@@ -198,18 +198,19 @@
                   {
                       text: "<i class='feather icon-plus'></i> Add New",
                       action: function() {
-                          $('#inlineForm').modal('show');
-                          $("#brand-form")[0].reset();
-                          $("#brand_name_error").text('');
-                          $("[name='brand_name']").removeClass('validate-input-error');
-                          $("#category").val("");
-                          $(".select2-selection__rendered").text("Select a category...");
-                          $("#category_error").text('');
-                          $(".select2").removeClass('validate-input-error');
-                          $("#brand_image_error").text('');
-                          $(".image-uploader").removeClass("validate-error");
-                          $(".thumbnail").addClass('d-none');
-                          $(".thumbnail img").attr('src', "");
+                        $("[name='id']").val('');
+                        $("#brand-form")[0].reset();
+                        $("#brand_name_error").text('');
+                        $("[name='brand_name']").removeClass('validate-input-error');
+                        $("#category").val("");
+                        $(".select2-selection__rendered").text("Select a category...");
+                        $("#category_error").text('');
+                        $(".select2").removeClass('validate-input-error');
+                        $("#brand_image_error").text('');
+                        $(".image-uploader").removeClass("validate-error");
+                        $(".thumbnail").addClass('d-none');
+                        $(".thumbnail img").attr('src', "");
+                        $('#inlineForm').modal('show');
                       },
                       className: "btn-outline-primary"
                   }
@@ -294,90 +295,37 @@
                   }
               });
           });
-        {{--$(document).on('click', '.btn-save', function (e) {--}}
-        {{--    e.preventDefault();--}}
-        {{--    // remove validate error--}}
-        {{--    $("#brand_name_error").text('');--}}
-        {{--    $("[name='brand_name']").removeClass('validate-input-error');--}}
-        {{--    $("#category_error").text('');--}}
-        {{--    $(".select2").removeClass('validate-input-error');--}}
-        {{--    $("#brand_image_error").text('');--}}
-        {{--    $(".image-uploader").removeClass("validate-error");--}}
-        {{--    //get value from input field--}}
-        {{--    let brand_name = $("input[name='brand_name']").val();--}}
-        {{--    let category = $("[name='category'] :selected").val();--}}
-        {{--    let about = $("[name='about']").val();--}}
-        {{--    let url = $("input[name='url']").val();--}}
-        {{--    let brand_image = $("[name='brand_image']").val();--}}
-        {{--    const id = $("[name='hidden']").val();--}}
-        {{--    console.log(brand_image);--}}
-        {{--    Notiflix.Loading.Dots('Processing...');--}}
-        {{--    $.ajax({--}}
-        {{--        url: "{{ route('admin.product.brand.store') }}",--}}
-        {{--        type: "post",--}}
-        {{--        dataType: 'json',--}}
-        {{--        cache: false,--}}
-        {{--        data: {--}}
-        {{--            id: id,--}}
-        {{--            brand_name: brand_name,--}}
-        {{--            category: category,--}}
-        {{--            about: about,--}}
-        {{--            url: url,--}}
-        {{--            brand_image: brand_image--}}
-        {{--        },--}}
-        {{--        success: function (data) {--}}
-        {{--            console.log(data);--}}
-        {{--            Notiflix.Loading.Remove();--}}
-        {{--            if (data.errors){--}}
-        {{--                if (data.errors.brand_name){--}}
-        {{--                    $("#brand_name_error").text(data.errors.brand_name);--}}
-        {{--                    $("[name='brand_name']").addClass('validate-input-error');--}}
-        {{--                }--}}
-        {{--                if (data.errors.category){--}}
-        {{--                    $("#category_error").text(data.errors.category);--}}
-        {{--                    $(".select2").addClass('validate-input-error');--}}
-        {{--                }--}}
-        {{--                if (data.errors.brand_image){--}}
-        {{--                    $("#brand_image_error").text(data.errors.brand_image);--}}
-        {{--                    $(".image-uploader").addClass("validate-error");--}}
-        {{--                }--}}
-        {{--            }--}}
-        {{--            else{--}}
-        {{--                $('#inlineForm').modal('hide');--}}
-        {{--                console.log(data);--}}
-        {{--                Notiflix.Notify.Success(data.message);--}}
-        {{--                dataListView.ajax.reload();--}}
-        {{--            }--}}
-        {{--        },--}}
-        {{--        error: function (data) {--}}
-        {{--            console.log('Error', data);--}}
-        {{--        }--}}
-        {{--    });--}}
-        {{--});--}}
 
           // Ajax update
+          let publicPath = '{{ URL::to('') }}';
           $(document).on('click', '#edit', function () {
               const id = $(this).data('id');
-              $('#category_name_error').text('');
-              $("[name='category_name']").removeClass('validate-input-error');
-              $('#type_name_error').text('');
+              $("#brand-form")[0].reset();
+              $("#brand_name_error").text('');
+              $("[name='brand_name']").removeClass('validate-input-error');
+              $("#category").val("");
+              $(".select2-selection__rendered").text("Select a category...");
+              $("#category_error").text('');
               $(".select2").removeClass('validate-input-error');
+              $("#brand_image_error").text('');
+              $(".thumbnail span").addClass("d-none");
+              $("#filename").text('');
               $('#inlineForm').modal('show');
-              $('#permissionModalTitle').html('Category Update');
-              $.get("{{ route('admin.product.category.edit') }}", {id: id}, function (response) {
-                  $("[name='category_name']").val(response.category_name);
-                  $("#select2-type_name-container").text(response.type_name);
-                  $("[name='type_name']").val(response.display_name);
-                  if (response.type_name == 'women'){
-                      $("[name='type_name'] option[value='women']").prop('selected', true);
-                  }
-                  else if (response.type_name == 'men'){
-                      $("[name='type_name'] option[value='men']").prop('selected', true);
+              $('#permissionModalTitle').html('Brand Update');
+              $.get("{{ route('admin.product.brand.edit') }}", {id: id}, function (response) {
+                  $("#brand_name").val(response.brand_name);
+                  if (response.category == 'fashion'){
+                      $("[name='category'] option[value='fashion']").prop('selected', true);
                   }
                   else{
-                      $("[name='type_name'] option[value='beauty']").prop('selected', true);
+                      $("[name='category'] option[value='beauty']").prop('selected', true);
                   }
-                  $("[name='hidden']").val(response.id);
+                  $("[name='about']").val(response.about);
+                  $("#url").val(response.url);
+                  $("[name='id']").val(response.id);
+                  $(".thumbnail").removeClass('d-none');
+                  $(".thumbnail img").attr('src', publicPath + '/uploads/brands/' + response.brand_image);
+                  $("#hidden_image").attr('src', publicPath + '/uploads/brands/' + response.brand_image);
                   // console.log(response);
               });
           });
@@ -401,7 +349,7 @@
                           'success'
                       );
                       $.ajax({
-                          url: "{{ route('admin.product.category.delete') }}",
+                          url: "{{ route('admin.product.brand.delete') }}",
                           type: "post",
                           data: { id:id },
                           dataType: 'json',

@@ -79,5 +79,7 @@ Route::group(['middleware' => ['auth:admin']], function () {
     Route::get('/', "BrandController@index")->name('product.brand.index');
     Route::get('/datatables', "BrandController@datatable")->name('product.brand.datatable');
     Route::post('/store', "BrandController@store")->name('product.brand.store');
+    Route::get('/edit', "BrandController@edit")->name('product.brand.edit');
+    Route::post('/delete', "BrandController@destroy")->name('product.brand.delete');
   });
 });
