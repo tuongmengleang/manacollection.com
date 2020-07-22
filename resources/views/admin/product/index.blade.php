@@ -1,6 +1,6 @@
 @extends('admin.layouts.contentLayoutMaster')
 
-@section('title', __('general.brands'))
+@section('title', __('general.products'))
 
 @section('vendor-style')
   <!-- vendor css files -->
@@ -30,9 +30,6 @@
     }
     #select2-type_name-container:first-letter{
       text-transform: uppercase !important;
-    }
-    #brand_url:hover{
-      text-decoration: underline;
     }
   </style>
 @endsection
@@ -89,7 +86,7 @@
           </button>
         </div>
         <form id="brand-form" method="POST" enctype="multipart/form-data">
-          <div class="modal-body crud">
+          <div class="modal-body">
             <input type="hidden" name="id">
             <div class="row">
               <div class="col-12">
@@ -164,58 +161,6 @@
     </div>
   </div>
 
-  <!-- Modal View -->
-  <div class="modal fade" id="modalView" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalCenterTitle">Brand Detail</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-
-          <section id="knowledge-base-content">
-            <div class="row search-content-info">
-              <div class="col-md-12 col-sm-12 col-12 search-content">
-                <div class="card">
-                  <div class="card-body text-center">
-                    <a href="javascript:void(0)">
-                      <span class="brand-detail">
-                        <img width="100%" src="" class="mx-auto mb-2" width="180" alt="knowledge-base-image">
-                        <h4></h4>
-                        <br>
-                        <div class="col-12">
-                          <div class="chip chip-primary mr-1">
-                            <div class="chip-body">
-                                <div class="avatar">
-                                    <i class="feather icon-align-left"></i>
-                                </div>
-                                <span id="category-detail" class="chip-text"></span>
-                            </div>
-                        </div>
-                        </div>
-                        <small class="text-dark"></small>
-                        <div class="col-12">
-                          <a id="brand_url" href="javascript:void(0)"></a>
-                        </div>
-                      </span>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-dismiss="modal">Accept</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
 @endsection
 @section('vendor-script')
   <!-- vendor files -->
@@ -258,19 +203,19 @@
                   {
                       text: "<i class='feather icon-plus'></i> Add New",
                       action: function() {
-                        $("[name='id']").val('');
-                        $("#brand-form")[0].reset();
-                        $("#brand_name_error").text('');
-                        $("[name='brand_name']").removeClass('validate-input-error');
-                        $("#category").val("");
-                        $(".select2-selection__rendered").text("Select a category...");
-                        $("#category_error").text('');
-                        $(".select2").removeClass('validate-input-error');
-                        $("#brand_image_error").text('');
-                        $(".image-uploader").removeClass("validate-error");
-                        $(".thumbnail").addClass('d-none');
-                        $(".thumbnail img").attr('src', "");
-                        $('#inlineForm').modal('show');
+                          $("[name='id']").val('');
+                          $("#brand-form")[0].reset();
+                          $("#brand_name_error").text('');
+                          $("[name='brand_name']").removeClass('validate-input-error');
+                          $("#category").val("");
+                          $(".select2-selection__rendered").text("Select a category...");
+                          $("#category_error").text('');
+                          $(".select2").removeClass('validate-input-error');
+                          $("#brand_image_error").text('');
+                          $(".image-uploader").removeClass("validate-error");
+                          $(".thumbnail").addClass('d-none');
+                          $(".thumbnail img").attr('src', "");
+                          $('#inlineForm').modal('show');
                       },
                       className: "btn-outline-primary"
                   }
@@ -374,22 +319,21 @@
               $('#inlineForm').modal('show');
               $('#permissionModalTitle').html('Brand Update');
               $.get("{{ route('admin.product.brand.edit') }}", {id: id}, function (response) {
-                  if (response){
-                      $("#brand_name").val(response.brand_name);
-                      if (response.category == 'fashion'){
-                          $("[name='category'] option[value='fashion']").prop('selected', true);
-                      }
-                      else{
-                          $("[name='category'] option[value='beauty']").prop('selected', true);
-                      }
-                      $(".select2-selection__rendered").text(upperFirstLetter(response.category));
-                      $("[name='about']").val(response.about);
-                      $("#url").val(response.url);
-                      $("[name='id']").val(response.id);
-                      $(".thumbnail").removeClass('d-none');
-                      $(".thumbnail img").attr('src', publicPath + '/' + brand_image_path + '/' + response.brand_image);
-                      $("#hidden_image").attr('src', publicPath + '/' + brand_image_path + '/' +response.brand_image);
+                  $("#brand_name").val(response.brand_name);
+                  if (response.category == 'fashion'){
+                      $("[name='category'] option[value='fashion']").prop('selected', true);
                   }
+                  else{
+                      $("[name='category'] option[value='beauty']").prop('selected', true);
+                  }
+                  $(".select2-selection__rendered").text(upperFirstLetter(response.category));
+                  $("[name='about']").val(response.about);
+                  $("#url").val(response.url);
+                  $("[name='id']").val(response.id);
+                  $(".thumbnail").removeClass('d-none');
+                  $(".thumbnail img").attr('src', publicPath + '/' + brand_image_path + '/' + response.brand_image);
+                  $("#hidden_image").attr('src', publicPath + '/' + brand_image_path + '/' +response.brand_image);
+                  // console.log(response);
               });
           });
 
@@ -430,22 +374,7 @@
               });
           });
 
-          // Ajax View detail
-          $(document).on('click', "#view", function () {
-              const id = $(this).data('id');
-              $('#modalView').modal('show');
-              $.get("{{ route('admin.product.brand.view') }}", {id: id}, function (response) {
-                  if (response){
-                      $(".brand-detail img").attr('src', publicPath + '/' + brand_image_path + '/' + response.brand_image);
-                      $(".brand-detail h4").text(response.brand_name);
-                      $("#category-detail").text(upperFirstLetter(response.category));
-                      $(".brand-detail small").text(response.about);
-                      $("#brand_url").text('<i class="feather icon-link"></i>' + response.url);
-                  }
-              });
-          });
-
-      //  function uppercase firstcase
+          //  function uppercase firstcase
           function upperFirstLetter(str) {
               str = str.toLowerCase().replace(/\b[a-z]/g, function(replace_latter) {
                   return replace_latter.toUpperCase();

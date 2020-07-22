@@ -15,8 +15,8 @@
 
         {
             "url": "",
-            "navheader": "Products",
-            "name": "Products",
+            "navheader": "Products Manage",
+            "name": "Products Manage",
             "icon": "",
             "slug": ""
         },
@@ -36,9 +36,14 @@
             "icon": "feather icon-bold"
         },
         {
+          "url": "admin/products",
+          "name": "Products",
+          "icon": "feather icon-box"
+        },
+        {
             "url": "",
-            "navheader": "Settings",
-            "name": "Settings",
+            "navheader": "Settings Manage",
+            "name": "Settings Manage",
             "icon": "",
             "slug": ""
         },

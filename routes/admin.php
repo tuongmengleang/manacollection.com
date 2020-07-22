@@ -81,5 +81,15 @@ Route::group(['middleware' => ['auth:admin']], function () {
     Route::post('/store', "BrandController@store")->name('product.brand.store');
     Route::get('/edit', "BrandController@edit")->name('product.brand.edit');
     Route::post('/delete', "BrandController@destroy")->name('product.brand.delete');
+    Route::get('/view', "BrandController@edit")->name('product.brand.view');
+  });
+
+  // Product
+  Route::prefix('products')->group(function (){
+    Route::get('/', "ProductController@index")->name('product.product.index');
+    Route::get('/datatables', "ProductController@datatable")->name('product.product.datatable');
+    Route::post('/store', "ProductController@store")->name('product.product.store');
+    Route::get('/edit', "ProductController@edit")->name('product.product.edit');
+    Route::post('/delete', "ProductController@destroy")->name('product.product.delete');
   });
 });

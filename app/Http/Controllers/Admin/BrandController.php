@@ -6,10 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
-use Sabberworm\CSS\Value\URL;
 use Yajra\DataTables\DataTables;
 
 class BrandController extends Controller
@@ -37,7 +35,8 @@ class BrandController extends Controller
         return formatLongDate($brand->created_at);
       })
       ->editColumn('brand_image', function ($brand) {
-        $url = asset('uploads/brands/'. $brand->brand_image);
+//        $url = asset('uploads/brands/'. $brand->brand_image);
+        $url = asset(brand_image_path().'/'.$brand->brand_image);
         return '<img height="65px" src="'. $url .'" alt="'. $brand->brand_name .'">';
       })
       ->editColumn('about', function ($brand){
@@ -48,6 +47,7 @@ class BrandController extends Controller
       })
       ->addColumn('actions', function ($brand) {
         $actions = '';
+        $actions .= '<a href="javascript:void(0)" id="view" data-id="'.$brand->id.'" class="mr-1"><span class="text-success"><i class="feather icon-eye"></i></span></a>';
         $actions .= '<a href="javascript:void(0)" id="edit" data-id="'.$brand->id.'" class="mr-1"><span class="text-warning"><i class="feather icon-edit"></i></span></a>';
         $actions .= '<a href="javascript:void(0)" id="delete" data-id="'.$brand->id.'"><span class="text-danger"><i class="feather icon-trash"></i></span></a>';
         return $actions;
@@ -84,7 +84,10 @@ class BrandController extends Controller
         $image = $request->file('brand_image');
         $filename =  $image->getClientOriginalName();
         $filename = date('Y-m-d') . '-' . time() . '-' . $filename;
-        $image->move(public_path('uploads/brands'), $filename);
+        $image_original = Image::make($image->path());
+        $path = brand_image_path().'/'.$filename;
+        $image_original->save($path);
+//        $image->move(brand_image_path(), $filename);
         $brand->brand_image = $filename;
       }
       $brand->save();
@@ -113,18 +116,21 @@ class BrandController extends Controller
             return response()->json(['errors'=> $validator->getMessageBag()->toarray(), 'status' => 403]);
           }
         }
-        
+
         $update_brand->brand_name = $request->input('brand_name');
         $update_brand->category = $request->input('category');
         $update_brand->about = $request->input('about');
         $update_brand->url = $request->input('url');
         if($request->hasFile('brand_image')){
-          $image_path = public_path('uploads/brands/' . $update_brand->brand_image);
+//          $image_path = public_path('uploads/brands/' . $update_brand->brand_image);
+          $image_path = brand_image_path().'/'.$update_brand->brand_image;
           unlink($image_path);
           $image = $request->file('brand_image');
           $filename =  $image->getClientOriginalName();
           $filename = date('Y-m-d') . '-' . time() . '-' . $filename;
-          $image->move(public_path('uploads/brands'), $filename);
+          $image_original = Image::make($image->path());
+          $path = brand_image_path().'/'.$filename;
+          $image_original->save($path);
           $update_brand->brand_image = $filename;
         }
         $update_brand->save();
@@ -152,7 +158,7 @@ class BrandController extends Controller
     $id = $request->input('id');
     try{
       $brand = Brand::findOrFail($id);
-      $image_path = public_path('uploads/brands/' . $brand->brand_image);
+      $image_path = brand_image_path().'/'.$brand->brand_image;
       unlink($image_path);
       $brand->delete();
     }catch(ModelNotFoundException $e){

@@ -6,6 +6,10 @@ return [
     "Documentation" => "ឯកសារ",
     "Permissions" => "ការអនុញ្ញាត",
     "Roles" => "តួនាទី",
+    'Product Categories' => "ប្រភេទទំនិញ",
+    'Product Subcategories' => "ប្រភេទទំនិញរង",
+    'Product Brands' => "ម៉ាកទំនិញ",
+    "Products" => "ទំនិញ",
     "Setting" => 'ការកំណត់',
     "Settings" => 'ការកំណត់',
 ];

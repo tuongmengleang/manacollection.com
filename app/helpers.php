@@ -111,3 +111,9 @@ if (! function_exists('formatDecimal')) {
     return 0;
   }
 }
+
+if(! function_exists('brand_image_path')){
+  function brand_image_path($main_path = 'uploads'){
+    return $main_path . '/' . 'brands' . '/' . date('Y') . '/' . date('m');
+  }
+}

@@ -8,6 +8,7 @@ return [
   'Product Categories' => "Categories",
   'Product Subcategories' => "Subcategories",
   'Product Brands' => "Brands",
+  'Products' => "Products",
   'List Categories' => "List Categories",
   "Documentation" => "Documentation",
   'Setting' => 'Setting',
