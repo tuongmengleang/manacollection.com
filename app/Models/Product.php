@@ -18,7 +18,7 @@ class Product extends Model
       'discount',
       'discount_amount',
       'remark',
-      'enable_status',
+      'status',
       'video_link',
 
       'created_at',

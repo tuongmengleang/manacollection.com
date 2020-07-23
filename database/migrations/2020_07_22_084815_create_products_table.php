@@ -41,7 +41,7 @@ class CreateProductsTable extends Migration
           $table->tinyInteger('discount')->nullable();
           $table->integer('discount_amount')->nullable();
           $table->text('remark')->nullable();
-          $table->tinyInteger('enable_status');
+          $table->tinyInteger('status');
           $table->string('video_link',255)->nullable();
 
             $table->timestamps();

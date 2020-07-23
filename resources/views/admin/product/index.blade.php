@@ -5,8 +5,6 @@
 @section('vendor-style')
   <!-- vendor css files -->
   <link rel="stylesheet" href="{{ asset(mix('admin/vendors/css/tables/datatable/datatables.min.css')) }}">
-  {{--  <link rel="stylesheet" href="{{ asset('admin/vendors/css/fileuploader/font/font-fileuploader.css') }}">--}}
-  {{--  <link rel="stylesheet" href="{{ asset('admin/vendors/css/fileuploader/jquery.fileuploader.min.css') }}">--}}
   <link rel="stylesheet" href="{{ asset('admin/vendors/css/forms/select/select2.min.css') }}">
   <link rel="stylesheet" href="{{ asset(mix('admin/vendors/css/tables/datatable/extensions/dataTables.checkboxes.css')) }}">
   <link rel="stylesheet" href="{{ asset('admin/vendors/css/notiflix/notiflix-2.1.2.min.css') }}">
@@ -14,6 +12,11 @@
 @endsection
 @section('page-style')
   {{-- Page css files --}}
+  <!-- filepond for file upload -->
+  <link rel="stylesheet" href="{{ asset('admin/vendors/css/filepond/filepond-plugin-image-preview.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('admin/vendors/css/filepond/filepond.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('admin/vendors/css/filepond/filepond_custom.css') }}">
+  <!-- filepond for file upload -->
   <link rel="stylesheet" href="{{ asset(mix('admin/css/pages/data-list-view.css')) }}">
   <link rel="stylesheet" href="{{ asset('admin/css/own.css') }}">
   <style>
@@ -30,6 +33,20 @@
     }
     #select2-type_name-container:first-letter{
       text-transform: uppercase !important;
+    }
+    body.dark-layout .modal .modal-content .form-control,
+    body.dark-layout .modal .modal-body .form-control{
+      background-color: #262c49 !important;
+    }
+    #select2-type_name-container:first-letter, .select2-results__group:first-letter{
+      text-transform: uppercase !important;
+    }
+    .select2-results__group{
+      color: dodgerblue;
+    }
+    .subcategory-note{
+      position: absolute;
+      top: -20px;
     }
   </style>
 @endsection
@@ -58,10 +75,13 @@
       <table class="table data-list-view" width="100%">
         <thead>
         <tr>
-          <th width="15%">Logo</th>
-          <th>Brand name</th>
-          <th>Category</th>
-          <th width="30%">About</th>
+          <th>Code</th>
+          <th>Name</th>
+          <th>Cost Price</th>
+          <th>Sale Price</th>
+          <th>Discount</th>
+          <th>Discount Amount</th>
+          <th>Status</th>
           <th>Created At</th>
           <th>Actions</th>
         </tr>
@@ -77,80 +97,137 @@
 
   <!-- Modal -->
   <div class="modal fade" id="inlineForm" tabindex="-1" role="dialog" aria-labelledby="permissionModalTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="permissionModalTitle">Brand Create</h5>
+          <h5 class="modal-title" id="permissionModalTitle">Product Create</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form id="brand-form" method="POST" enctype="multipart/form-data">
-          <div class="modal-body">
-            <input type="hidden" name="id">
-            <div class="row">
-              <div class="col-12">
-                <div class="form-group">
-                  <label for="brand_name">Brand name<strong class="text-danger">*</strong></label>
-                  <input type="text" id="brand_name" name="brand_name" class="form-control" placeholder="Brand name">
-                  <span id="brand_name_error" class="validate text error-validate"></span>
+        <form id="product-form" method="POST" enctype="multipart/form-data">
+          <div class="modal-body crud">
+
+            <section id="floating-label-layouts">
+              <div class="row match-height">
+                <div class="col-md-12 col-12">
+                  <div class="card">
+                    <div class="card-header">
+                    </div>
+                    <div class="card-content">
+                      <div class="card-body">
+                        <form class="form">
+                          <div class="form-body">
+                            <div class="row">
+                              <div class="col-6">
+                                <div class="form-label-group">
+                                  <input type="text" id="code" class="form-control" placeholder="Code" name="code">
+                                  <label for="code">Code</label>
+                                </div>
+                              </div>
+                              <div class="col-6">
+                                <div class="form-label-group">
+                                  <input type="text" id="name" class="form-control" name="name" placeholder="Name">
+                                  <label for="name">Name</label>
+                                </div>
+                              </div>
+                              <div class="col-6">
+                                <div class="form-label-group">
+                                  <input type="text" id="cost_price" class="form-control currency" name="cost_price" data-a-sign="$ " placeholder="Cost Price">
+                                  <label for="cost_price">Cost Price</label>
+                                </div>
+                              </div>
+                              <div class="col-6">
+                                <div class="form-label-group">
+                                  <input type="text" id="sale_price" class="form-control currency" name="sale_price" data-a-sign="$ " placeholder="Sale Price">
+                                  <label for="sale_price ">Sale Price</label>
+                                </div>
+                              </div>
+                              <div class="form-group col-4">
+                                <fieldset class="checkbox">
+                                  <div class="vs-checkbox-con vs-checkbox-primary">
+                                    <input type="checkbox" name="discount" id="discount">
+                                    <span class="vs-checkbox">
+                                      <span class="vs-checkbox--check">
+                                          <i class="vs-icon feather icon-check"></i>
+                                      </span>
+                                    </span>
+                                    <span class="">Discount?</span>
+                                  </div>
+                                </fieldset>
+                              </div>
+                              <div class="col-8">
+                                <div class="form-label-group">
+                                  <input type="text" id="discount_amount" class="form-control currency" name="discount_amount" data-a-sign="% " data-v-max="100" data-v-min="0" placeholder="Discount Amount(%)" disabled>
+                                  <label for="discount_amount ">Discount Amount</label>
+                                </div>
+                              </div>
+                              <div class="col-6">
+                                <div class="form-label-group">
+                                  <select class="select2 form-control" name="category" id="category" data-placeholder="Select a category...">
+                                    <option selected></option>
+                                    @if(isset($categories))
+                                      @foreach($categories as $keys => $category)
+                                        <optgroup label="{{ $keys }}">
+                                          @foreach($category as $item )
+                                            <option value="{{ $item->id }}">{{ $item->category_name }}</option>
+                                          @endforeach
+                                        </optgroup>
+                                      @endforeach
+                                    @endif
+                                  </select>
+                                </div>
+                              </div>
+                              <div class="col-6">
+                                <div class="form-label-group">
+                                  <select class="select2 form-control" name="subcategory" id="subcategory" data-placeholder="Select a subcategory..." disabled="disabled">
+                                    <!-- get data using Ajax -->
+                                  </select>
+                                  <p class="text-warning subcategory-note">Select <code>Category</code> first before select subcategory.</p>
+                                </div>
+                              </div>
+                              <div class="col-6">
+                                <div class="form-label-group">
+                                  <select class="select2 form-control" name="brand" id="brand" data-placeholder="Select a brand...">
+                                    <option selected></option>
+                                    @if(isset($brands))
+                                      @foreach($brands as $keys => $brand)
+                                        <optgroup label="{{ $keys }}">
+                                          @foreach($brand as $item )
+                                            <option value="{{ $item->id }}">{{ $item->brand_name }}</option>
+                                          @endforeach
+                                        </optgroup>
+                                      @endforeach
+                                    @endif
+                                  </select>
+                                </div>
+                              </div>
+                              <div class="col-6">
+                                <fieldset class="form-label-group">
+                                  <textarea class="form-control" id="remark" name="remark" rows="3" placeholder="Remark"></textarea>
+                                  <label for="remark">Remark</label>
+                                </fieldset>
+                              </div>
+
+                              <div class="col-6">
+                                <div class="form-label-group">
+                                  <input type="text" id="video_link" class="form-control" name="video_link" placeholder="Youtube Link" style="position: relative; top: -60px">
+                                  <label for="video_link">Youtube link</label>
+                                </div>
+                              </div>
+                              <div class="col-12">
+                                <input type="file" class="filepond" name="images" id="product_images" multiple data-max-file-size="10MB" data-max-files="30" />
+                              </div>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div class="col-12">
-                <div class="form-group">
-                  <label for="type_name">Category<strong class="text-danger">*</strong></label>
-                  <select id="category" name="category" class="select2 form-control" data-placeholder="Select a category...">
-                    <option value="" selected></option>
-                    <option value="fashion">Fashion</option>
-                    <option value="beauty">Beauty</option>
-                  </select>
-                  <span id="category_error" class="validate text error-validate"></span>
-                </div>
-              </div>
-              <div class="col-12">
-                <fieldset class="form-label-group mb-0">
-                  <textarea data-length=300 class="form-control char-textarea" id="textarea-counter" name="about" rows="3" placeholder="About"></textarea>
-                  <label for="textarea-counter">About</label>
-                </fieldset>
-                <small class="counter-value float-right"><span class="char-count">0</span> / 300 </small>
-              </div>
-              <div class="col-12">
-                <fieldset>
-                  <label for="brand_name">URL</label>
-                  <div class="input-group">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text" id="basic-addon1">manacollection.com/</span>
-                    </div>
-                    <input type="text" class="form-control" id="url" name="url" placeholder="url" aria-describedby="basic-addon1">
-                  </div>
-                </fieldset>
-              </div>
-              <div class="col-12">
-                <label for="type_name">Brand Image<strong class="text-danger">*</strong></label>
-                <div class="drop">
-                  <div class="cont">
-                    <i class="fa fa-cloud-upload"></i>
-                    <div class="tit">
-                      Drag & Drop
-                    </div>
-                    <div class="desc">
-                      your files to Assets, or
-                    </div>
-                    <div class="browse">
-                      click here to browse
-                    </div>
-                  </div>
-                  <input id="logo" name="brand_image" type="file" accept="image/*" />
-                  <input type="hidden" name="hidden_image" id="hidden_image">
-                  <div class="thumbnail d-none" style="position: relative; top: -20px">
-                    <img class="thumbnail-img" src="" alt=""> <br>
-                    <span><strong id="size"></strong>MB</span> <br>
-                    <span id="filename"></span>
-                  </div>
-                </div>
-                <span id="brand_image_error" class="validate text error-validate"></span>
-              </div>
-            </div>
+            </section>
+
           </div>
           <div class="modal-footer">
             <button type="submit" class="btn btn-primary btn-save">{{ __('general.save_changes') }}</button>
@@ -164,7 +241,7 @@
 @endsection
 @section('vendor-script')
   <!-- vendor files -->
-  {{--  <script src="{{ asset('admin/vendors/js/fileuploader/jquery.fileuploader.min.js') }}"></script>--}}
+  <script src="{{ asset('admin/vendors/js/jquery.stepper.min.js') }}"></script>
   <script src="{{ asset('admin/vendors/js/forms/select/select2.full.min.js') }}"></script>
   <script src="{{ asset(mix('admin/vendors/js/tables/datatable/datatables.min.js')) }}"></script>
   <script src="{{ asset(mix('admin/vendors/js/tables/datatable/datatables.buttons.min.js')) }}"></script>
@@ -177,8 +254,18 @@
 @endsection
 
 @section('page-script')
-  <script src="{{ asset('admin/vendors/js/forms/select/select2.full.js') }}"></script>
+  <script src="{{ asset('admin/vendors/js/forms/select/form-select2.js') }}"></script>
   <script src="{{ asset('admin/vendors/js/fileuploader/fileuploader.js') }}"></script>
+  <script src="{{ asset('admin/vendors/js/forms/currency/autoNumeric.js') }}"></script>
+  <script src="{{ asset('admin/vendors/js/forms/currency/currency-form.js') }}"></script>
+  <!-- filepond for file upload -->
+  <script src="{{ asset('admin/vendors/js/filepond/filepond-plugin-file-encode.min.js') }}"></script>
+  <script src="{{ asset('admin/vendors/js/filepond/filepond-plugin-file-validate-size.min.js') }}"></script>
+  <script src="{{ asset('admin/vendors/js/filepond/filepond-plugin-image-exif-orientation.min.js') }}"></script>
+  <script src="{{ asset('admin/vendors/js/filepond/filepond-plugin-image-preview.min.js') }}"></script>
+  <script src="{{ asset('admin/vendors/js/filepond/filepond.min.js') }}"></script>
+  <script src="{{ asset('admin/vendors/js/filepond/filepond_custom.js') }}"></script>
+  <!-- filepond for file upload -->
   <script>
       $(document).ready(function() {
           "use strict"
@@ -203,18 +290,6 @@
                   {
                       text: "<i class='feather icon-plus'></i> Add New",
                       action: function() {
-                          $("[name='id']").val('');
-                          $("#brand-form")[0].reset();
-                          $("#brand_name_error").text('');
-                          $("[name='brand_name']").removeClass('validate-input-error');
-                          $("#category").val("");
-                          $(".select2-selection__rendered").text("Select a category...");
-                          $("#category_error").text('');
-                          $(".select2").removeClass('validate-input-error');
-                          $("#brand_image_error").text('');
-                          $(".image-uploader").removeClass("validate-error");
-                          $(".thumbnail").addClass('d-none');
-                          $(".thumbnail img").attr('src', "");
                           $('#inlineForm').modal('show');
                       },
                       className: "btn-outline-primary"
@@ -222,12 +297,15 @@
               ],
               processing: true,
               serverSide: true,
-              ajax: '{{ route('admin.product.brand.datatable') }}',
+              ajax: '{{ route('admin.product.datatable') }}',
               columns: [
-                  { data: 'brand_image', name: 'brand_image', orderable: false, searchable: false, class: 'text-center'  },
-                  { data: 'brand_name', name: 'brand_name' },
-                  { data: 'category', name: 'category'},
-                  { data: 'about', name: 'about', orderable: false, searchable: false, class: 'text-center' },
+                  { data: 'code', name: 'code' },
+                  { data: 'name', name: 'name' },
+                  { data: 'cost_price', name: 'cost_price'},
+                  { data: 'sale_price', name: 'sale_price'},
+                  { data: 'discount', name: 'discount', orderable: false, searchable: false, class: 'text-center' },
+                  { data: 'discount_amount', name: 'discount_amount'},
+                  { data: 'status', name: 'status', orderable: false, searchable: false, class: 'text-center' },
                   { data: 'created_at', name: 'created_at' },
                   { data: 'actions', name: 'actions', orderable: false, searchable: false, class: 'text-center' }
               ],
@@ -253,20 +331,48 @@
               new PerfectScrollbar(".data-items", { wheelPropagation: false })
           }
 
+          // Discount Checkbox
+          $("#discount").change(function (e) {
+              e.preventDefault();
+              if (this.checked){
+                  $("#discount_amount").prop('disabled', false);
+              }else{
+                  $("#discount_amount").prop('disabled', true);
+              }
+          });
+
+          // Change select option category value
+          $("#category").change(function (e) {
+              e.preventDefault();
+              const id = $(this).val();
+              let html = '';
+              let selected = $("#category option").is(':selected');
+              $.get("{{ route('admin.product.get.subcategory') }}", {id: id}, function (response) {
+                  // console.log(response);
+                  if (selected == true){
+                      if (id !== ''){
+                          $("#subcategory").prop('disabled', false);
+                          html += '<option selectedtion>';
+                          response.forEach(function (value) {
+                              // console.log(value);
+                              html+= '<option value="'+ value.id +'"> '+ value.subcategory_name +'</option>';
+                          });
+                          $("#subcategory").html('');
+                          $("#subcategory").append(html);
+                      }
+                  }else{
+                      $("#subcategory").prop('disabled', true);
+                  }
+              });
+          });
           // Category Ajax CRUD
           //  Ajax store
-          $("#brand-form").submit(function (e) {
+          $(document).on('submit', "#product-form", function (e) {
               e.preventDefault();
-              $("#brand_name_error").text('');
-              $("[name='brand_name']").removeClass('validate-input-error');
-              $("#category_error").text('');
-              $(".select2").removeClass('validate-input-error');
-              $("#brand_image_error").text('');
-              $(".image-uploader").removeClass("validate-error");
-
+              console.log("Submitted form");
               Notiflix.Loading.Dots('Processing...');
               $.ajax({
-                  url: "{{ route('admin.product.brand.store') }}",
+                  url: "{{ route('admin.product.store') }}",
                   method:"POST",
                   data: new FormData(this),
                   contentType: false,
@@ -274,20 +380,10 @@
                   processData: false,
                   dataType:"json",
                   success: function (data) {
+                      console.log(data);
                       Notiflix.Loading.Remove();
                       if (data.errors){
-                          if (data.errors.brand_name){
-                              $("#brand_name_error").text(data.errors.brand_name);
-                              $("[name='brand_name']").addClass('validate-input-error');
-                          }
-                          if (data.errors.category){
-                              $("#category_error").text(data.errors.category);
-                              $(".select2").addClass('validate-input-error');
-                          }
-                          if (data.errors.brand_image){
-                              $("#brand_image_error").text(data.errors.brand_image);
-                              $(".image-uploader").addClass("validate-error");
-                          }
+
                       }
                       else{
                           $('#inlineForm').modal('hide');
@@ -307,18 +403,9 @@
           $(document).on('click', '#edit', function () {
               const id = $(this).data('id');
               $("#brand-form")[0].reset();
-              $("#brand_name_error").text('');
-              $("[name='brand_name']").removeClass('validate-input-error');
-              $("#category").val("");
-              $(".select2-selection__rendered").text("Select a category...");
-              $("#category_error").text('');
-              $(".select2").removeClass('validate-input-error');
-              $("#brand_image_error").text('');
-              $(".thumbnail span").addClass("d-none");
-              $("#filename").text('');
               $('#inlineForm').modal('show');
               $('#permissionModalTitle').html('Brand Update');
-              $.get("{{ route('admin.product.brand.edit') }}", {id: id}, function (response) {
+              $.get("{{ route('admin.product.edit') }}", {id: id}, function (response) {
                   $("#brand_name").val(response.brand_name);
                   if (response.category == 'fashion'){
                       $("[name='category'] option[value='fashion']").prop('selected', true);
@@ -356,7 +443,7 @@
                           'success'
                       );
                       $.ajax({
-                          url: "{{ route('admin.product.brand.delete') }}",
+                          url: "{{ route('admin.product.delete') }}",
                           type: "post",
                           data: { id:id },
                           dataType: 'json',

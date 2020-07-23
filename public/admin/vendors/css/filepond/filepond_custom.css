@@ -1,0 +1,32 @@
+/**
+ * FilePond Custom Styles
+ */
+.filepond--root{
+  /*height: 0 !important;*/
+  /*overflow-y: auto;*/
+  position: relative;
+  top: -60px;
+}
+.filepond--drop-label {
+  color: #4c4e53;
+}
+
+.filepond--label-action {
+  -webkit-text-decoration-color: #babdc0;
+  text-decoration-color: #babdc0;
+}
+
+.filepond--panel-root {
+  /*border-radius: .5rem;*/
+  background-color: #262c49;
+  height: 1em;
+  border: 2px dotted #7367f0;
+}
+
+.filepond--item-panel {
+  background-color: #595e68;
+}
+
+.filepond--drip-blob {
+  background-color: #7f8a9a;
+}

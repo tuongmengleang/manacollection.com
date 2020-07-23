@@ -30,7 +30,7 @@
       text-transform: uppercase !important;
     }
     .select2-results__group{
-      color: 	#FFB6C1;
+      color: 	dodgerblue;
     }
   </style>
 @endsection
@@ -98,7 +98,7 @@
                         @foreach($categories as $keys => $category)
                           <optgroup label="{{ $keys }}">
                             @foreach($category as $item )
-                              <option value="{{ $item->id }}" data-icon="fa fa-wordpress">{{ $item->category_name }}</option>
+                              <option value="{{ $item->id }}">{{ $item->category_name }}</option>
                             @endforeach
                           </optgroup>
                         @endforeach
@@ -140,6 +140,7 @@
 @endsection
 
 @section('page-script')
+{{--  <script src="{{ asset('admin/vendors/js/forms/select/form-select2.js') }}"></script>--}}
   <script src="{{ asset('admin/vendors/js/forms/select/select2.full.js') }}"></script>
   <script>
       $(document).ready(function() {

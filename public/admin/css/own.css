@@ -66,6 +66,6 @@
 
 /* Custom Bootstrap modal for scroll modal-body */
 .modal-body.crud{
-  height: 600px;
+  height: 500px;
   overflow-y: auto;
 }

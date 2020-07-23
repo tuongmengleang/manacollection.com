@@ -198,6 +198,7 @@
                         </div>
                         <small class="text-dark"></small>
                         <div class="col-12">
+                          <i class="feather icon-link"></i>
                           <a id="brand_url" href="javascript:void(0)"></a>
                         </div>
                       </span>
@@ -440,7 +441,7 @@
                       $(".brand-detail h4").text(response.brand_name);
                       $("#category-detail").text(upperFirstLetter(response.category));
                       $(".brand-detail small").text(response.about);
-                      $("#brand_url").text('<i class="feather icon-link"></i>' + response.url);
+                      $("#brand_url").text(response.url);
                   }
               });
           });

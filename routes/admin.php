@@ -86,10 +86,11 @@ Route::group(['middleware' => ['auth:admin']], function () {
 
   // Product
   Route::prefix('products')->group(function (){
-    Route::get('/', "ProductController@index")->name('product.product.index');
-    Route::get('/datatables', "ProductController@datatable")->name('product.product.datatable');
-    Route::post('/store', "ProductController@store")->name('product.product.store');
-    Route::get('/edit', "ProductController@edit")->name('product.product.edit');
-    Route::post('/delete', "ProductController@destroy")->name('product.product.delete');
+    Route::get('/', "ProductController@index")->name('product.index');
+    Route::get('/datatables', "ProductController@datatable")->name('product.datatable');
+    Route::post('/store', "ProductController@store")->name('product.store');
+    Route::get('/edit', "ProductController@edit")->name('product.edit');
+    Route::post('/delete', "ProductController@destroy")->name('product.delete');
+    Route::get('/subcategory', "ProductController@getSubcategory")->name('product.get.subcategory');
   });
 });
