@@ -89,7 +89,7 @@
           </button>
         </div>
         <form id="brand-form" method="POST" enctype="multipart/form-data">
-          <div class="modal-body crud">
+          <div class="modal-body brand">
             <input type="hidden" name="id">
             <div class="row">
               <div class="col-12">

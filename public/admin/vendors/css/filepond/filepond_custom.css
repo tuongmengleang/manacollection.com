@@ -4,8 +4,6 @@
 .filepond--root{
   /*height: 0 !important;*/
   /*overflow-y: auto;*/
-  position: relative;
-  top: -60px;
 }
 .filepond--drop-label {
   color: #4c4e53;

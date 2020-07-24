@@ -65,7 +65,12 @@
 }
 
 /* Custom Bootstrap modal for scroll modal-body */
-.modal-body.crud{
-  height: 500px;
+.modal-body.brand{
+  height: 650px;
   overflow-y: auto;
 }
+.modal-body.product {
+  height: 600px;
+  overflow-y: auto;
+}
+

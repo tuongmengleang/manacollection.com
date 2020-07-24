@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use App\Models\Product;
 use App\Models\ProductCategory;
+use App\Models\ProductImage;
 use App\Models\ProductSubcategory;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -70,9 +71,104 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        if ($images = $request->hasFile('images')){
-          return response()->json($images);
-        }
+
+      if ($request->hasFile('photos')){
+        $photos = $request->file(photos);
+//        foreach ($request->file('photos') as $photo){
+//          $filename =  $photo->getClientOriginalName();
+//          $filename = date('Y-m-d') . '-' . time() . '-' . $filename;
+//          $image_original = Image::make($photo->path());
+//          $path = product_image_path().'/'.$filename;
+//          $image_original->save($path);
+//          return response()->json($filename);
+//        }
+        return response()->json($photos);
+      }
+
+//        $id = $request->input('id');
+//        $code = $request->input('code');
+//        $name = $request->input('name');
+//        $cost_price = $request->input('cost_price');
+//        $sale_price = $request->input('sale_price');
+//        $discount = $request->input('discount');
+//        $discount_amount = $request->input('discount_amount');
+//        $category = $request->input('category');
+//        $subcategory = $request->input('subcategory');
+//        $brand = $request->input('brand');
+//        $remark = $request->input('remark');
+//        $video_link = $request->input('video_link');
+//        if ($id == ''){
+//            $rules = [
+//                "code" => "required",
+//                "name" => "required",
+//                "cost_price" => "required",
+//                "sale_price" => "required",
+//                "category" => "required",
+//                "subcategory" => "required",
+//                "brand" => "required",
+//                "photos" => "required|mimes:jpeg,jpg,png,gif"
+//            ];
+//            $message = [
+//                'code.required' => "Product code cannot be blank!",
+//                'name.required' => "Product name cannot be blank!",
+//                'cost_price.required' => "Please input cost price",
+//                'sale_price.required' => "Please input sale price",
+//                'category.required' => "Please, select category...",
+//                'subcategory.required' => "Please, select subcategory...",
+//                'brand.required' => "Please, select brand...",
+//                'photos.required' => "Product photo is required",
+//                'photos.mimes' => "Only file with the following extensions is allowed : .jpeg .jpg .png .gif.",
+//            ];
+//            $validator = \Validator::make($request->all(), $rules, $message);
+//            if ($validator->fails()){
+//                return response()->json(['errors'=> $validator->getMessageBag()->toarray(), 'status' => 403]);
+//            }
+//            $product = new Product();
+//            // store foreign key
+//            $product->product_category_id = $category;
+//            $product->product_subcategory_id = $subcategory;
+//            $product->brand_id = $brand;
+//            // store local column
+//            $product->code = $code;
+//            $product->name = $name;
+//            $product->cost_price = trim($cost_price,'$');
+//            $product->sale_price = trim($sale_price, '$');
+//            if ($discount){
+//                $product->discount = 1;
+//                $product->discount_amount = trim($discount_amount, '%');
+//            }
+//            else{
+//              $product->discount = 0;
+//              $product->discount_amount = null;
+//            }
+//            $product->remark = $remark;
+//            $product->status = 1;
+//            $product->video_link = $video_link;
+//            $product->save();
+//
+//            // store photos
+//            $product_id = $product->id;
+//            if ($request->hasFile('photos')){
+//                foreach ($request->file('photos') as $photo){
+//                    $filename =  $photo->getClientOriginalName();
+//                    $filename = date('Y-m-d') . '-' . time() . '-' . $filename;
+//                    $image_original = Image::make($photo->path());
+//                    $path = product_image_path().'/'.$filename;
+//                    $image_original->save($path);
+//                    return response()->json($filename);
+////                    DB::table('product_images')
+////                        ->insert([
+////                            'product_id' => $product_id,
+////                            'original_images' => $filename,
+////                        ]);
+//
+//                }
+//            }
+//        }
+//        return response()->json([
+//            'message' => "Your product was created.",
+//            'status' => 201
+//        ]);
     }
 
     /**

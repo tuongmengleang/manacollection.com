@@ -45,8 +45,9 @@
       color: dodgerblue;
     }
     .subcategory-note{
+      display: none;
       position: absolute;
-      top: -20px;
+      top: -22px;
     }
   </style>
 @endsection
@@ -106,7 +107,7 @@
           </button>
         </div>
         <form id="product-form" method="POST" enctype="multipart/form-data">
-          <div class="modal-body crud">
+          <div class="modal-body product">
 
             <section id="floating-label-layouts">
               <div class="row match-height">
@@ -116,111 +117,117 @@
                     </div>
                     <div class="card-content">
                       <div class="card-body">
-                        <form class="form">
-                          <div class="form-body">
-                            <div class="row">
-                              <div class="col-6">
-                                <div class="form-label-group">
-                                  <input type="text" id="code" class="form-control" placeholder="Code" name="code">
-                                  <label for="code">Code</label>
-                                </div>
-                              </div>
-                              <div class="col-6">
-                                <div class="form-label-group">
-                                  <input type="text" id="name" class="form-control" name="name" placeholder="Name">
-                                  <label for="name">Name</label>
-                                </div>
-                              </div>
-                              <div class="col-6">
-                                <div class="form-label-group">
-                                  <input type="text" id="cost_price" class="form-control currency" name="cost_price" data-a-sign="$ " placeholder="Cost Price">
-                                  <label for="cost_price">Cost Price</label>
-                                </div>
-                              </div>
-                              <div class="col-6">
-                                <div class="form-label-group">
-                                  <input type="text" id="sale_price" class="form-control currency" name="sale_price" data-a-sign="$ " placeholder="Sale Price">
-                                  <label for="sale_price ">Sale Price</label>
-                                </div>
-                              </div>
-                              <div class="form-group col-4">
-                                <fieldset class="checkbox">
-                                  <div class="vs-checkbox-con vs-checkbox-primary">
-                                    <input type="checkbox" name="discount" id="discount">
-                                    <span class="vs-checkbox">
-                                      <span class="vs-checkbox--check">
-                                          <i class="vs-icon feather icon-check"></i>
-                                      </span>
-                                    </span>
-                                    <span class="">Discount?</span>
-                                  </div>
-                                </fieldset>
-                              </div>
-                              <div class="col-8">
-                                <div class="form-label-group">
-                                  <input type="text" id="discount_amount" class="form-control currency" name="discount_amount" data-a-sign="% " data-v-max="100" data-v-min="0" placeholder="Discount Amount(%)" disabled>
-                                  <label for="discount_amount ">Discount Amount</label>
-                                </div>
-                              </div>
-                              <div class="col-6">
-                                <div class="form-label-group">
-                                  <select class="select2 form-control" name="category" id="category" data-placeholder="Select a category...">
-                                    <option selected></option>
-                                    @if(isset($categories))
-                                      @foreach($categories as $keys => $category)
-                                        <optgroup label="{{ $keys }}">
-                                          @foreach($category as $item )
-                                            <option value="{{ $item->id }}">{{ $item->category_name }}</option>
-                                          @endforeach
-                                        </optgroup>
-                                      @endforeach
-                                    @endif
-                                  </select>
-                                </div>
-                              </div>
-                              <div class="col-6">
-                                <div class="form-label-group">
-                                  <select class="select2 form-control" name="subcategory" id="subcategory" data-placeholder="Select a subcategory..." disabled="disabled">
-                                    <!-- get data using Ajax -->
-                                  </select>
-                                  <p class="text-warning subcategory-note">Select <code>Category</code> first before select subcategory.</p>
-                                </div>
-                              </div>
-                              <div class="col-6">
-                                <div class="form-label-group">
-                                  <select class="select2 form-control" name="brand" id="brand" data-placeholder="Select a brand...">
-                                    <option selected></option>
-                                    @if(isset($brands))
-                                      @foreach($brands as $keys => $brand)
-                                        <optgroup label="{{ $keys }}">
-                                          @foreach($brand as $item )
-                                            <option value="{{ $item->id }}">{{ $item->brand_name }}</option>
-                                          @endforeach
-                                        </optgroup>
-                                      @endforeach
-                                    @endif
-                                  </select>
-                                </div>
-                              </div>
-                              <div class="col-6">
-                                <fieldset class="form-label-group">
-                                  <textarea class="form-control" id="remark" name="remark" rows="3" placeholder="Remark"></textarea>
-                                  <label for="remark">Remark</label>
-                                </fieldset>
-                              </div>
-
-                              <div class="col-6">
-                                <div class="form-label-group">
-                                  <input type="text" id="video_link" class="form-control" name="video_link" placeholder="Youtube Link" style="position: relative; top: -60px">
-                                  <label for="video_link">Youtube link</label>
-                                </div>
-                              </div>
-                              <div class="col-12">
-                                <input type="file" class="filepond" name="images" id="product_images" multiple data-max-file-size="10MB" data-max-files="30" />
+                        <div class="form-body">
+                          <input type="hidden" name="id">
+                          <div class="row">
+                            <div class="col-6">
+                              <div class="form-label-group">
+                                <input type="text" id="code" class="form-control" placeholder="Code" name="code">
+                                <label for="code">Code</label>
+                                <span id="code_validate_error" class="validate text error-validate"></span>
                               </div>
                             </div>
+                            <div class="col-6">
+                              <div class="form-label-group">
+                                <input type="text" id="name" class="form-control" name="name" placeholder="Name">
+                                <label for="name">Name</label>
+                                <span id="name_validate_error" class="validate text error-validate"></span>
+                              </div>
+                            </div>
+                            <div class="col-6">
+                              <div class="form-label-group">
+                                <input type="text" id="cost_price" class="form-control currency" name="cost_price" data-a-sign="$ " placeholder="Cost Price">
+                                <label for="cost_price">Cost Price</label>
+                                <span id="cost_price_validate_error" class="validate text error-validate"></span>
+                              </div>
+                            </div>
+                            <div class="col-6">
+                              <div class="form-label-group">
+                                <input type="text" id="sale_price" class="form-control currency" name="sale_price" data-a-sign="$ " placeholder="Sale Price">
+                                <label for="sale_price ">Sale Price</label>
+                                <span id="sale_price_validate_error" class="validate text error-validate"></span>
+                              </div>
+                            </div>
+                            <div class="form-group col-4">
+                              <fieldset class="checkbox">
+                                <div class="vs-checkbox-con vs-checkbox-primary">
+                                  <input type="checkbox" name="discount" id="discount">
+                                  <span class="vs-checkbox">
+                                    <span class="vs-checkbox--check">
+                                        <i class="vs-icon feather icon-check"></i>
+                                    </span>
+                                  </span>
+                                  <span class="">Discount?</span>
+                                </div>
+                              </fieldset>
+                            </div>
+                            <div class="col-8">
+                              <div class="form-label-group">
+                                <input type="text" id="discount_amount" class="form-control currency" name="discount_amount" data-a-sign="% " data-v-max="100" data-v-min="0" placeholder="Discount Amount(%)" disabled>
+                                <label for="discount_amount ">Discount Amount</label>
+                              </div>
+                            </div>
+                            <div class="col-6">
+                              <div class="form-label-group">
+                                <select class="select2 form-control" name="category" id="category" data-placeholder="Select a category...">
+                                  <option selected></option>
+                                  @if(isset($categories))
+                                    @foreach($categories as $keys => $category)
+                                      <optgroup label="{{ $keys }}">
+                                        @foreach($category as $item )
+                                          <option value="{{ $item->id }}">{{ $item->category_name }}</option>
+                                        @endforeach
+                                      </optgroup>
+                                    @endforeach
+                                  @endif
+                                </select>
+                                <span id="category_validate_error" class="validate text error-validate"></span>
+                              </div>
+                            </div>
+                            <div class="col-6">
+                              <div class="form-label-group">
+                                <select class="select2 form-control" name="subcategory" id="subcategory" data-placeholder="Select a subcategory..." disabled="disabled">
+                                  <!-- get data using Ajax -->
+                                </select>
+                                <span id="subcategory_validate_error" class="validate text error-validate"></span>
+                                <p class="text-warning subcategory-note">Select <code>Category</code> first before select subcategory.</p>
+                              </div>
+                            </div>
+                            <div class="col-6">
+                              <div class="form-label-group">
+                                <select class="select2 form-control" name="brand" id="brand" data-placeholder="Select a brand...">
+                                  <option selected></option>
+                                  @if(isset($brands))
+                                    @foreach($brands as $keys => $brand)
+                                      <optgroup label="{{ $keys }}">
+                                        @foreach($brand as $item )
+                                          <option value="{{ $item->id }}">{{ $item->brand_name }}</option>
+                                        @endforeach
+                                      </optgroup>
+                                    @endforeach
+                                  @endif
+                                </select>
+                                <span id="brand_validate_error" class="validate text error-validate"></span>
+                              </div>
+                            </div>
+                            <div class="col-6">
+                              <div class="form-label-group">
+                                <input type="text" id="video_link" class="form-control" name="video_link" placeholder="Youtube Link">
+                                <label for="video_link">Youtube link</label>
+                              </div>
+                            </div>
+                            <div class="col-6">
+                              <fieldset class="form-label-group">
+                                <textarea class="form-control" id="remark" name="remark" rows="3" placeholder="Remark"></textarea>
+                                <label for="remark">Remark</label>
+                              </fieldset>
+                            </div>
+                            <div class="col-12">
+                              <input type="file" class="filepond" name="photos" id="product_images" multiple data-max-file-size="10MB" data-max-files="30" accept="image/*" />
+                              <span id="photos_validate_error" class="validate text error-validate"></span>
+                            </div>
                           </div>
-                        </form>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -274,6 +281,15 @@
                   'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
               }
           });
+
+          // global vairable for input field
+          let code_input = $("#code");
+          let name_input = $("#name");
+          let cost_price_input = $("#cost_price");
+          let sale_price_input = $("#sale_price");
+          let category_input = $("#category");
+          let subcategory_input = $("#subcategory");
+          let brand_input = $("#brand");
           // init list view datatable
           var dataListView = $(".data-list-view").DataTable({
               responsive: true,
@@ -290,6 +306,18 @@
                   {
                       text: "<i class='feather icon-plus'></i> Add New",
                       action: function() {
+                          code_input.removeClass('is-invalid');
+                          $('#code_validate_error').text('');
+                          name_input.removeClass('is-invalid');
+                          $('#name_validate_error').text('');
+                          cost_price_input.removeClass('is-invalid');
+                          $('#cost_price_validate_error').text('');
+                          sale_price_input.removeClass('is-invalid');
+                          $('#sale_price_validate_error').text('');
+                          $('#category_validate_error').text('');
+                          $('#subcategory_validate_error').text('');
+                          $('#brand_validate_error').text('');
+                          $('#photos_validate_error').text('');
                           $('#inlineForm').modal('show');
                       },
                       className: "btn-outline-primary"
@@ -367,23 +395,65 @@
           });
           // Category Ajax CRUD
           //  Ajax store
-          $(document).on('submit', "#product-form", function (e) {
+          $("#product-form").submit(function (e) {
               e.preventDefault();
-              console.log("Submitted form");
+              let formData = new FormData(this);
+              console.log($("#product_images")[0].files);
+              // remove validate error
+              code_input.removeClass('is-invalid');
+              $('#code_validate_error').text('');
+              name_input.removeClass('is-invalid');
+              $('#name_validate_error').text('');
+              cost_price_input.removeClass('is-invalid');
+              $('#cost_price_validate_error').text('');
+              sale_price_input.removeClass('is-invalid');
+              $('#sale_price_validate_error').text('');
+              $('#category_validate_error').text('');
+              $('#subcategory_validate_error').text('');
+              $('#brand_validate_error').text('');
+              $('#photos_validate_error').text('');
+              // end
               Notiflix.Loading.Dots('Processing...');
               $.ajax({
                   url: "{{ route('admin.product.store') }}",
-                  method:"POST",
-                  data: new FormData(this),
+                  method: "POST",
+                  data: formData,
                   contentType: false,
-                  cache:false,
+                  cache: false,
                   processData: false,
-                  dataType:"json",
+                  dataType: "json",
                   success: function (data) {
                       console.log(data);
                       Notiflix.Loading.Remove();
                       if (data.errors){
-
+                          if (data.errors.code){
+                              code_input.addClass('is-invalid');
+                              $('#code_validate_error').text(data.errors.code);
+                          }
+                          if (data.errors.name){
+                              name_input.addClass('is-invalid');
+                              $('#name_validate_error').text(data.errors.name);
+                          }
+                          if (data.errors.cost_price){
+                              cost_price_input.addClass('is-invalid');
+                              $('#cost_price_validate_error').text(data.errors.cost_price);
+                          }
+                          if (data.errors.sale_price){
+                              sale_price_input.addClass('is-invalid');
+                              $('#sale_price_validate_error').text(data.errors.sale_price);
+                          }
+                          if (data.errors.category){
+                              $('#category_validate_error').text(data.errors.category);
+                          }
+                          if (data.errors.subcategory){
+                              $('#subcategory_validate_error').text(data.errors.subcategory);
+                          }
+                          if (data.errors.brand){
+                              $('#brand_validate_error').text(data.errors.brand);
+                          }
+                          if (data.errors.photos){
+                              $('#photos_validate_error').text(data.errors.photos);
+                          }
                       }
                       else{
                           $('#inlineForm').modal('hide');
