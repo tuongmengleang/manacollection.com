@@ -24,6 +24,7 @@ class ProductController extends Controller
     public function index()
     {
         $categories = ProductCategory::all()->groupBy('type_name');
+        $subcategories = ProductSubcategory::all();
         $brands = Brand::all()->groupBy('category');
         $breadcrumbs = [
             ['link'=>route('admin.product.index'),'name'=> __('general.dashboard')], ['name'=> __('general.products')]
@@ -31,6 +32,7 @@ class ProductController extends Controller
         return view('admin.product.index', [
             'breadcrumbs' => $breadcrumbs,
             'categories' => $categories,
+            'subcategories' => $subcategories,
             'brands' => $brands,
         ]);
     }
@@ -85,6 +87,7 @@ class ProductController extends Controller
         $discount_amount = $request->input('discount_amount');
         $category = $request->input('category');
         $subcategory = $request->input('subcategory');
+        $hidden_subcategory = $request->input('hidden_subcategory');
         $brand = $request->input('brand');
         $remark = $request->input('remark');
         $video_link = $request->input('video_link');
@@ -186,145 +189,75 @@ class ProductController extends Controller
         else{
             try{
                 $update_product = Product::findOrFail($id);
-                if ($category){
-                    $rules = [
-                      "code" => "required",
-                      "name" => "required",
-                      "cost_price" => "required",
-                      "sale_price" => "required",
-    //                      "discount_amount" => "required",
-                      "category" => "required",
-                      "subcategory" => "required",
-                      "brand" => "required",
-                      //                      "photos" => "required"
-                    ];
-                    $message = [
-                      'code.required' => "Product code cannot be blank!",
-                      'name.required' => "Product name cannot be blank!",
-                      'cost_price.required' => "Please input cost price",
-                      'sale_price.required' => "Please input sale price",
-                      'discount_amount.required' => "Discount amount cannot be blank!",
-                      'category.required' => "Please, select category...",
-                      'subcategory.required' => "Please, select subcategory...",
-                      'brand.required' => "Please, select brand...",
-                      'photos.required' => "Product photo is required",
-                      'photos.mimes' => "Only file with the following extensions is allowed : .jpeg .jpg .png .gif.",
-                    ];
-                    $validator = \Validator::make($request->all(), $rules, $message);
-                    if ($validator->fails()){
-                      return response()->json(['errors'=> $validator->getMessageBag()->toarray(), 'status' => 403]);
-                    }
-                    // Update field
-                    // store foreign key
-                    $update_product->product_category_id = $category;
-                    $update_product->product_subcategory_id = $subcategory;
-                    $update_product->brand_id = $brand;
-                    // store local column
-                    $update_product->code = $code;
-                    $update_product->name = $name;
-                    $update_product->cost_price = trim($cost_price,'$');
-                    $update_product->sale_price = trim($sale_price, '$');
-                    if ($discount){
-                      $update_product->discount = 1;
-                      $update_product->discount_amount = trim($discount_amount, '%');
-                    }
-                    else{
-                      $update_product->discount = 0;
-                      $update_product->discount_amount = null;
-                    }
-                    $update_product->remark = $remark;
-                    $update_product->status = 1;
-                    $update_product->video_link = $video_link;
-                    $update_product->save();
-                    // store photos
-                    if ($request->hasFile('photos')){
-                      foreach ($request->file('photos') as $photo){
-                        $filename = date('Y-m-d') . '-' . time() . '-' . $photo->getClientOriginalName() . '.' . $photo->getClientOriginalExtension();
-                        $image_original = Image::make($photo->path());
-                        $path = product_image_path().'/'.$filename;
-                        $image_original->save($path);
-                        ProductImage::create([
-                          'product_id' => $id,
-                          'original_images' => $filename,
-                        ]);
-                      }
-                    }
+                if  ($discount){
+                  $rules = [
+                    "code" => "required",
+                    "name" => "required",
+                    "cost_price" => "required",
+                    "sale_price" => "required",
+                    "discount_amount" => "required",
+                    "category" => "required",
+                    // "subcategory" => "required",
+                    "brand" => "required",
+                    // "photos" => "required"
+                  ];
+                  $message = [
+                    'code.required' => "Product code cannot be blank!",
+                    'name.required' => "Product name cannot be blank!",
+                    'cost_price.required' => "Please input cost price",
+                    'sale_price.required' => "Please input sale price",
+                    'discount_amount.required' => "Discount amount cannot be blank!",
+                    'category.required' => "Please, select category...",
+                    'subcategory.required' => "Please, select subcategory...",
+                    'brand.required' => "Please, select brand...",
+                    'photos.required' => "Product photo is required",
+                    'photos.mimes' => "Only file with the following extensions is allowed : .jpeg .jpg .png .gif.",
+                  ];
+                  $validator = \Validator::make($request->all(), $rules, $message);
+                  if ($validator->fails()){
+                    return response()->json(['errors'=> $validator->getMessageBag()->toarray(), 'status' => 403]);
+                  }
                 }
-                if ($subcategory){
-                    $rules = [
-                      "code" => "required",
-                      "name" => "required",
-                      "cost_price" => "required",
-                      "sale_price" => "required",
-//                      "discount_amount" => "required",
-                      "category" => "required",
-                      "subcategory" => "required",
-                      "brand" => "required",
-  //                      "photos" => "required"
-                    ];
-                    $message = [
-                      'code.required' => "Product code cannot be blank!",
-                      'name.required' => "Product name cannot be blank!",
-                      'cost_price.required' => "Please input cost price",
-                      'sale_price.required' => "Please input sale price",
-                      'discount_amount.required' => "Discount amount cannot be blank!",
-                      'category.required' => "Please, select category...",
-                      'subcategory.required' => "Please, select subcategory...",
-                      'brand.required' => "Please, select brand...",
-                      'photos.required' => "Product photo is required",
-                      'photos.mimes' => "Only file with the following extensions is allowed : .jpeg .jpg .png .gif.",
-                    ];
-                    $validator = \Validator::make($request->all(), $rules, $message);
-                    if ($validator->fails()){
-                      return response()->json(['errors'=> $validator->getMessageBag()->toarray(), 'status' => 403]);
-                    }
-                    // Update field
-                    // store foreign key
-                    $update_product->product_category_id = $category;
-                    $update_product->product_subcategory_id = $subcategory;
-                    $update_product->brand_id = $brand;
-                    // store local column
-                    $update_product->code = $code;
-                    $update_product->name = $name;
-                    $update_product->cost_price = trim($cost_price,'$');
-                    $update_product->sale_price = trim($sale_price, '$');
-                    if ($discount){
-                      $update_product->discount = 1;
-                      $update_product->discount_amount = trim($discount_amount, '%');
-                    }
-                    else{
-                      $update_product->discount = 0;
-                      $update_product->discount_amount = null;
-                    }
-                    $update_product->remark = $remark;
-                    $update_product->status = 1;
-                    $update_product->video_link = $video_link;
-                    $update_product->save();
-                    // store photos
-                    if ($request->hasFile('photos')){
-                      foreach ($request->file('photos') as $photo){
-                        $filename = date('Y-m-d') . '-' . time() . '-' . $photo->getClientOriginalName() . '.' . $photo->getClientOriginalExtension();
-                        $image_original = Image::make($photo->path());
-                        $path = product_image_path().'/'.$filename;
-                        $image_original->save($path);
-                        ProductImage::create([
-                          'product_id' => $id,
-                          'original_images' => $filename,
-                        ]);
-                      }
-                    }
+                else{
+                  $rules = [
+                    "code" => "required",
+                    "name" => "required",
+                    "cost_price" => "required",
+                    "sale_price" => "required",
+                    // "discount_amount" => "required",
+                    "category" => "required",
+                    // "subcategory" => "required",
+                    "brand" => "required",
+                    // "photos" => "required"
+                  ];
+                  $message = [
+                    'code.required' => "Product code cannot be blank!",
+                    'name.required' => "Product name cannot be blank!",
+                    'cost_price.required' => "Please input cost price",
+                    'sale_price.required' => "Please input sale price",
+                    'discount_amount.required' => "Discount amount cannot be blank!",
+                    'category.required' => "Please, select category...",
+                    'subcategory.required' => "Please, select subcategory...",
+                    'brand.required' => "Please, select brand...",
+                    'photos.required' => "Product photo is required",
+                    'photos.mimes' => "Only file with the following extensions is allowed : .jpeg .jpg .png .gif.",
+                  ];
+                  $validator = \Validator::make($request->all(), $rules, $message);
+                  if ($validator->fails()){
+                    return response()->json(['errors'=> $validator->getMessageBag()->toarray(), 'status' => 403]);
+                  }
                 }
-                if ($discount){
+                if ($hidden_subcategory){
                     $rules = [
                       "code" => "required",
                       "name" => "required",
                       "cost_price" => "required",
                       "sale_price" => "required",
-                      "discount_amount" => "required",
+                      // "discount_amount" => "required",
                       "category" => "required",
-//                      "subcategory" => "required",
+                      // "subcategory" => "required",
                       "brand" => "required",
-//                      "photos" => "required"
+                      // "photos" => "required"
                     ];
                     $message = [
                       'code.required' => "Product code cannot be blank!",
@@ -345,7 +278,7 @@ class ProductController extends Controller
                     // Update field
                     // store foreign key
                     $update_product->product_category_id = $category;
-//                    $update_product->product_subcategory_id = $subcategory;
+                    $update_product->product_subcategory_id = $hidden_subcategory;
                     $update_product->brand_id = $brand;
                     // store local column
                     $update_product->code = $code;
@@ -379,67 +312,68 @@ class ProductController extends Controller
                     }
                 }
                 else{
-                    $rules = [
-                      "code" => "required",
-                      "name" => "required",
-                      "cost_price" => "required",
-                      "sale_price" => "required",
-  //                    "discount_amount" => "required",
-                      "category" => "required",
-//                      "subcategory" => "required",
-                      "brand" => "required",
-//                      "photos" => "required"
-                    ];
-                    $message = [
-                      'code.required' => "Product code cannot be blank!",
-                      'name.required' => "Product name cannot be blank!",
-                      'cost_price.required' => "Please input cost price",
-                      'sale_price.required' => "Please input sale price",
-                      'discount_amount.required' => "Discount amount cannot be blank!",
-                      'category.required' => "Please, select category...",
-                      'subcategory.required' => "Please, select subcategory...",
-                      'brand.required' => "Please, select brand...",
-                      'photos.required' => "Product photo is required",
-                      'photos.mimes' => "Only file with the following extensions is allowed : .jpeg .jpg .png .gif.",
-                    ];
-                    $validator = \Validator::make($request->all(), $rules, $message);
-                    if ($validator->fails()){
-                      return response()->json(['errors'=> $validator->getMessageBag()->toarray(), 'status' => 403]);
+                  $rules = [
+                    "code" => "required",
+                    "name" => "required",
+                    "cost_price" => "required",
+                    "sale_price" => "required",
+                    // "discount_amount" => "required",
+                    "category" => "required",
+                    "subcategory" => "required",
+                    "brand" => "required",
+                    // "photos" => "required"
+                  ];
+                  $message = [
+                    'code.required' => "Product code cannot be blank!",
+                    'name.required' => "Product name cannot be blank!",
+                    'cost_price.required' => "Please input cost price",
+                    'sale_price.required' => "Please input sale price",
+                    'discount_amount.required' => "Discount amount cannot be blank!",
+                    'category.required' => "Please, select category...",
+                    'subcategory.required' => "Please, select subcategory...",
+                    'brand.required' => "Please, select brand...",
+                    'photos.required' => "Product photo is required",
+                    'photos.mimes' => "Only file with the following extensions is allowed : .jpeg .jpg .png .gif.",
+                  ];
+                  $validator = \Validator::make($request->all(), $rules, $message);
+                  if ($validator->fails()){
+                    return response()->json(['errors'=> $validator->getMessageBag()->toarray(), 'status' => 403]);
+                  }
+                  // Update field
+                  // store foreign key
+                  $update_product->product_category_id = $category;
+                  $update_product->product_subcategory_id = $subcategory;
+                  $update_product->brand_id = $brand;
+                  // store local column
+                  $update_product->code = $code;
+                  $update_product->name = $name;
+                  $update_product->cost_price = trim($cost_price,'$');
+                  $update_product->sale_price = trim($sale_price, '$');
+                  if ($discount){
+                    $update_product->discount = 1;
+                    $update_product->discount_amount = trim($discount_amount, '%');
+                  }
+                  else{
+                    $update_product->discount = 0;
+                    $update_product->discount_amount = null;
+                  }
+                  $update_product->remark = $remark;
+                  $update_product->status = 1;
+                  $update_product->video_link = $video_link;
+                  $update_product->save();
+                  // store photos
+                  if ($request->hasFile('photos')){
+                    foreach ($request->file('photos') as $photo){
+                      $filename = date('Y-m-d') . '-' . time() . '-' . $photo->getClientOriginalName() . '.' . $photo->getClientOriginalExtension();
+                      $image_original = Image::make($photo->path());
+                      $path = product_image_path().'/'.$filename;
+                      $image_original->save($path);
+                      ProductImage::create([
+                        'product_id' => $id,
+                        'original_images' => $filename,
+                      ]);
                     }
-                    // Update field
-                    $update_product->product_category_id = $category;
-//                    $update_product->product_subcategory_id = $request->input('subcategoryOld');
-                    $update_product->brand_id = $brand;
-                    // store local column
-                    $update_product->code = $code;
-                    $update_product->name = $name;
-                    $update_product->cost_price = trim($cost_price,'$');
-                    $update_product->sale_price = trim($sale_price, '$');
-                    if ($discount){
-                      $update_product->discount = 1;
-                      $update_product->discount_amount = trim($discount_amount, '%');
-                    }
-                    else{
-                      $update_product->discount = 0;
-                      $update_product->discount_amount = 0;
-                    }
-                    $update_product->remark = $remark;
-                    $update_product->status = 1;
-                    $update_product->video_link = $video_link;
-                    $update_product->save();
-                    // store photos
-                    if ($request->hasFile('photos')){
-                      foreach ($request->file('photos') as $photo){
-                        $filename = date('Y-m-d') . '-' . time() . '-' . $photo->getClientOriginalName() . '.' . $photo->getClientOriginalExtension();
-                        $image_original = Image::make($photo->path());
-                        $path = product_image_path().'/'.$filename;
-                        $image_original->save($path);
-                        ProductImage::create([
-                          'product_id' => $id,
-                          'original_images' => $filename,
-                        ]);
-                      }
-                    }
+                  }
                 }
                 return response()->json([
                   'message' => "Your product was updated.",

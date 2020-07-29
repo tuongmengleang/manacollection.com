@@ -203,9 +203,9 @@
                             </div>
                             <div class="col-6">
                               <div class="form-label-group">
-                                <input type="hidden" name="subcategoryOld" />
+                                <input type="hidden" name="hidden_subcategory" />
                                 <select class="select2 form-control" name="subcategory" id="subcategory" data-placeholder="Select a subcategory..." disabled="disabled">
-                                  <option selected id="subcategoryOld"></option>
+                      
                                   <!-- get data using Ajax -->
                                 </select>
                                 <span id="subcategory_validate_error" class="validate text error-validate"></span>
@@ -427,6 +427,9 @@
           function resetForm(){
               subcategory_input.prop("disabled", true);
               discount_amount.attr('disabled','disabled');
+              $(".image-uploader").removeClass('has-files');
+              $(".uploaded").html('');
+              $(".uploaded-image img").attr('src', '');
               $("#select2-brand-container").text('Select a category...');
               $("#select2-category-container").text('Select a subcategory...');
               $("#select2-subcategory-container").text('Select a brand...');
@@ -471,6 +474,7 @@
               let selected = $("#category option").is(':selected');
               $.get("{{ route('admin.product.get.subcategory') }}", {id: id}, function (response) {
                   // console.log(response);
+                  $("[name='hidden_subcategory']").val("");
                   if (selected == true){
                       if (id !== ''){
                           $("#subcategory").prop('disabled', false);
@@ -582,10 +586,9 @@
                       $("#select2-category-container").text(response.category_name);
                   }
                   if (response.subcategory_name && response.subcategory_id){
-                      // subcategory_input.val(response.subcategory_id).prop('selected', true);
+                      // $("#subcategory").val(response.subcategory_id).prop('selected', true);
                       // $('#subcategory option[value="'+response.subcategory_id+'"]').prop("selected", true);
-                      $("#subcategoryOld").val(response.subcategory_id);
-                      // $("[name='subcategoryOld']").val(response.subcategory_id);
+                      $("[name='hidden_subcategory']").val(response.subcategory_id);
                       $("#select2-subcategory-container").text(response.subcategory_name);
                   }
                   if (response.brand_id && response.brand_name){
