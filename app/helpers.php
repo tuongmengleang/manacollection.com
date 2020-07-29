@@ -120,6 +120,6 @@ if(! function_exists('brand_image_path')){
 
 if(! function_exists('product_image_path')){
   function product_image_path($main_path = 'uploads'){
-    return $main_path . '/' . 'products' . '/' . date('Y') . '/' . date('m');
+    return $main_path . '/' . 'products' . '/'  . date('Y') . '/' . date('m');
   }
 }

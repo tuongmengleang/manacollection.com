@@ -122,9 +122,12 @@ class BrandController extends Controller
         $update_brand->about = $request->input('about');
         $update_brand->url = $request->input('url');
         if($request->hasFile('brand_image')){
-//          $image_path = public_path('uploads/brands/' . $update_brand->brand_image);
-          $image_path = brand_image_path().'/'.$update_brand->brand_image;
-          unlink($image_path);
+          try{
+            $image_path = brand_image_path().'/'.$update_brand->brand_image;
+            unlink($image_path);
+          }catch (\ErrorException $e){
+
+          }
           $image = $request->file('brand_image');
           $filename =  $image->getClientOriginalName();
           $filename = date('Y-m-d') . '-' . time() . '-' . $filename;

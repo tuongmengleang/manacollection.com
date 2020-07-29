@@ -74,3 +74,8 @@
   overflow-y: auto;
 }
 
+.modal-body.product-image {
+  height: 300px;
+  overflow-y: auto;
+}
+

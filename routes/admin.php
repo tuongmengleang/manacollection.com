@@ -89,8 +89,10 @@ Route::group(['middleware' => ['auth:admin']], function () {
     Route::get('/', "ProductController@index")->name('product.index');
     Route::get('/datatables', "ProductController@datatable")->name('product.datatable');
     Route::post('/store', "ProductController@store")->name('product.store');
+    Route::post('/upload', "ProductController@upload")->name('product.upload');
     Route::get('/edit', "ProductController@edit")->name('product.edit');
     Route::post('/delete', "ProductController@destroy")->name('product.delete');
     Route::get('/subcategory', "ProductController@getSubcategory")->name('product.get.subcategory');
+    Route::post('/delete/image', "ProductController@deleteProductImage")->name('product.delete.image');
   });
 });

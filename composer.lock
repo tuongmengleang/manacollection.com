@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e483ea28afe084a24985cab1e127f131",
+    "content-hash": "92f4a687fec12f2a131eaadb598e4863",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -3794,6 +3794,58 @@
                 "stylesheet"
             ],
             "time": "2020-06-01T09:10:00+00:00"
+        },
+        {
+            "name": "sopamo/laravel-filepond",
+            "version": "v0.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Sopamo/laravel-filepond.git",
+                "reference": "3d740863e5943c2ecf62a896e664a8efce8b57eb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Sopamo/laravel-filepond/zipball/3d740863e5943c2ecf62a896e664a8efce8b57eb",
+                "reference": "3d740863e5943c2ecf62a896e664a8efce8b57eb",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "5.5.*|5.6.*|5.7.*|5.8.*|^6.0|^7.0",
+                "illuminate/support": "5.5.*|5.6.*|5.7.*|5.8.*|^6.0|^7.0",
+                "php": "^7.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Sopamo\\LaravelFilepond\\LaravelFilepondServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Sopamo\\LaravelFilepond\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Paul Mohr",
+                    "email": "p.mohr@sopamo.de"
+                }
+            ],
+            "description": "Laravel backend module for filepond uploads",
+            "keywords": [
+                "filepond",
+                "image",
+                "laravel",
+                "php",
+                "upload"
+            ],
+            "time": "2020-05-28T08:54:19+00:00"
         },
         {
             "name": "spatie/image",

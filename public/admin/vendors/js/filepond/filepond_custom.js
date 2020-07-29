@@ -9,15 +9,15 @@ FilePond.registerPlugin(
   // validates the size of the file
   FilePondPluginFileValidateSize,
 
-
   // corrects mobile image orientation
   FilePondPluginImageExifOrientation,
 
   // previews dropped images
-  FilePondPluginImagePreview
+  FilePondPluginImagePreview,
+
+  // crop image
+  FilePondPluginImageEdit,
+  FilePondPluginImageCrop,
+  FilePondPluginImageTransform,
 );
 
-// Select the file input and use create() to turn it into a pond
-FilePond.create(
-  document.getElementById('product_images')
-);

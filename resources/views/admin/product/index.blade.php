@@ -12,11 +12,12 @@
 @endsection
 @section('page-style')
   {{-- Page css files --}}
-  <!-- filepond for file upload -->
-  <link rel="stylesheet" href="{{ asset('admin/vendors/css/filepond/filepond-plugin-image-preview.min.css') }}">
-  <link rel="stylesheet" href="{{ asset('admin/vendors/css/filepond/filepond.min.css') }}">
-  <link rel="stylesheet" href="{{ asset('admin/vendors/css/filepond/filepond_custom.css') }}">
-  <!-- filepond for file upload -->
+  <!-- image-uploader -->
+  <link rel="stylesheet" href="{{ asset('admin/vendors/css/image-uploader/image-uploader.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('admin/vendors/css/image-uploader/custom.css') }}">
+{{--  <link rel='stylesheet' href='https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css'>--}}
+{{--  <link rel='stylesheet' href='https://unpkg.com/filepond/dist/filepond.min.css'>--}}
+  <!-- image-uploader -->
   <link rel="stylesheet" href="{{ asset(mix('admin/css/pages/data-list-view.css')) }}">
   <link rel="stylesheet" href="{{ asset('admin/css/own.css') }}">
   <style>
@@ -49,6 +50,22 @@
       position: absolute;
       top: -22px;
     }
+    /* Icons Font Face*/
+    @font-face {
+      font-family: 'Image Uploader Icons';
+      /*src: url('../fonts/iu.eot');*/
+      src: url('{{ asset('admin/vendors/css/image-uploader/fonts/iu.eot') }}');
+      /*src: url('../fonts/iu.eot') format('embedded-opentype'),*/
+      src: url('{{ asset('admin/vendors/css/image-uploader/fonts/iu.eot') }}') format('embedded-opentype'),
+        /*url('../fonts/iu.ttf') format('truetype'),*/
+      url('{{ asset('admin/vendors/css/image-uploader/fonts/iu.ttf') }}') format('truetype'),
+        /*url('../fonts/iu.woff') format('woff'),*/
+      url('{{ asset('admin/vendors/css/image-uploader/fonts/iu.woff') }}') format('woff'),
+        /*url('../fonts/iu.svg') format('svg');*/
+      url('{{ asset('admin/vendors/css/image-uploader/fonts/iu.svg') }}') format('svg');
+      font-weight: normal;
+      font-style: normal;
+    }
   </style>
 @endsection
 
@@ -71,7 +88,6 @@
       </div>
     </div>
 
-    <!-- DataTable starts -->
     <div class="table-responsive">
       <table class="table data-list-view" width="100%">
         <thead>
@@ -96,7 +112,7 @@
   </section>
   <!-- Data list view end -->
 
-  <!-- Modal -->
+  <!-- Modal Product -->
   <div class="modal fade" id="inlineForm" tabindex="-1" role="dialog" aria-labelledby="permissionModalTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable modal-lg" role="document">
       <div class="modal-content">
@@ -165,6 +181,7 @@
                               <div class="form-label-group">
                                 <input type="text" id="discount_amount" class="form-control currency" name="discount_amount" data-a-sign="% " data-v-max="100" data-v-min="0" placeholder="Discount Amount(%)" disabled>
                                 <label for="discount_amount ">Discount Amount</label>
+                                <span id="discountAmount_validate_error" class="validate text error-validate"></span>
                               </div>
                             </div>
                             <div class="col-6">
@@ -186,7 +203,9 @@
                             </div>
                             <div class="col-6">
                               <div class="form-label-group">
+                                <input type="hidden" name="subcategoryOld" />
                                 <select class="select2 form-control" name="subcategory" id="subcategory" data-placeholder="Select a subcategory..." disabled="disabled">
+                                  <option selected id="subcategoryOld"></option>
                                   <!-- get data using Ajax -->
                                 </select>
                                 <span id="subcategory_validate_error" class="validate text error-validate"></span>
@@ -223,8 +242,16 @@
                               </fieldset>
                             </div>
                             <div class="col-12">
-                              <input type="file" class="filepond" name="photos" id="product_images" multiple data-max-file-size="10MB" data-max-files="30" accept="image/*" />
+{{--                              <label for="">Product Photos<strong class="text-danger">*</strong></label>--}}
+                              <div class="input-images"></div>
                               <span id="photos_validate_error" class="validate text error-validate"></span>
+                            </div>
+                            <div id="previewPanel" class="col-12 mt-1 d-none">
+                              <h6 class="text-center">Product Images Preview</h6>
+                              <div class="image-uploader mb-4">
+                                <div class="uploaded" id="imagesPreview">
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -238,6 +265,50 @@
           </div>
           <div class="modal-footer">
             <button type="submit" class="btn btn-primary btn-save">{{ __('general.save_changes') }}</button>
+            <button type="button" class="btn btn-warning" data-dismiss="modal">{{ __('general.cancel') }}</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Upload Image -->
+  <div class="modal fade" id="imageForm" tabindex="-1" role="dialog" aria-labelledby="permissionModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="permissionModalTitle">Product Create</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form id="uploadForm" action="{{ route('admin.product.upload') }}" method="POST" enctype="multipart/form-data">
+          <div class="modal-body product-image">
+            <section id="floating-label-layouts">
+              <div class="row match-height">
+                <div class="col-md-12 col-12">
+                  <div class="card">
+                    <div class="card-header">
+                    </div>
+                    <div class="card-content">
+                      <div class="card-body">
+                        <div class="form-body">
+                          <input type="hidden" name="product_id" id="product_id">
+                          <div class="row">
+                            <div class="col-12">
+                              <input type="file" name="images" multiple data-max-files="10" accept="image/png, image/jpeg, image/jpg, image/gif"/>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" id="upload" class="btn btn-primary">{{ __('general.save_changes') }}</button>
             <button type="button" class="btn btn-warning" data-dismiss="modal">{{ __('general.cancel') }}</button>
           </div>
         </form>
@@ -262,17 +333,17 @@
 
 @section('page-script')
   <script src="{{ asset('admin/vendors/js/forms/select/form-select2.js') }}"></script>
-  <script src="{{ asset('admin/vendors/js/fileuploader/fileuploader.js') }}"></script>
   <script src="{{ asset('admin/vendors/js/forms/currency/autoNumeric.js') }}"></script>
   <script src="{{ asset('admin/vendors/js/forms/currency/currency-form.js') }}"></script>
-  <!-- filepond for file upload -->
-  <script src="{{ asset('admin/vendors/js/filepond/filepond-plugin-file-encode.min.js') }}"></script>
-  <script src="{{ asset('admin/vendors/js/filepond/filepond-plugin-file-validate-size.min.js') }}"></script>
-  <script src="{{ asset('admin/vendors/js/filepond/filepond-plugin-image-exif-orientation.min.js') }}"></script>
-  <script src="{{ asset('admin/vendors/js/filepond/filepond-plugin-image-preview.min.js') }}"></script>
-  <script src="{{ asset('admin/vendors/js/filepond/filepond.min.js') }}"></script>
-  <script src="{{ asset('admin/vendors/js/filepond/filepond_custom.js') }}"></script>
-  <!-- filepond for file upload -->
+  <!-- image-uploader -->
+  <script src="{{ asset('admin/vendors/js/image-uploader/image-uploader.min.js') }}"></script>
+{{--  <script src="https://unpkg.com/filepond-plugin-file-rename/dist/filepond-plugin-file-rename.js"></script>--}}
+{{--  <script src='https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.min.js'></script>--}}
+{{--  <script src='https://unpkg.com/filepond-plugin-image-exif-orientation/dist/filepond-plugin-image-exif-orientation.min.js'></script>--}}
+{{--  <script src='https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.js'></script>--}}
+{{--  <script src='https://unpkg.com/filepond/dist/filepond.min.js'></script>--}}
+  <!-- image-uploader -->
+
   <script>
       $(document).ready(function() {
           "use strict"
@@ -287,9 +358,11 @@
           let name_input = $("#name");
           let cost_price_input = $("#cost_price");
           let sale_price_input = $("#sale_price");
+          let discount_amount = $("#discount_amount");
           let category_input = $("#category");
           let subcategory_input = $("#subcategory");
           let brand_input = $("#brand");
+          let product_form = $("#product-form")[0];
           // init list view datatable
           var dataListView = $(".data-list-view").DataTable({
               responsive: true,
@@ -306,18 +379,10 @@
                   {
                       text: "<i class='feather icon-plus'></i> Add New",
                       action: function() {
-                          code_input.removeClass('is-invalid');
-                          $('#code_validate_error').text('');
-                          name_input.removeClass('is-invalid');
-                          $('#name_validate_error').text('');
-                          cost_price_input.removeClass('is-invalid');
-                          $('#cost_price_validate_error').text('');
-                          sale_price_input.removeClass('is-invalid');
-                          $('#sale_price_validate_error').text('');
-                          $('#category_validate_error').text('');
-                          $('#subcategory_validate_error').text('');
-                          $('#brand_validate_error').text('');
-                          $('#photos_validate_error').text('');
+                          $("[name='id']").val('');
+                          resetForm();
+                          removeValidateError();
+                          $("#previewPanel").addClass('d-none');
                           $('#inlineForm').modal('show');
                       },
                       className: "btn-outline-primary"
@@ -351,7 +416,7 @@
           });
 
           // To append actions dropdown before add new button
-          var actionDropdown = $(".actions-dropodown")
+          let actionDropdown = $(".actions-dropodown")
           actionDropdown.insertBefore($(".top .actions .dt-buttons"))
 
           // Scrollbar
@@ -359,13 +424,42 @@
               new PerfectScrollbar(".data-items", { wheelPropagation: false })
           }
 
+          function resetForm(){
+              subcategory_input.prop("disabled", true);
+              discount_amount.attr('disabled','disabled');
+              $("#select2-brand-container").text('Select a category...');
+              $("#select2-category-container").text('Select a subcategory...');
+              $("#select2-subcategory-container").text('Select a brand...');
+              product_form.reset();
+          }
+
+          function removeValidateError(){
+              code_input.removeClass('is-invalid');
+              $('#code_validate_error').text('');
+              name_input.removeClass('is-invalid');
+              $('#name_validate_error').text('');
+              cost_price_input.removeClass('is-invalid');
+              $('#cost_price_validate_error').text('');
+              sale_price_input.removeClass('is-invalid');
+              $('#sale_price_validate_error').text('');
+              discount_amount.removeClass('is-invalid');
+              $("#discountAmount_validate_error").text('');
+              $('#category_validate_error').text('');
+              $('#subcategory_validate_error').text('');
+              $('#brand_validate_error').text('');
+              $('#photos_validate_error').text('');
+          }
+
           // Discount Checkbox
-          $("#discount").change(function (e) {
+          $(document).on('change', "#discount", function (e) {
               e.preventDefault();
               if (this.checked){
                   $("#discount_amount").prop('disabled', false);
               }else{
                   $("#discount_amount").prop('disabled', true);
+                  discount_amount.val('');
+                  discount_amount.removeClass('is-invalid');
+                  $("#discountAmount_validate_error").text('');
               }
           });
 
@@ -398,20 +492,8 @@
           $("#product-form").submit(function (e) {
               e.preventDefault();
               let formData = new FormData(this);
-              console.log($("#product_images")[0].files);
               // remove validate error
-              code_input.removeClass('is-invalid');
-              $('#code_validate_error').text('');
-              name_input.removeClass('is-invalid');
-              $('#name_validate_error').text('');
-              cost_price_input.removeClass('is-invalid');
-              $('#cost_price_validate_error').text('');
-              sale_price_input.removeClass('is-invalid');
-              $('#sale_price_validate_error').text('');
-              $('#category_validate_error').text('');
-              $('#subcategory_validate_error').text('');
-              $('#brand_validate_error').text('');
-              $('#photos_validate_error').text('');
+              removeValidateError();
               // end
               Notiflix.Loading.Dots('Processing...');
               $.ajax({
@@ -442,6 +524,10 @@
                               sale_price_input.addClass('is-invalid');
                               $('#sale_price_validate_error').text(data.errors.sale_price);
                           }
+                          if (data.errors.discount_amount){
+                              discount_amount.addClass('is-invalid');
+                              $("#discountAmount_validate_error").text(data.errors.discount_amount);
+                          }
                           if (data.errors.category){
                               $('#category_validate_error').text(data.errors.category);
                           }
@@ -469,30 +555,66 @@
 
           // Ajax update
           let publicPath = '{{ URL::to('') }}';
-          let brand_image_path = '{!! brand_image_path() !!}';
+          let product_image_path = '{!! product_image_path() !!}';
           $(document).on('click', '#edit', function () {
               const id = $(this).data('id');
-              $("#brand-form")[0].reset();
+              resetForm();
+              removeValidateError();
               $('#inlineForm').modal('show');
-              $('#permissionModalTitle').html('Brand Update');
+              $('#permissionModalTitle').html('Product Update');
               $.get("{{ route('admin.product.edit') }}", {id: id}, function (response) {
-                  $("#brand_name").val(response.brand_name);
-                  if (response.category == 'fashion'){
-                      $("[name='category'] option[value='fashion']").prop('selected', true);
+                  if (response.product){
+                      $("[name='id']").val(response.product.id);
+                      code_input.val(response.product.code);
+                      name_input.val(response.product.name);
+                      cost_price_input.val('$ ' + response.product.cost_price.toFixed(2));
+                      sale_price_input.val('$ ' + response.product.sale_price.toFixed(2));
+                      if (response.product.discount == 1){
+                          $("#discount").prop('checked', true);
+                          discount_amount.prop('disabled', false);
+                          discount_amount.val('% ' + response.product.discount_amount);
+                      }
+                      $("#video_link").val(response.product.video_link);
+                      $("#remark").val(response.product.remark);
                   }
-                  else{
-                      $("[name='category'] option[value='beauty']").prop('selected', true);
+                  if (response.category_id && response.category_name){
+                      category_input.val(response.category_id).prop('selected', true);
+                      $("#select2-category-container").text(response.category_name);
                   }
-                  $(".select2-selection__rendered").text(upperFirstLetter(response.category));
-                  $("[name='about']").val(response.about);
-                  $("#url").val(response.url);
-                  $("[name='id']").val(response.id);
-                  $(".thumbnail").removeClass('d-none');
-                  $(".thumbnail img").attr('src', publicPath + '/' + brand_image_path + '/' + response.brand_image);
-                  $("#hidden_image").attr('src', publicPath + '/' + brand_image_path + '/' +response.brand_image);
-                  // console.log(response);
+                  if (response.subcategory_name && response.subcategory_id){
+                      // subcategory_input.val(response.subcategory_id).prop('selected', true);
+                      // $('#subcategory option[value="'+response.subcategory_id+'"]').prop("selected", true);
+                      $("#subcategoryOld").val(response.subcategory_id);
+                      // $("[name='subcategoryOld']").val(response.subcategory_id);
+                      $("#select2-subcategory-container").text(response.subcategory_name);
+                  }
+                  if (response.brand_id && response.brand_name){
+                      brand_input.val(response.brand_id).prop('selected', true);
+                      $("#select2-brand-container").text(response.brand_name);
+                  }
+                  if (response.product_images){
+                      $("#previewPanel").removeClass('d-none');
+                      showUploadedImgs(response.product_images);
+                  }
+                  console.log(response);
               });
           });
+
+          // Display uploaded pictures
+          function showUploadedImgs( imgs ){
+              let pic = '';
+              for (let i = 0 ; i <imgs.length ; i++){
+                  // pic += '<img width=30% src="'+ publicPath + '/' + product_image_path + '/' + imgs[i].original_images +'" />';
+                  pic += '<div class="uploaded-image" id="'+imgs[i].id+'" data-preuploaded="true">' +
+                            '<img src="'+publicPath + '/' + product_image_path + '/' + imgs[i].original_images+'">' +
+                            '<button type="button" id="deleteProductImage" class="delete-image" data-id="'+imgs[i].id+'">' +
+                            '<i class="feather icon-x"></i>' +
+                            ' </button>' +
+                         '</div>';
+              }
+              $('#imagesPreview').html('');
+              $('#imagesPreview').append( pic );
+          }
 
           // Ajax Delete
           $(document).on('click', '#delete', function () {
@@ -538,6 +660,75 @@
               });  //Can use also /\b[a-z]/g
               return str;  //First letter capital in each word
           }
+
+          // Upload Product imagev
+          $(document).on('click', '#upload_images', function () {
+              const id = $(this).data('id');
+              console.log(id);
+              $("#product_id").val(id);
+              $.post("{{ route('admin.product.upload') }}", {id: id}, function (response) {
+                  console.log(response);
+              });
+              $("#imageForm").modal('show');
+          });
+
       });
+
+      $('.input-images').imageUploader({
+          imagesInputName: 'photos',
+          preloadedInputName: 'images',
+          label: 'Drag & Drop files here or click to browse',
+          maxSize: 2 * 1024 * 1024,
+          maxFiles: null
+      });
+
+      $(document).on('click', "#deleteProductImage", function () {
+          const id = $(this).data('id');
+          Notiflix.Confirm.Show(
+              'Delete Confirm',
+              'Are you sure delete image?',
+              'Yes',
+              'Cancel',
+              // Yes Button Function
+              function () {
+                  $.post("{{ route('admin.product.delete.image') }}", {id: id}, function (response) {
+                      console.log(response);
+                      if(response.message){
+                          $("#"+id).remove();
+                          Notiflix.Notify.Success(response.message);
+                      }
+
+                  });
+              },
+              // Cancel Button Function
+              function () {
+
+              }
+          );
+      });
+
+      // Ajax Delete product image
+      function deleteImage(id){
+
+      }
+
+      // FilePond
+      {{--FilePond.registerPlugin(FilePondPluginImagePreview);--}}
+      {{--FilePond.setOptions({--}}
+      {{--    // fileRenameFunction: (file) => {--}}
+      {{--    //     // return `${file.name}`;--}}
+      {{--    //     console.log(`${file.name}`);--}}
+      {{--    // },--}}
+      {{--    server: {--}}
+      {{--        url: "{{ route('admin.product.upload') }}",--}}
+      {{--        headers: {--}}
+      {{--            'X-CSRF-TOKEN': '{{ csrf_token() }}'--}}
+      {{--        }--}}
+      {{--    }--}}
+      {{--});--}}
+      {{--const inputElement = document.querySelector('input[type="file"]');--}}
+      {{--const pond = FilePond.create( inputElement);--}}
+
+
   </script>
 @endsection
