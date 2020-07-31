@@ -75,6 +75,15 @@ $configData = Helper::applClasses();
   @include('admin.panels.footer')
 
   {{-- include default scripts --}}
+  <script>
+      //function uppercase firstcase
+      function upperFirstLetter(str) {
+          str = str.toLowerCase().replace(/\b[a-z]/g, function(replace_latter) {
+              return replace_latter.toUpperCase();
+          });  //Can use also /\b[a-z]/g
+          return str;  //First letter capital in each word
+      }
+  </script>
   @include('admin.panels.scripts')
 
 </body>

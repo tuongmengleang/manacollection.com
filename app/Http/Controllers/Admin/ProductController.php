@@ -49,6 +49,45 @@ class ProductController extends Controller
 //            ->addColumn('photos', function ($product) {
 //              return '<a href="javascript:void(0)" id="upload_images" data-id="'.$product->id.'" class="mr-1 btn btn-outline-bitbucket"><span class="text-success"><i class="feather icon-image" style="font-size: 18px"></i>Photos</span></a>';
 //            })
+            ->addColumn('cost_price', function ($product){
+                  return '$ ' . number_format($product->cost_price, 2);
+            })
+            ->addColumn('sale_price', function ($product){
+              return '$ ' . number_format($product->sale_price, 2);
+            })
+            ->addColumn('discount', function ($product){
+                if ($product->discount == 1){
+                    $discount = '<a href="javascript:void(0)" class=""><span class="text-success"><i class="feather icon-check"></i></span></a>';
+                }
+                else{
+                    $discount = '<a href="javascript:void(0)" class=""><span class="text-warning"><i class="feather icon-x"></i></span></a>';
+                }
+                return $discount;
+            })
+            ->addColumn('discount_amount', function ($product){
+              return '% ' . number_format($product->discount_amount);
+            })
+            ->addColumn('status', function ($product){
+                if ($product->status == 1){
+                    $switch = '<div class="custom-control custom-switch mr-2 mb-1">
+                                    <input type="checkbox" class="custom-control-input" data-id="'.$product->id.'" name="status" id="'.$product->id.'" checked>
+                                    <label class="custom-control-label" for="'.$product->id.'">
+                                        <span class="switch-text-left">On</span>
+                                        <span class="switch-text-right">Off</span>
+                                    </label>
+                                </div>';
+                }
+                else{
+                    $switch = '<div class="custom-control custom-switch mr-2 mb-1">
+                                    <input type="checkbox" class="custom-control-input" data-id="'.$product->id.'" name="status" id="'.$product->id.'">
+                                    <label class="custom-control-label" for="'.$product->id.'">
+                                        <span class="switch-text-left">On</span>
+                                        <span class="switch-text-right">Off</span>
+                                    </label>
+                                </div>';
+                }
+                return $switch;
+            })
             ->addColumn('actions', function ($product) {
                 $actions = '';
                 $actions .= '<a href="javascript:void(0)" id="view" data-id="'.$product->id.'" class="mr-1"><span class="text-success"><i class="feather icon-eye"></i></span></a>';
@@ -56,7 +95,7 @@ class ProductController extends Controller
                 $actions .= '<a href="javascript:void(0)" id="delete" data-id="'.$product->id.'"><span class="text-danger"><i class="feather icon-trash"></i></span></a>';
                 return $actions;
             })
-            ->rawColumns(['actions'])
+            ->rawColumns(['status', 'discount', 'actions'])
             ->make(true);
     }
 
@@ -294,7 +333,6 @@ class ProductController extends Controller
                       $update_product->discount_amount = null;
                     }
                     $update_product->remark = $remark;
-                    $update_product->status = 1;
                     $update_product->video_link = $video_link;
                     $update_product->save();
                     // store photos
@@ -358,7 +396,6 @@ class ProductController extends Controller
                     $update_product->discount_amount = null;
                   }
                   $update_product->remark = $remark;
-                  $update_product->status = 1;
                   $update_product->video_link = $video_link;
                   $update_product->save();
                   // store photos
@@ -415,23 +452,17 @@ class ProductController extends Controller
         try{
             $product = Product::findOrFail($id);
             $product_images = ProductImage::where('product_id', $id)->get(['id', 'original_images', 'resize_image']);
-            $category_id = $product->category->id;
-            $category_name = $product->category->category_name;
-            $subcategory_id = $product->subcategory->id;
-            $subcategory_name = $product->subcategory->subcategory_name;
-            $brand_id = $product->brand->id;
-            $brand_name = $product->brand->brand_name;
+            $category = $product->category;
+            $subcategory = $product->subcategory;
+            $brand = $product->brand;
         }catch(ModelNotFoundException $e){
             return response()->json(['message', "Product Not Found!", 'status' => 403]);
         }
         return response()->json(array(
             'product' => $product,
-            'category_id' => $category_id,
-            'category_name' => $category_name,
-            'subcategory_id' => $subcategory_id,
-            'subcategory_name' => $subcategory_name,
-            'brand_id' => $brand_id,
-            'brand_name' => $brand_name,
+            'category' => $category,
+            'subcategory' => $subcategory,
+            'brand' => $brand,
             'product_images' => $product_images,
         ));
     }
@@ -496,6 +527,28 @@ class ProductController extends Controller
       $id = $request->input('id');
       $pi = session()->get('product_id', $id);
       return response()->json($pi);
+    }
+
+    public function changeStatus(Request $request){
+        if(request()->ajax()){
+            $id = $request->input('id');
+            $status = $request->input('status');
+              $product = Product::where('id', $id)->first();
+              $product->status = $status;
+//                if($product->status === 0){
+//                  $product->status = 1;
+//                }
+//                else{
+//                  $product->status = 0;
+//                }
+            $product->save();
+            if ($product->status == 1){
+              return response()->json(['status_enabled' => "Your product is enabled."]);
+            }
+            else{
+              return response()->json(['status_disabled' => "Your product is disabled."]);
+            }
+        }
     }
 
     public function upload(Request $request){

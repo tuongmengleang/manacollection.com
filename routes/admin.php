@@ -94,5 +94,7 @@ Route::group(['middleware' => ['auth:admin']], function () {
     Route::post('/delete', "ProductController@destroy")->name('product.delete');
     Route::get('/subcategory', "ProductController@getSubcategory")->name('product.get.subcategory');
     Route::post('/delete/image', "ProductController@deleteProductImage")->name('product.delete.image');
+    Route::post('/status', "ProductController@changeStatus")->name('product.status');
+    Route::get('/view', "ProductController@edit")->name('product.product.view');
   });
 });

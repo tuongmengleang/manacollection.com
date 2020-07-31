@@ -78,4 +78,8 @@
   height: 300px;
   overflow-y: auto;
 }
+.modal-body.product-detail{
+  height: 650px;
+  overflow-y: auto;
+}
 
