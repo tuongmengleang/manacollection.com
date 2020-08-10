@@ -97,4 +97,8 @@ Route::group(['middleware' => ['auth:admin']], function () {
     Route::post('/status', "ProductController@changeStatus")->name('product.status');
     Route::get('/view', "ProductController@edit")->name('product.product.view');
   });
+
+  Route::prefix('product-stock')->group(function (){
+    Route::get('/', "ProductStockController@index")->name('product.stock.index');
+  });
 });

@@ -9,6 +9,7 @@ return [
   'Product Subcategories' => "Subcategories",
   'Product Brands' => "Brands",
   'Products' => "Products",
+  'Product Stocks' => "Product Stocks",
   'List Categories' => "List Categories",
   "Documentation" => "Documentation",
   'Setting' => 'Setting',

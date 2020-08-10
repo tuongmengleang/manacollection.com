@@ -19,6 +19,7 @@ return [
   'subcategories' => "Subcategories",
   'brands' => "Brands",
   'products' => "Products",
+  'product_stock' => "Product Stocks",
 
   // Settings
   'general' => 'General',

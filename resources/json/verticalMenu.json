@@ -41,6 +41,11 @@
           "icon": "feather icon-box"
         },
         {
+          "url": "admin/product-stock",
+          "name": "Product Stocks",
+          "icon": "fa fa-bar-chart"
+        },
+        {
             "url": "",
             "navheader": "Settings Manage",
             "name": "Settings Manage",
