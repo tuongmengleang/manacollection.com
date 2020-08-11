@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Product;
+use App\Models\ProductImage;
 use Illuminate\Http\Request;
 
 class ProductStockController extends Controller
@@ -14,7 +16,16 @@ class ProductStockController extends Controller
      */
     public function index()
     {
-        return view('admin.product.stock');
+        $breadcrumbs = [
+          ['link'=>route('admin.product.stock.index'),'name'=> __('general.product_stock')], ['name'=> __('general.products')]
+        ];
+
+        $products = Product::all();
+
+        return view('admin.product.stock',[
+          'breadcrumbs' => $breadcrumbs,
+          'products' => $products,
+        ]);
     }
 
     /**
