@@ -29,6 +29,7 @@ return [
   'save' => 'Save',
   'saved' => 'Saved',
   'save_changes' => 'Save Changes',
+  'buy' => "Buy",
   'cancel' => 'Cancel',
   'site_logo' => 'Site Logo',
   'logo' => 'Logo',

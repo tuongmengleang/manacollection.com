@@ -2,7 +2,7 @@
         <script src="{{ asset(mix('admin/vendors/js/vendors.min.js')) }}"></script>
         <script src="{{ asset(mix('admin/vendors/js/ui/prism.min.js')) }}"></script>
         @include('notify::messages')
-        @notifyJs
+{{--        @notifyJs--}}
         @yield('vendor-script')
         {{-- Theme Scripts --}}
         <script src="{{ asset(mix('admin/js/core/app-menu.js')) }}"></script>

@@ -7,6 +7,7 @@ use App\Models\Brand;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\ProductImage;
+use App\Models\ProductStock;
 use App\Models\ProductSubcategory;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -220,6 +221,14 @@ class ProductController extends Controller
                     ]);
                 }
             }
+
+            // Store in quantity default 0 to product_stock
+            $stock = new ProductStock();
+            $stock->product_id = $product_id;
+            $stock->quantity = 0;
+            $stock->save();
+
+            // return message success
             return response()->json([
                 'message' => "Your product was created.",
                 'status' => 201

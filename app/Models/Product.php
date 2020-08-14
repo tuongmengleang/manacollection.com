@@ -45,4 +45,12 @@ class Product extends Model
     public function  productImage(){
       return $this->hasOne(ProductImage::class,'product_id','id');
     }
+
+    public function productStocks(){
+      $this->hasMany(ProductStock::class,'product_id','id');
+    }
+
+  public function  productStock(){
+    return $this->hasOne(ProductStock::class,'product_id','id');
+  }
 }

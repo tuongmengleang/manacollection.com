@@ -152,7 +152,7 @@
           });
           // init list view datatable
           var dataListView = $(".data-list-view").DataTable({
-              responsive: false,
+              responsive: true,
               dom:
                   '<"top"<"actions action-btns"B><"action-filters"lf>><"clear">rt<"bottom"<"actions">p>',
               oLanguage: {

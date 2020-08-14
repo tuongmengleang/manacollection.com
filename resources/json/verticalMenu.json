@@ -43,7 +43,7 @@
         {
           "url": "admin/product-stock",
           "name": "Product Stocks",
-          "icon": "fa fa-bar-chart"
+          "icon": "fa fa-shopping-cart"
         },
         {
             "url": "",

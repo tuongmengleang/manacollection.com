@@ -100,5 +100,9 @@ Route::group(['middleware' => ['auth:admin']], function () {
 
   Route::prefix('product-stock')->group(function (){
     Route::get('/', "ProductStockController@index")->name('product.stock.index');
+    Route::post('/add', "ProductStockController@store")->name('product.stock.add');
+    Route::get('/data', "ProductStockController@fetchData")->name('product.fetchData');
+    Route::POST('/countStock', "ProductStockController@countStock")->name('product.count.stock');
+    Route::get('/filter-by-brand', "ProductStockController@filterByBrand")->name('product.filter.by.brand');
   });
 });

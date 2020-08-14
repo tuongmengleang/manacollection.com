@@ -5,6 +5,7 @@
 @section('vendor-style')
   <!-- vendor css files -->
   <link rel="stylesheet" href="{{ asset(mix('admin/vendors/css/tables/datatable/datatables.min.css')) }}">
+  <link rel="stylesheet" href="{{ asset(mix('admin/css/pages/data-list-view.css')) }}">
   <link rel="stylesheet" href="{{ asset('admin/vendors/css/forms/select/select2.min.css') }}">
   <link rel="stylesheet" href="{{ asset(mix('admin/vendors/css/tables/datatable/extensions/dataTables.checkboxes.css')) }}">
   <link rel="stylesheet" href="{{ asset('admin/vendors/css/notiflix/notiflix-2.1.2.min.css') }}">
@@ -23,7 +24,6 @@
   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/default-skin/default-skin.min.css'>
   <!-- photoswipe -->
   <link rel="stylesheet" href="{{ asset('admin/vendors/css/magnific/custom.css') }}">
-  <link rel="stylesheet" href="{{ asset(mix('admin/css/pages/data-list-view.css')) }}">
   <link rel="stylesheet" href="{{ asset('admin/css/own.css') }}">
   <style>
     .validate.text{
@@ -645,6 +645,7 @@
               $("#select2-brand-container").text('Select a category...');
               $("#select2-category-container").text('Select a subcategory...');
               $("#select2-subcategory-container").text('Select a brand...');
+              $('[name="photos[]"]').val('');
               product_form.reset();
           }
 
@@ -721,7 +722,7 @@
                   processData: false,
                   dataType: "json",
                   success: function (data) {
-                      console.log(data);
+                      // console.log(data);
                       Notiflix.Loading.Remove();
                       if (data.errors){
                           if (data.errors.code){
@@ -758,6 +759,7 @@
                           }
                       }
                       else{
+                          location.reload();
                           $('#inlineForm').modal('hide');
                           Notiflix.Notify.Success(data.message);
                           dataListView.ajax.reload();
@@ -811,7 +813,7 @@
                       $("#previewPanel").removeClass('d-none');
                       showUploadedImgs(response.product_images);
                   }
-                  console.log(response);
+                  // console.log(response);
               });
           });
 
@@ -879,10 +881,9 @@
           // Upload Product image
           $(document).on('click', '#upload_images', function () {
               const id = $(this).data('id');
-              console.log(id);
               $("#product_id").val(id);
               $.post("{{ route('admin.product.upload') }}", {id: id}, function (response) {
-                  console.log(response);
+                  // console.log(response);
               });
               $("#imageForm").modal('show');
           });
@@ -905,7 +906,6 @@
                   // Yes Button Function
                   function () {
                       $.post("{{ route('admin.product.delete.image') }}", {id: id}, function (response) {
-                          console.log(response);
                           if(response.message){
                               $("#"+id).remove();
                               Notiflix.Notify.Success(response.message);
@@ -938,11 +938,9 @@
           // Ajax View detail
           $(document).on('click', "#view", function () {
               const id = $(this).data('id');
-              console.log(id);
               $('#modalView').modal('show');
               $.get("{{ route('admin.product.product.view') }}", {id: id}, function (response) {
                   if (response.product){
-                      console.log(response);
                       $("#code_view").text(response.product.code);
                       $("#name_view").text(response.product.name);
                       $("#costPrice_view").text('$' + response.product.cost_price.toFixed(2));

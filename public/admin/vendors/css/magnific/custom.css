@@ -205,14 +205,6 @@ img, svg {
   margin-right: auto;
 }
 
-body {
-  display: -webkit-box;
-  display: flex;
-  min-height: 100vh;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  flex-direction: column;
-}
 
 [id=wrapper] {
   -webkit-box-flex: 1;
