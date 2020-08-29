@@ -23,7 +23,7 @@
   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.css'>
   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/default-skin/default-skin.min.css'>
   <!-- photoswipe -->
-  <link rel="stylesheet" href="{{ asset('admin/vendors/css/magnific/custom.css') }}">
+  <link rel="stylesheet" href="{{ asset('admin/vendors/css/photoswipe/custom.css') }}">
   <link rel="stylesheet" href="{{ asset('admin/css/own.css') }}">
   <style>
     .validate.text{
@@ -74,10 +74,6 @@
     }
     body.dark-layout .custom-switch .custom-control-label:before{
       background-color: #10163a;
-    }
-    .pswp__img{
-      /*width: 445px !important;*/
-      height: auto !important;
     }
     .video.youtube iframe{
       width: 70%;
@@ -131,7 +127,7 @@
 
   <!-- Modal Product -->
   <div class="modal fade" id="inlineForm" tabindex="-1" role="dialog" aria-labelledby="permissionModalTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="permissionModalTitle">Product Create</h5>
@@ -335,7 +331,7 @@
 
   <!-- Modal View -->
   <div class="modal fade" id="modalView" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalCenterTitle">Product Detail</h5>
@@ -642,9 +638,9 @@
               $(".image-uploader").removeClass('has-files');
               $(".uploaded").html('');
               $(".uploaded-image img").attr('src', '');
-              $("#select2-brand-container").text('Select a category...');
-              $("#select2-category-container").text('Select a subcategory...');
-              $("#select2-subcategory-container").text('Select a brand...');
+              $("#select2-brand-container").text('Select a brand...');
+              $("#select2-category-container").text('Select a category...');
+              $("#select2-subcategory-container").text('Select a subcategory...');
               $('[name="photos[]"]').val('');
               product_form.reset();
           }
@@ -1033,6 +1029,7 @@
       {{--});--}}
       {{--const inputElement = document.querySelector('input[type="file"]');--}}
       {{--const pond = FilePond.create( inputElement);--}}
+
 
 
   </script>

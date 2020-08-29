@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use App\Models\Product;
+use App\Models\ProductCategory;
 use App\Models\ProductImage;
 use App\Models\ProductStock;
+use App\Models\ProductSubcategory;
 use Illuminate\Http\Request;
 
 class ProductStockController extends Controller
@@ -32,12 +34,16 @@ class ProductStockController extends Controller
           return $row->sum('quantity');
         });
         $brands = Brand::orderBy("created_at", "DESC")->get();
+        $subcategories = ProductSubCategory::orderBy("created_at", "DESC")->get();
+        $types = ProductCategory::with('subcategories')->get()->groupBy('type_name');
         return view('admin.product.stock',[
           'breadcrumbs' => $breadcrumbs,
           'products' => $products,
           'product_stocks' => $product_stocks,
           'count_quantity' => $count_quantity,
           'brands' => $brands,
+          'subcategories' => $subcategories,
+          'types' => $types,
         ]);
     }
 
@@ -163,9 +169,19 @@ class ProductStockController extends Controller
 
     public function filterByBrand(Request $request){
         if (request()->ajax()){
+            $subcategory_id = $request->input('subcategory_id');
             $brand_ids = $request->input('brand_ids');
             if ($brand_ids != ''){
               $getProducts = Product::with('category', 'subcategory', 'productImage', 'productStock')->whereIn('brand_id', $brand_ids)->get();
+            }
+            elseif ($subcategory_id != ''){
+              $getProducts = Product::with('category', 'subcategory', 'productImage', 'productStock')->where('product_subcategory_id', $subcategory_id)->get();
+            }
+            elseif ($brand_ids != '' && $subcategory_id != ''){
+              $getProducts = Product::with('category', 'subcategory', 'productImage', 'productStock')
+                ->where('product_subcategory_id', $subcategory_id)
+                ->where('brand_id', $brand_ids)
+                ->get();
             }
             else{
               $getProducts = Product::with('category', 'subcategory', 'productImage', 'productStock')->orderBy('created_at', "DESC")->get();
@@ -173,6 +189,5 @@ class ProductStockController extends Controller
             return response()->json($getProducts);
         }
     }
-
 
 }

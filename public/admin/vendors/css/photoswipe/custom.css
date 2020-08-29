@@ -559,7 +559,7 @@ html:not(.touchevents) .gallery-caption:empty {
 
 .gallery-item {
   position: relative;
-  background-color: rgba(0, 0, 0, 0.5);
+  /*background-color: rgba(0, 0, 0, 0.5);*/
   overflow: hidden;
 }
 .gallery-item img, .gallery-item a {
@@ -578,4 +578,10 @@ html:not(.touchevents) .gallery-caption:empty {
 
 [class*=list] .gallery-caption, .gallery-size-thumbnail .gallery-caption {
   display: none;
+}
+
+/* Fixed Photoswipe popup image auto size */
+.pswp__img{
+  max-width: none;
+  object-fit: contain;
 }

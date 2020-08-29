@@ -530,18 +530,33 @@
             <!-- Categories Starts -->
             <div id="product-categories">
               <div class="product-category-title">
-                <h6 class="filter-title mb-1">Categories</h6>
+                <h6 class="filter-title mb-1">Subcategory</h6>
               </div>
+
               <ul class="list-unstyled categories-list">
                 <li>
                   <span class="vs-radio-con vs-radio-primary py-25">
-                      <input type="radio" name="category-filter" value="false" checked>
+                      <input type="radio" name="category-filter" checked value="">
                       <span class="vs-radio">
                           <span class="vs-radio--border"></span>
                           <span class="vs-radio--circle"></span>
                       </span>
-                      <span class="ml-50">Appliances</span>
+                      <span class="ml-50">All</span>
                   </span>
+                </li>
+                <li class="py-25">
+                  @if($subcategories)
+                    @foreach($subcategories as $subcategory)
+                      <span class="vs-radio-con vs-radio-primary py-25">
+                        <input type="radio" name="category-filter" data-id="{{ $subcategory->id }}" >
+                        <span class="vs-radio">
+                            <span class="vs-radio--border"></span>
+                            <span class="vs-radio--circle"></span>
+                        </span>
+                        <span class="ml-50">{{ $subcategory->subcategory_name }}</span>
+                      </span>
+                    @endforeach
+                  @endif
                 </li>
               </ul>
             </div>
@@ -559,7 +574,7 @@
                     @foreach($brands as $brand)
                       <li class="d-flex justify-content-between align-items-center py-25">
                         <span class="vs-checkbox-con vs-checkbox-primary">
-                            <input type="checkbox" name="brand" data-id="{{ $brand->id }}">
+                            <input type="checkbox" class="brand__checkbox" name="brand_checkbox" data-id="{{ $brand->id }}">
                             <span class="vs-checkbox">
                                 <span class="vs-checkbox--check">
                                     <i class="vs-icon feather icon-check"></i>
@@ -723,6 +738,7 @@
           $(document).on('click', "#refresh", function () {
               $('#block__card__skeleton').removeClass('d-none');
               request();
+              $('input[type="checkbox"]').prop('checked', false);
           });
 
           function request() {
@@ -822,16 +838,16 @@
          });
 
        // checkbox check one only
-          $('input[type="checkbox"]').on('change', function() {
+          $('.brand__checkbox').on('change', function() {
               $('#block__card__skeleton').removeClass('d-none');
               let brand_ids = [];
-              $('input[type="checkbox"]:checked').each(function () {
+              $('.brand__checkbox:checked').each(function () {
                   brand_ids.push($(this).data('id'));
               });
               let html = '';
               $.ajax({
                   type: "GET",
-                  url: "{{ route('admin.product.filter.by.brand') }}",
+                  url: "{{ route('admin.product.filter.product') }}",
                   data: { brand_ids : brand_ids },
                   dataType: "json",
                   success: function (data) {
@@ -871,6 +887,55 @@
                       console.log('Error', data);
                   }
               });
+          });
+
+
+          $("[name='category-filter']").on('change', function () {
+             const subcategory_id = $(this).data("id");
+              $('#block__card__skeleton').removeClass('d-none');
+             let html = '';
+             $.ajax({
+                type: "GET",
+                url: "{{ route('admin.product.filter.product') }}",
+                data: { subcategory_id : subcategory_id },
+                dataType: "json",
+                success: function (data) {
+                    $('#block__card__skeleton').addClass('d-none');
+                    // console.log(data);
+                    $.each(data, function (index, product) {
+                        let image_url = "'" +base_url+ '/' + product_image_path + '/' + product.product_image.original_images + "'";
+                        html += '<div class="card" href="#">\n' +
+                            '                <div class="card__background" style="background-image: url('+image_url+')"></div>\n' +
+                            '                <div class="card__content">\n' +
+                            '                  <p class="card__category">'+product.category.category_name+'</p>\n' +
+                            '                  <p class="card__category">'+product.subcategory.subcategory_name+'</p>\n' +
+                            '                  <h3 class="card__heading">"'+product.name+'"</h3>\n' +
+                            '                </div>\n' +
+                            '                <div class="card__button">\n' +
+                            '                  <a href="javascript:void(0)" data-id="'+product.id+'" class="circle addStock">\n' +
+                            '                    <i class="fa fa-cart-plus"></i>\n' +
+                            '                  </a>\n' +
+                            '                </div>\n' +
+                            '                <div class="prod-info">\n' +
+                            '                  <div class="stock-text">\n' +
+                            '                      <span>\n' +
+                            '                          In Stock :\n' +
+                            '                          <strong class="countStock'+product.id+'">\n' +
+                            '                           '+ product.product_stock.quantity +'' +
+                            '                          </strong>\n' +
+                            '                          <strong></strong>\n' +
+                            '                      </span>\n' +
+                            '                  </div>\n' +
+                            '                </div>\n' +
+                            '              </div>';
+                    });
+                    $("#block__card").html('');
+                    $("#block__card").append(html);
+                },
+                 error: function (data) {
+                     console.log("Error" + data);
+                 }
+             });
           });
 
       });
