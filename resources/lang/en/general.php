@@ -20,6 +20,7 @@ return [
   'brands' => "Brands",
   'products' => "Products",
   'product_stock' => "Product Stocks",
+    'product_info' => "Product Info",
 
   // Settings
   'general' => 'General',

@@ -10,6 +10,7 @@ return [
   'Product Brands' => "Brands",
   'Products' => "Products",
   'Product Stocks' => "Product Stocks",
+    'Product Info' => "Product Info",
   'List Categories' => "List Categories",
   "Documentation" => "Documentation",
   'Setting' => 'Setting',

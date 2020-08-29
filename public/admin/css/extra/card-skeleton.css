@@ -1,0 +1,265 @@
+:root{
+    --background-dark: #2d3548;
+    --text-light: rgba(255,255,255,0.6);
+    --text-lighter: rgba(255,255,255,0.9);
+    --spacing-s: 8px;
+    --spacing-m: 16px;
+    --spacing-l: 24px;
+    --spacing-xl: 32px;
+    --spacing-xxl: 64px;
+    --width-container: 1200px;
+}
+.card-grid{
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-column-gap: var(--spacing-l);
+    grid-row-gap: var(--spacing-l);
+    max-width: var(--width-container);
+    width: 100%;
+}
+
+@media(min-width: 540px){
+    .card-grid{
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media(min-width: 960px){
+    .card-grid{
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+.card-grid .card{
+    list-style: none;
+    position: relative;
+    margin-bottom: 0px !important;
+}
+
+.card-grid .card:before{
+    content: '';
+    display: block;
+    padding-bottom: 150%;
+    width: 100%;
+}
+
+.card-grid .card .card__background{
+    background-size: cover;
+    background-position: center;
+    /*border-radius: var(--spacing-l);*/
+    bottom: 0;
+    filter: brightness(0.75) saturate(1.2) contrast(0.85);
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    border-radius: 10px;
+    transform-origin: center;
+    trsnsform: scale(1) translateZ(0);
+    transition:
+            filter 200ms linear,
+            transform 200ms linear;
+}
+
+.card-grid .card:hover .card__background{
+    transform: scale(1.05) translateZ(0);
+}
+
+.card-grid .card:hover .card__button{
+    opacity: 1;
+}
+
+.card-grid:hover > .card:not(:hover) .card__background{
+    /*filter: brightness(0.5) saturate(0) contrast(1.2) blur(20px);*/
+}
+
+.card-grid .card .card__content{
+    left: 0;
+    padding: var(--spacing-l);
+    position: absolute;
+    top: 0;
+}
+
+.card-grid .card .card__content .card__category{
+    color: var(--text-light);
+    font-size: 0.9rem;
+    margin-bottom: var(--spacing-s);
+    text-transform: uppercase;
+}
+
+.card-grid .card .card__content .card__heading{
+    color: var(--text-lighter);
+    font-size: 1.2rem;
+    text-shadow: 2px 2px 20px rgba(0,0,0,0.2);
+    line-height: 1.4;
+    /*word-spacing: 1rem;*/
+}
+
+/* Card Button */
+.card-grid .card .card__button{
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.card-grid .card .card__button .circle {
+    display: block;
+    position: relative;
+    padding: 0;
+    z-index: 98;
+    margin: 0 auto;
+    box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.3);
+    border-radius: 50%;
+    height: 60px;
+    width: 60px;
+    background-color: #FFFFFF;
+    -webkit-transition: 0.2s;
+    transition: 0.2s;
+    text-align: center;
+}
+.card-grid .card .card__button .circle:active {
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9);
+    box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.3);
+}
+.card-grid .card .card__button .circle:hover {
+    cursor: pointer;
+    background-color: #CBF5FF;
+    box-shadow: 0 8px 15px 0 rgba(0, 0, 0, 0.3);
+}
+.card-grid .card .card__button .circle i {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -15px;
+    margin-top: -15px;
+    width: 30px;
+    height: 30px;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    color: #2d3548;
+    font-size: 2rem;
+    /*-webkit-transform: rotate(180deg);*/
+    /*transform: rotate(180deg);*/
+}
+.card-grid .card .prod-info{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+}
+.card-grid .card .prod-info .stock-text{
+    margin-bottom: 1em;
+    font-size: 16px;
+}
+.card-grid .card .prod-info .stock-text span{
+    background-color: rgba(144, 144, 144, 1);
+    padding: 0 0.4em;
+    border-radius: 3px;
+}
+.card-grid .card .prod-info .stock-text span strong{
+    color: #eb5757;
+}
+
+
+.card__skeleton {
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    flex-direction: column;
+    flex-basis: 300px;
+    flex-shrink: 0;
+    -webkit-box-flex: 0;
+    flex-grow: 0;
+    max-width: 100%;
+    height: 350px;
+    background-color: #42495a;
+    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.card__skeleton .card-img {
+    padding-bottom: 56.25%;
+    position: relative;
+}
+.card__skeleton .card-img img {
+    position: absolute;
+    width: 100%;
+}
+
+.card__skeleton .card-body {
+    position: relative;
+    padding: 1.5rem;
+}
+
+.card__skeleton .card-body .card-category {
+    width: 50%;
+    font-size: 1.25rem;
+    line-height: 1.33;
+    font-weight: 700;
+}
+.card__skeleton .card-body .card-category.skeleton {
+    min-height: 20px;
+    border-radius: 4px;
+}
+
+.card__skeleton .card-body .card-title {
+    width: 70%;
+    font-size: 1.25rem;
+    line-height: 1.33;
+    font-weight: 700;
+}
+.card__skeleton .card-body .card-title.skeleton {
+    min-height: 20px;
+    border-radius: 4px;
+}
+
+.card__skeleton .card-body .card-intro {
+    margin-top: .75rem;
+    line-height: 1.5;
+}
+.card__skeleton .card-body .card-intro.skeleton {
+    min-height: 28px;
+    border-radius: 4px;
+}
+
+.card__skeleton .card-body .card-instock {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 0;
+    right: 0;
+    width: 50%;
+    margin: 0 auto;
+    line-height: 1.5;
+}
+.card__skeleton .card-body .card-instock.skeleton {
+    min-height: 20px;
+    border-radius: 4px;
+}
+
+.skeleton {
+    background-color: #e2e5e7;
+    background-image: -webkit-gradient(linear, left top, right top, from(rgba(255, 255, 255, 0)), color-stop(rgba(255, 255, 255, 0.5)), to(rgba(255, 255, 255, 0)));
+    background-image: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0));
+    background-size: 40px 100%;
+    background-repeat: no-repeat;
+    background-position: left -40px top 0;
+    -webkit-animation: shine 1s ease infinite;
+    animation: shine 1s ease infinite;
+}
+
+@-webkit-keyframes shine {
+    to {
+        background-position: right -40px top 0;
+    }
+}
+
+@keyframes shine {
+    to {
+        background-position: right -40px top 0;
+    }
+}

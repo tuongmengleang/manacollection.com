@@ -548,7 +548,7 @@
                   @if($subcategories)
                     @foreach($subcategories as $subcategory)
                       <span class="vs-radio-con vs-radio-primary py-25">
-                        <input type="radio" name="category-filter" data-id="{{ $subcategory->id }}" >
+                        <input type="radio" name="category-filter" data-id="{{ $subcategory->id }}" value="{{ $subcategory->id }}" >
                         <span class="vs-radio">
                             <span class="vs-radio--border"></span>
                             <span class="vs-radio--circle"></span>
@@ -643,10 +643,10 @@
 {{--              </div>--}}
 {{--            </div>--}}
             <!-- Rating section Ends -->
-            <hr>
+{{--            <hr>--}}
             <!-- Clear Filters Starts -->
             <div id="clear-filters">
-              <button class="btn btn-block btn-primary">CLEAR ALL FILTERS</button>
+              <button id="clearFilterButton" class="btn btn-block btn-primary">CLEAR ALL FILTERS</button>
             </div>
             <!-- Clear Filters Ends -->
 
@@ -738,8 +738,19 @@
           $(document).on('click', "#refresh", function () {
               $('#block__card__skeleton').removeClass('d-none');
               request();
-              $('input[type="checkbox"]').prop('checked', false);
+              clearAllFilter();
           });
+
+          $(document).on('click', "#clearFilterButton", function () {
+             request();
+             clearAllFilter();
+          });
+
+          // Clear all filter input
+          function clearAllFilter() {
+            $("input[name='brand_checkbox']").prop('checked', false);
+            $("input[name=category-filter][value='']").prop("checked",true);
+          }
 
           function request() {
               let html = '';

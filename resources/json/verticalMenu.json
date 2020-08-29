@@ -46,6 +46,11 @@
           "icon": "fa fa-shopping-cart"
         },
         {
+            "url": "admin/product-info",
+            "name": "Product Info",
+            "icon": "fa fa-shopping-cart"
+        },
+        {
             "url": "",
             "navheader": "Settings Manage",
             "name": "Settings Manage",

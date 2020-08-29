@@ -98,6 +98,7 @@ Route::group(['middleware' => ['auth:admin']], function () {
     Route::get('/view', "ProductController@edit")->name('product.product.view');
   });
 
+  // Product Stock
   Route::prefix('product-stock')->group(function (){
     Route::get('/', "ProductStockController@index")->name('product.stock.index');
     Route::post('/add', "ProductStockController@store")->name('product.stock.add');
@@ -105,4 +106,11 @@ Route::group(['middleware' => ['auth:admin']], function () {
     Route::POST('/countStock', "ProductStockController@countStock")->name('product.count.stock');
     Route::get('/filter-product', "ProductStockController@filterByBrand")->name('product.filter.product');
   });
+
+  // Product Information
+    Route::prefix('product-info')->group(function (){
+       Route::get('/', "ProductInfoController@index")->name('product.info.index');
+    });
+
+
 });
