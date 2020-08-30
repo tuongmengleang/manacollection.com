@@ -11,7 +11,7 @@
 {{--    <link rel="stylesheet" href="{{ asset('admin/css/extra/card-skeleton.css') }}">--}}
   <link rel="stylesheet" href="{{ asset('admin/css/plugins/extensions/noui-slider.css') }}">
   <link rel="stylesheet" href="{{ asset('admin/css/pages/app-ecommerce-shop.css') }}">
-  <link rel="stylesheet" href="{{ asset('admin/css/own.css') }}">
+{{--  <link rel="stylesheet" href="{{ asset('admin/css/own.css') }}">--}}
   <link rel="stylesheet" href="{{ asset('admin/css/extra/product_info_card.css') }}">
   <style>
     body.dark-layout .modal .modal-content .form-control,
@@ -517,61 +517,64 @@
     </div>
 
     <div class="modal fade" id="addStockForm" tabindex="-1" role="dialog" aria-labelledby="permissionModalTitle" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="permissionModalTitle">Product Stock Create</h5>
+            <h5 class="modal-title" id="permissionModalTitle">Product Information Create</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body">
-            <section id="floating-label-layouts">
-              <div class="row match-height">
-                <div class="col-md-12 col-12">
-                  <div class="card">
-                    <div class="card-header">
-                    </div>
-                    <div class="card-content">
-                      <div class="card-body">
-                        <div class="form-body">
-                          <div class="row">
-                            <input type="hidden" id="product_id">
-                            <div class="col-12">
-                              <div class="form-label-group">
-                                <input type="text" id="color" class="form-control" name="color" placeholder="Color">
-                                <label for="name">Color</label>
-                                <span id="color_validate_error" class="validate text error-validate"></span>
-                              </div>
-                            </div>
-                            <div class="col-12">
-                              <div class="form-label-group">
-                                <input type="text" id="size" class="form-control" name="size" placeholder="Size">
-                                <label for="name">Size</label>
-                                <span id="size_validate_error" class="validate text error-validate"></span>
-                              </div>
-                            </div>
-                            <div class="col-12">
-                              <div class="d-flex align-items-center mb-1">
-                                <div class="input-group input-group-lg">
-                                  <input type="number" id="quantity" name="quantity" class="touchspin" placeholder="0">
+            <form id="product_infoForm" method="POST">
+                @csrf
+                <div class="modal-body">
+                    <section id="floating-label-layouts">
+                        <div class="row match-height">
+                            <div class="col-md-12 col-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="card-body">
+                                            <div class="form-body">
+                                                <div class="row">
+                                                    <input type="hidden" name="product_id" id="product_id">
+                                                    <div class="col-12">
+                                                        <div class="form-label-group">
+                                                            <input type="text" id="color" class="form-control" name="color" placeholder="Color">
+                                                            <label for="name">Color</label>
+                                                            <span id="color_validate_error" class="validate text error-validate"></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="form-label-group">
+                                                            <input type="text" id="size" class="form-control" name="size" placeholder="Size">
+                                                            <label for="name">Size</label>
+                                                            <span id="size_validate_error" class="validate text error-validate"></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="d-flex align-items-center mb-1">
+                                                            <div class="input-group input-group-lg">
+                                                                <input type="number" id="quantity" name="quantity" class="touchspin" placeholder="0">
+                                                            </div>
+                                                        </div>
+                                                        <span id="quantity_validate_error" class="validate text error-validate" style="margin-left: 10px"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                              </div>
-                              <span id="quantity_id_error" class="validate text error-validate" style="margin-left: 10px"></span>
                             </div>
-                          </div>
                         </div>
-                      </div>
-                    </div>
-                  </div>
+                    </section>
                 </div>
-              </div>
-            </section>
-          </div>
-          <div class="modal-footer">
-            <button type="submit" id="addQuantity" class="btn btn-primary">{{ __('general.buy') }}</button>
-            <button type="button" class="btn btn-warning" data-dismiss="modal">{{ __('general.cancel') }}</button>
-          </div>
+                <div class="modal-footer">
+                    <button type="submit" id="addQuantity" class="btn btn-primary">{{ __('general.buy') }}</button>
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">{{ __('general.cancel') }}</button>
+                </div>
+            </form>
         </div>
       </div>
     </div>
@@ -585,8 +588,6 @@
   <script src="{{ asset('admin/vendors/js/extensions/nouislider.min.js') }}"></script>
   <script src="{{ asset('admin/vendors/js/extensions/wNumb.js') }}"></script>
   <script src="{{ asset('admin/vendors/js/forms/number/number-input.min.js') }}"></script>
-  <script src="{{ asset('admin/js/scripts/pages/app-ecommerce-shop.js') }}"></script>
-  <script src="{{ asset('admin/js/scripts/own.js') }}"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             "use strict"
@@ -606,11 +607,11 @@
                 let html = '';
                 $.ajax({
                     type: "GET",
-                    url: "{{ route('admin.product.fetchData') }}",
+                    url: "{{ route('admin.product.info.fetchData') }}",
                     dataType: "json",
                     success: function (data) {
-                        // console.log(data);
-                        $.each(data, function (index, product) {
+                        console.log(data);
+                        $.each(data.products, function (index, product) {
                             let image_url = "'" +base_url+ '/' + product_image_path + '/' + product.product_image.original_images + "'";
                             html += ' <div class="card-info" style="background-image: url('+image_url+')">\n' +
                                 '                                <div class="content-info">\n' +
@@ -618,6 +619,17 @@
                                 '                                    <p class="copy">'+product.category.category_name+'</p>\n' +
                                 '                                    <p class="copy">'+product.subcategory.subcategory_name+'</p>\n' +
                                 '                                    <button class="btn__add__quantity addQuantity" data-id="'+product.id+'">Add Quantity</button>\n' +
+                                '                                    <div class="prod-info">\n' +
+                                '                                        <div class="stock-text">\n' +
+                                '                                           <span>\n' +
+                                '                                               In Stock :\n' +
+                                '                                               <strong class="countStock'+product.id+'">\n' +
+                                '                                                '+  +'' +
+                                '                                               </strong>\n' +
+                                '                                               <strong></strong>\n' +
+                                '                                           </span>\n' +
+                                '                                       </div>\n' +
+                                '                                   </div>\n' +
                                 '                                </div>\n' +
                                 '                            </div>';
                         });
@@ -635,6 +647,7 @@
                 const product_id = $(this).data('id');
                 $('#product_id').val(product_id);
                 clearInput();
+                clearValidateError();
                 $("#addStockForm").modal('show');
             });
 
@@ -644,8 +657,51 @@
                 $("input[name='quantity']").val('');
             }
 
-            $(document).on('click', "#addQuantity", function () {
+            function clearValidateError(){
+                $("input[name='color']").removeClass('is-invalid');
+                $("#color_validate_error").text('');
+                $("input[name='size']").removeClass('is-invalid');
+                $("#size_validate_error").text('');
+                $("#quantity_validate_error").text('');
+            }
 
+            $(document).on('submit', "#product_infoForm", function (e) {
+                e.preventDefault();
+                let formData = new FormData(this);
+                Notiflix.Loading.Dots('Processing...');
+                $.ajax({
+                    url: "{{ route('admin.product.info.add') }}",
+                    method: "POST",
+                    data: formData,
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    dataType: "json",
+                    success: function (data) {
+                        console.log(data);
+                        Notiflix.Loading.Remove();
+                        if (data.errors){
+                            if (data.errors.color){
+                                $("input[name='color']").addClass('is-invalid');
+                                $("#color_validate_error").text(data.errors.color);
+                            }
+                            if (data.errors.size){
+                                $("input[name='size']").addClass('is-invalid');
+                                $("#size_validate_error").text(data.errors.size);
+                            }
+                            if (data.errors.quantity){
+                                $("#quantity_validate_error").text(data.errors.quantity);
+                            }
+                        }
+                        else{
+                            $('#addStockForm').modal('hide');
+                            Notiflix.Notify.Success(data.message);
+                        }
+                    },
+                    error: function (data) {
+                        console.log('Error', data);
+                    }
+                });
             });
 
 

@@ -50,7 +50,16 @@ class Product extends Model
       $this->hasMany(ProductStock::class,'product_id','id');
     }
 
-  public function  productStock(){
-    return $this->hasOne(ProductStock::class,'product_id','id');
-  }
+    public function  productStock(){
+        return $this->hasOne(ProductStock::class,'product_id','id');
+    }
+
+    public function productInfos(){
+        return $this->hasMany(ProductInfo::class, 'product_id', 'id');
+    }
+
+    public function countQuantity(){
+        return $this->productInfos()->sum('quantity');
+    }
+
 }

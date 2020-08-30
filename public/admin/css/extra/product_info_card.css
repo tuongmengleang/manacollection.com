@@ -92,24 +92,6 @@
     background-position: center;
     background-repeat: no-repeat;
 }
-/*.card-info:nth-child(1):before {*/
-/*    background-image: url(https://prod.kooding.com/productDetailImage/147449-1/Korean-American-Online-Fashion-Shopping-Website-0000-25432.JPG);*/
-/*    background-repeat: no-repeat;*/
-/*    background-size: cover;*/
-/*    background-position: center;*/
-/*}*/
-/*.card-info:nth-child(2):before {*/
-/*    background-image: url(https://prod.kooding.com/productListingImage/214431-2/35cdcab2cffcfbdd246169c985a707bfec777718.jpg);*/
-/*    background-repeat: no-repeat;*/
-/*    background-size: cover;*/
-/*    background-position: center;*/
-/*}*/
-/*.card-info:nth-child(3):before {*/
-/*    background-image: url(https://prod.kooding.com/productListingImage/164156-1/360x540_Miwaji.jpg);*/
-/*}*/
-/*.card-info:nth-child(4):before {*/
-/*    background-image: url(https://prod.kooding.com/productListingImage/208669-2/2a8b8b896b7abe96ea58bc4f301eadb9056e5dab.jpg);*/
-/*}*/
 
 .content-info {
     position: relative;
@@ -143,6 +125,8 @@
     font-size: 1.125rem;
     font-style: italic;
     line-height: 1.35;
+    font-weight: 700;
+    color: #FFFFFF;
 }
 
 .btn__add__quantity {
@@ -153,12 +137,15 @@
     font-weight: bold;
     letter-spacing: 0.025rem;
     text-transform: uppercase;
-    color: white;
-    background-color: black;
+    color: black;
+    background-color: white;
     border: none;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
 }
 .btn__add__quantity:hover {
-    background-color: #0d0d0d;
+    background-color: silver;
 }
 .btn__add__quantity:focus {
     outline: 1px dashed yellow;
@@ -319,8 +306,8 @@
 }
 
 /* Card responsive */
-@media only screen and (max-width: 1200px) {
-  .card-info{
-    height: 375px;
+@media only screen and (min-width: 1200px) {
+  .card-info, .card-info-skeleton{
+    height: 470px !important;
   }
 }

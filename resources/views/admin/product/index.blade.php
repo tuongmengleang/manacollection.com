@@ -137,7 +137,6 @@
         </div>
         <form id="product-form" method="POST" enctype="multipart/form-data">
           <div class="modal-body product">
-
             <section id="floating-label-layouts">
               <div class="row match-height">
                 <div class="col-md-12 col-12">
