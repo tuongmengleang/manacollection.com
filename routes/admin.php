@@ -110,6 +110,7 @@ Route::group(['middleware' => ['auth:admin']], function () {
   // Product Information
     Route::prefix('product-info')->group(function (){
        Route::get('/', "ProductInfoController@index")->name('product.info.index');
+        Route::get('/data', "ProductInfoController@fetchData")->name('product.info.fetchData');
     });
 
 

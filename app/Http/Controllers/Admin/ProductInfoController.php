@@ -97,4 +97,12 @@ class ProductInfoController extends Controller
     {
         //
     }
+
+  public function fetchData(Request $request){
+    if (request()->ajax()){
+      $products = Product::with('category', 'subcategory', 'productImage', 'productStock')->orderBy('created_at', "DESC")->get();
+      return response()->json($products);
+    }
+  }
+
 }

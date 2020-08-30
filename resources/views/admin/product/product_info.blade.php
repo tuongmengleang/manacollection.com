@@ -2,13 +2,33 @@
 
 @section('title', __('general.product_stock'))
 @section('vendor-style')
+  <link rel="stylesheet" href="{{ asset('admin/vendors/css/extensions/nouislider.min.css') }}">
+  <link rel="stylesheet" href="{{ mix('admin/vendors/css/forms/spinner/jquery.bootstrap-touchspin.css') }}">
+  <link rel="stylesheet" href="{{ asset('admin/vendors/css/notiflix/notiflix-2.1.2.min.css') }}">
+  <link rel="stylesheet" href="{{ asset(mix('admin/vendors/css/forms/select/select2.min.css')) }}">
 @endsection
 @section('page-style')
 {{--    <link rel="stylesheet" href="{{ asset('admin/css/extra/card-skeleton.css') }}">--}}
-    <link rel="stylesheet" href="{{ asset('admin/css/extra/product_info_card.css') }}">
-    <style>
-
-    </style>
+  <link rel="stylesheet" href="{{ asset('admin/css/plugins/extensions/noui-slider.css') }}">
+  <link rel="stylesheet" href="{{ asset('admin/css/pages/app-ecommerce-shop.css') }}">
+  <link rel="stylesheet" href="{{ asset('admin/css/own.css') }}">
+  <link rel="stylesheet" href="{{ asset('admin/css/extra/product_info_card.css') }}">
+  <style>
+    body.dark-layout .modal .modal-content .form-control,
+    body.dark-layout .modal .modal-body .form-control{
+      background-color: #262c49 !important;
+    }
+    .validate.text{
+      font-size: 13px;
+      font-family: "Comic Sans MS";
+    }
+    .validate.text.error-validate{
+      color: red;
+    }
+    .bootstrap-touchspin.input-group-lg{
+      width: 100% !important;
+    }
+  </style>
 @endsection
 
 
@@ -35,25 +55,58 @@
 {{--                        </div>--}}
 {{--                    </div>--}}
 {{--                </div>--}}
-                <main class="card-layout">
+                <main class="card-layout" id="block__card__skeleton">
                     <div class="card-info-skeleton">
                         <p class="card-title skeleton"></p>
                         <p class="card-category skeleton"></p>
+                        <p class="card-button skeleton"></p>
+                        <p class="card-stock skeleton"></p>
+                    </div>
+                    <div class="card-info-skeleton">
+                        <p class="card-title skeleton"></p>
+                        <p class="card-category skeleton"></p>
+                        <p class="card-button skeleton"></p>
+                        <p class="card-stock skeleton"></p>
+                    </div>
+                    <div class="card-info-skeleton">
+                        <p class="card-title skeleton"></p>
+                        <p class="card-category skeleton"></p>
+                        <p class="card-button skeleton"></p>
+                        <p class="card-stock skeleton"></p>
+                    </div>
+                    <div class="card-info-skeleton">
+                        <p class="card-title skeleton"></p>
+                        <p class="card-category skeleton"></p>
+                        <p class="card-button skeleton"></p>
+                        <p class="card-stock skeleton"></p>
+                    </div>
+                    <div class="card-info-skeleton">
+                        <p class="card-title skeleton"></p>
+                        <p class="card-category skeleton"></p>
+                        <p class="card-button skeleton"></p>
+                        <p class="card-stock skeleton"></p>
+                    </div>
+                    <div class="card-info-skeleton">
+                        <p class="card-title skeleton"></p>
+                        <p class="card-category skeleton"></p>
+                        <p class="card-button skeleton"></p>
+                        <p class="card-stock skeleton"></p>
+                    </div>
+                    <div class="card-info-skeleton">
+                        <p class="card-title skeleton"></p>
+                        <p class="card-category skeleton"></p>
+                        <p class="card-button skeleton"></p>
+                        <p class="card-stock skeleton"></p>
+                    </div>
+                    <div class="card-info-skeleton">
+                        <p class="card-title skeleton"></p>
+                        <p class="card-category skeleton"></p>
+                        <p class="card-button skeleton"></p>
+                        <p class="card-stock skeleton"></p>
                     </div>
                 </main>
-                <main class="card-layout">
-                    @if($products)
-                        @foreach($products as $product)
-                            <div class="card-info" style="background-image: url('{{ url(product_image_path().'/'.$product->productImage->original_images) }}')">
-                                <div class="content-info">
-                                    <h2 class="title">{{ $product->name }}</h2>
-                                    <p class="copy">{{ $product->category->category_name }}</p>
-                                    <p class="copy">{{ $product->subcategory->subcategory_name }}</p>
-                                    <button class="btn">Add Quantity</button>
-                                </div>
-                            </div>
-                        @endforeach
-                    @endif
+                <main class="card-layout" id="productInfo__card">
+
                 </main>
             </section>
 
@@ -462,13 +515,140 @@
 
         </div>
     </div>
+
+    <div class="modal fade" id="addStockForm" tabindex="-1" role="dialog" aria-labelledby="permissionModalTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="permissionModalTitle">Product Stock Create</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <section id="floating-label-layouts">
+              <div class="row match-height">
+                <div class="col-md-12 col-12">
+                  <div class="card">
+                    <div class="card-header">
+                    </div>
+                    <div class="card-content">
+                      <div class="card-body">
+                        <div class="form-body">
+                          <div class="row">
+                            <input type="hidden" id="product_id">
+                            <div class="col-12">
+                              <div class="form-label-group">
+                                <input type="text" id="color" class="form-control" name="color" placeholder="Color">
+                                <label for="name">Color</label>
+                                <span id="color_validate_error" class="validate text error-validate"></span>
+                              </div>
+                            </div>
+                            <div class="col-12">
+                              <div class="form-label-group">
+                                <input type="text" id="size" class="form-control" name="size" placeholder="Size">
+                                <label for="name">Size</label>
+                                <span id="size_validate_error" class="validate text error-validate"></span>
+                              </div>
+                            </div>
+                            <div class="col-12">
+                              <div class="d-flex align-items-center mb-1">
+                                <div class="input-group input-group-lg">
+                                  <input type="number" id="quantity" name="quantity" class="touchspin" placeholder="0">
+                                </div>
+                              </div>
+                              <span id="quantity_id_error" class="validate text error-validate" style="margin-left: 10px"></span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" id="addQuantity" class="btn btn-primary">{{ __('general.buy') }}</button>
+            <button type="button" class="btn btn-warning" data-dismiss="modal">{{ __('general.cancel') }}</button>
+          </div>
+        </div>
+      </div>
+    </div>
 @endsection
 
 @section('vendor-script')
-
+  <script src="{{ asset(mix('admin/vendors/js/forms/spinner/jquery.bootstrap-touchspin.js')) }}"></script>
+  <script src="{{ asset('admin/vendors/js/notiflix/notiflix-2.1.2.min.js') }}"></script>
 @endsection
 @section('page-script')
-    <script>
+  <script src="{{ asset('admin/vendors/js/extensions/nouislider.min.js') }}"></script>
+  <script src="{{ asset('admin/vendors/js/extensions/wNumb.js') }}"></script>
+  <script src="{{ asset('admin/vendors/js/forms/number/number-input.min.js') }}"></script>
+  <script src="{{ asset('admin/js/scripts/pages/app-ecommerce-shop.js') }}"></script>
+  <script src="{{ asset('admin/js/scripts/own.js') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            "use strict"
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            // Global variable
+            let base_url = "{{ url('/') }}";
+            let product_image_path = "{{ product_image_path() }}";
 
+            // Load Data without refresh
+            request();
+
+            function request() {
+                let html = '';
+                $.ajax({
+                    type: "GET",
+                    url: "{{ route('admin.product.fetchData') }}",
+                    dataType: "json",
+                    success: function (data) {
+                        // console.log(data);
+                        $.each(data, function (index, product) {
+                            let image_url = "'" +base_url+ '/' + product_image_path + '/' + product.product_image.original_images + "'";
+                            html += ' <div class="card-info" style="background-image: url('+image_url+')">\n' +
+                                '                                <div class="content-info">\n' +
+                                '                                    <h2 class="title">'+product.name+'</h2>\n' +
+                                '                                    <p class="copy">'+product.category.category_name+'</p>\n' +
+                                '                                    <p class="copy">'+product.subcategory.subcategory_name+'</p>\n' +
+                                '                                    <button class="btn__add__quantity addQuantity" data-id="'+product.id+'">Add Quantity</button>\n' +
+                                '                                </div>\n' +
+                                '                            </div>';
+                        });
+                        $('#block__card__skeleton').addClass('d-none');
+                        $("#productInfo__card").html('');
+                        $("#productInfo__card").append(html);
+                    },
+                    error: function (data) {
+                        console.log("Error", data);
+                    }
+                });
+            };
+
+            $(document).on('click', ".addQuantity", function () {
+                const product_id = $(this).data('id');
+                $('#product_id').val(product_id);
+                clearInput();
+                $("#addStockForm").modal('show');
+            });
+
+            function clearInput() {
+                $("input[name='color']").val('');
+                $("input[name='size']").val('');
+                $("input[name='quantity']").val('');
+            }
+
+            $(document).on('click', "#addQuantity", function () {
+
+            });
+
+
+        });
     </script>
 @endsection

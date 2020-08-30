@@ -26,6 +26,7 @@
     }
 }
 
+
 .card-info {
     position: relative;
     display: -webkit-box;
@@ -35,7 +36,7 @@
     overflow: hidden;
     padding: 1rem;
     width: 100%;
-    height: 425px;
+    height: 375px;
     -webkit-border-radius: 15px;
     -moz-border-radius: 15px;
     border-radius: 15px;
@@ -44,11 +45,12 @@
     background-color: transparent;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1), 0 2px 2px rgba(0, 0, 0, 0.1), 0 4px 4px rgba(0, 0, 0, 0.1), 0 8px 8px rgba(0, 0, 0, 0.1), 0 16px 16px rgba(0, 0, 0, 0.1);
 }
-@media (min-width: 600px) {
-    .card-info {
-        height: 425px;
-    }
-}
+
+/*@media (max-width: 600px) {*/
+/*    .card-info {*/
+/*        height: 425px;*/
+/*    }*/
+/*}*/
 .card-info:before {
     content: '';
     position: absolute;
@@ -87,6 +89,8 @@
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 /*.card-info:nth-child(1):before {*/
 /*    background-image: url(https://prod.kooding.com/productDetailImage/147449-1/Korean-American-Online-Fashion-Shopping-Website-0000-25432.JPG);*/
@@ -141,11 +145,11 @@
     line-height: 1.35;
 }
 
-.btn {
+.btn__add__quantity {
     cursor: pointer;
     margin-top: 1.5rem;
     padding: 0.75rem 1.5rem;
-    font-size: 0.65rem;
+    font-size: .80rem;
     font-weight: bold;
     letter-spacing: 0.025rem;
     text-transform: uppercase;
@@ -153,10 +157,10 @@
     background-color: black;
     border: none;
 }
-.btn:hover {
+.btn__add__quantity:hover {
     background-color: #0d0d0d;
 }
-.btn:focus {
+.btn__add__quantity:focus {
     outline: 1px dashed yellow;
     outline-offset: 3px;
 }
@@ -228,13 +232,13 @@
     overflow: hidden;
     padding: 1rem;
     width: 100%;
-    height: 425px;
+    height: 375px;
     -webkit-border-radius: 15px;
     -moz-border-radius: 15px;
     border-radius: 15px;
     text-align: center;
     color: whitesmoke;
-    background-color: transparent;
+    background-color: #808080;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1), 0 2px 2px rgba(0, 0, 0, 0.1), 0 4px 4px rgba(0, 0, 0, 0.1), 0 8px 8px rgba(0, 0, 0, 0.1), 0 16px 16px rgba(0, 0, 0, 0.1);
 }
 
@@ -257,14 +261,38 @@
 }
 
 .card-layout .card-info-skeleton .card-category{
-    width: 50%;
+    width: 60%;
     font-size: 1.25rem;
     line-height: 1.33;
     font-weight: 700;
+  top: 50%;
 }
 .card-layout .card-info-skeleton .card-category.skeleton {
     min-height: 20px;
     border-radius: 4px;
+}
+
+.card-layout .card-info-skeleton .card-button{
+  width: 50%;
+  font-size: 1.25rem;
+  line-height: 1.33;
+  font-weight: 700;
+  top: 60%;
+}
+.card-layout .card-info-skeleton .card-button.skeleton {
+  min-height: 20px;
+  border-radius: 4px;
+}
+
+.card-layout .card-info-skeleton .card-stock{
+  width: 50%;
+  font-size: 1.25rem;
+  line-height: 1.33;
+  font-weight: 700;
+}
+.card-layout .card-info-skeleton .card-stock.skeleton {
+  min-height: 20px;
+  border-radius: 4px;
 }
 
 .skeleton {
@@ -288,4 +316,11 @@
     to {
         background-position: right -40px top 0;
     }
+}
+
+/* Card responsive */
+@media only screen and (max-width: 1200px) {
+  .card-info{
+    height: 375px;
+  }
 }
