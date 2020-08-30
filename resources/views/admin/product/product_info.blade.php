@@ -4,7 +4,7 @@
 @section('vendor-style')
 @endsection
 @section('page-style')
-    <link rel="stylesheet" href="{{ asset('admin/css/extra/card-skeleton.css') }}">
+{{--    <link rel="stylesheet" href="{{ asset('admin/css/extra/card-skeleton.css') }}">--}}
     <link rel="stylesheet" href="{{ asset('admin/css/extra/product_info_card.css') }}">
     <style>
 
@@ -34,183 +34,13 @@
 {{--                            </p>--}}
 {{--                        </div>--}}
 {{--                    </div>--}}
-{{--                    <div class="card__skeleton">--}}
-{{--                        <div class="card-body">--}}
-{{--                            <h2 class="card-category skeleton">--}}
-{{--                                <!-- wating for title to load from javascript -->--}}
-{{--                            </h2>--}}
-{{--                            <h2 class="card-title skeleton">--}}
-{{--                                <!-- wating for title to load from javascript -->--}}
-{{--                            </h2>--}}
-{{--                            <p class="card-intro skeleton">--}}
-{{--                                <!-- waiting for intro to load from Javascript -->--}}
-{{--                            </p>--}}
-{{--                            <p class="card-instock skeleton">--}}
-{{--                                <!-- waiting for intro to load from Javascript -->--}}
-{{--                            </p>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                    <div class="card__skeleton">--}}
-{{--                        <div class="card-body">--}}
-{{--                            <h2 class="card-category skeleton">--}}
-{{--                                <!-- wating for title to load from javascript -->--}}
-{{--                            </h2>--}}
-{{--                            <h2 class="card-title skeleton">--}}
-{{--                                <!-- wating for title to load from javascript -->--}}
-{{--                            </h2>--}}
-{{--                            <p class="card-intro skeleton">--}}
-{{--                                <!-- waiting for intro to load from Javascript -->--}}
-{{--                            </p>--}}
-{{--                            <p class="card-instock skeleton">--}}
-{{--                                <!-- waiting for intro to load from Javascript -->--}}
-{{--                            </p>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                    <div class="card__skeleton">--}}
-{{--                        <div class="card-body">--}}
-{{--                            <h2 class="card-category skeleton">--}}
-{{--                                <!-- wating for title to load from javascript -->--}}
-{{--                            </h2>--}}
-{{--                            <h2 class="card-title skeleton">--}}
-{{--                                <!-- wating for title to load from javascript -->--}}
-{{--                            </h2>--}}
-{{--                            <p class="card-intro skeleton">--}}
-{{--                                <!-- waiting for intro to load from Javascript -->--}}
-{{--                            </p>--}}
-{{--                            <p class="card-instock skeleton">--}}
-{{--                                <!-- waiting for intro to load from Javascript -->--}}
-{{--                            </p>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                    <div class="card__skeleton">--}}
-{{--                        <div class="card-body">--}}
-{{--                            <h2 class="card-category skeleton">--}}
-{{--                                <!-- wating for title to load from javascript -->--}}
-{{--                            </h2>--}}
-{{--                            <h2 class="card-title skeleton">--}}
-{{--                                <!-- wating for title to load from javascript -->--}}
-{{--                            </h2>--}}
-{{--                            <p class="card-intro skeleton">--}}
-{{--                                <!-- waiting for intro to load from Javascript -->--}}
-{{--                            </p>--}}
-{{--                            <p class="card-instock skeleton">--}}
-{{--                                <!-- waiting for intro to load from Javascript -->--}}
-{{--                            </p>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                    <div class="card__skeleton">--}}
-{{--                        <div class="card-body">--}}
-{{--                            <h2 class="card-category skeleton">--}}
-{{--                                <!-- wating for title to load from javascript -->--}}
-{{--                            </h2>--}}
-{{--                            <h2 class="card-title skeleton">--}}
-{{--                                <!-- wating for title to load from javascript -->--}}
-{{--                            </h2>--}}
-{{--                            <p class="card-intro skeleton">--}}
-{{--                                <!-- waiting for intro to load from Javascript -->--}}
-{{--                            </p>--}}
-{{--                            <p class="card-instock skeleton">--}}
-{{--                                <!-- waiting for intro to load from Javascript -->--}}
-{{--                            </p>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                    <div class="card__skeleton">--}}
-{{--                        <div class="card-body">--}}
-{{--                            <h2 class="card-category skeleton">--}}
-{{--                                <!-- wating for title to load from javascript -->--}}
-{{--                            </h2>--}}
-{{--                            <h2 class="card-title skeleton">--}}
-{{--                                <!-- wating for title to load from javascript -->--}}
-{{--                            </h2>--}}
-{{--                            <p class="card-intro skeleton">--}}
-{{--                                <!-- waiting for intro to load from Javascript -->--}}
-{{--                            </p>--}}
-{{--                            <p class="card-instock skeleton">--}}
-{{--                                <!-- waiting for intro to load from Javascript -->--}}
-{{--                            </p>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                    <div class="card__skeleton">--}}
-{{--                        <div class="card-body">--}}
-{{--                            <h2 class="card-category skeleton">--}}
-{{--                                <!-- wating for title to load from javascript -->--}}
-{{--                            </h2>--}}
-{{--                            <h2 class="card-title skeleton">--}}
-{{--                                <!-- wating for title to load from javascript -->--}}
-{{--                            </h2>--}}
-{{--                            <p class="card-intro skeleton">--}}
-{{--                                <!-- waiting for intro to load from Javascript -->--}}
-{{--                            </p>--}}
-{{--                            <p class="card-instock skeleton">--}}
-{{--                                <!-- waiting for intro to load from Javascript -->--}}
-{{--                            </p>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                    <div class="card__skeleton">--}}
-{{--                        <div class="card-body">--}}
-{{--                            <h2 class="card-category skeleton">--}}
-{{--                                <!-- wating for title to load from javascript -->--}}
-{{--                            </h2>--}}
-{{--                            <h2 class="card-title skeleton">--}}
-{{--                                <!-- wating for title to load from javascript -->--}}
-{{--                            </h2>--}}
-{{--                            <p class="card-intro skeleton">--}}
-{{--                                <!-- waiting for intro to load from Javascript -->--}}
-{{--                            </p>--}}
-{{--                            <p class="card-instock skeleton">--}}
-{{--                                <!-- waiting for intro to load from Javascript -->--}}
-{{--                            </p>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                    <div class="card__skeleton">--}}
-{{--                        <div class="card-body">--}}
-{{--                            <h2 class="card-category skeleton">--}}
-{{--                                <!-- wating for title to load from javascript -->--}}
-{{--                            </h2>--}}
-{{--                            <h2 class="card-title skeleton">--}}
-{{--                                <!-- wating for title to load from javascript -->--}}
-{{--                            </h2>--}}
-{{--                            <p class="card-intro skeleton">--}}
-{{--                                <!-- waiting for intro to load from Javascript -->--}}
-{{--                            </p>--}}
-{{--                            <p class="card-instock skeleton">--}}
-{{--                                <!-- waiting for intro to load from Javascript -->--}}
-{{--                            </p>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                    <div class="card__skeleton">--}}
-{{--                        <div class="card-body">--}}
-{{--                            <h2 class="card-category skeleton">--}}
-{{--                                <!-- wating for title to load from javascript -->--}}
-{{--                            </h2>--}}
-{{--                            <h2 class="card-title skeleton">--}}
-{{--                                <!-- wating for title to load from javascript -->--}}
-{{--                            </h2>--}}
-{{--                            <p class="card-intro skeleton">--}}
-{{--                                <!-- waiting for intro to load from Javascript -->--}}
-{{--                            </p>--}}
-{{--                            <p class="card-instock skeleton">--}}
-{{--                                <!-- waiting for intro to load from Javascript -->--}}
-{{--                            </p>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                    <div class="card__skeleton">--}}
-{{--                        <div class="card-body">--}}
-{{--                            <h2 class="card-category skeleton">--}}
-{{--                                <!-- wating for title to load from javascript -->--}}
-{{--                            </h2>--}}
-{{--                            <h2 class="card-title skeleton">--}}
-{{--                                <!-- wating for title to load from javascript -->--}}
-{{--                            </h2>--}}
-{{--                            <p class="card-intro skeleton">--}}
-{{--                                <!-- waiting for intro to load from Javascript -->--}}
-{{--                            </p>--}}
-{{--                            <p class="card-instock skeleton">--}}
-{{--                                <!-- waiting for intro to load from Javascript -->--}}
-{{--                            </p>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
 {{--                </div>--}}
+                <main class="card-layout">
+                    <div class="card-info-skeleton">
+                        <p class="card-title skeleton"></p>
+                        <p class="card-category skeleton"></p>
+                    </div>
+                </main>
                 <main class="card-layout">
                     @if($products)
                         @foreach($products as $product)

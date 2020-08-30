@@ -217,3 +217,75 @@
         transition-duration: 0s;
     }
 }
+
+/*Skeleton Card Style*/
+.card-info-skeleton {
+    position: relative;
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-align: end;
+    align-items: flex-end;
+    overflow: hidden;
+    padding: 1rem;
+    width: 100%;
+    height: 425px;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+    text-align: center;
+    color: whitesmoke;
+    background-color: transparent;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1), 0 2px 2px rgba(0, 0, 0, 0.1), 0 4px 4px rgba(0, 0, 0, 0.1), 0 8px 8px rgba(0, 0, 0, 0.1), 0 16px 16px rgba(0, 0, 0, 0.1);
+}
+
+.card-info-skeleton > p{
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+}
+.card-layout .card-info-skeleton .card-title{
+    width: 80%;
+    font-size: 1.25rem;
+    line-height: 1.33;
+    font-weight: 700;
+    top: 30%;
+}
+.card-layout .card-info-skeleton .card-title.skeleton{
+    min-height: 30px;
+    border-radius: 4px;
+}
+
+.card-layout .card-info-skeleton .card-category{
+    width: 50%;
+    font-size: 1.25rem;
+    line-height: 1.33;
+    font-weight: 700;
+}
+.card-layout .card-info-skeleton .card-category.skeleton {
+    min-height: 20px;
+    border-radius: 4px;
+}
+
+.skeleton {
+    background-color: #e2e5e7;
+    background-image: -webkit-gradient(linear, left top, right top, from(rgba(255, 255, 255, 0)), color-stop(rgba(255, 255, 255, 0.5)), to(rgba(255, 255, 255, 0)));
+    background-image: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0));
+    background-size: 40px 100%;
+    background-repeat: no-repeat;
+    background-position: left -40px top 0;
+    -webkit-animation: shine 1s ease infinite;
+    animation: shine 1s ease infinite;
+}
+
+@-webkit-keyframes shine {
+    to {
+        background-position: right -40px top 0;
+    }
+}
+
+@keyframes shine {
+    to {
+        background-position: right -40px top 0;
+    }
+}
