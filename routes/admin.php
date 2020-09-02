@@ -109,9 +109,14 @@ Route::group(['middleware' => ['auth:admin']], function () {
 
   // Product Information
     Route::prefix('product-info')->group(function (){
-        Route::get('/', "ProductInfoController@index")->name('product.info.index');
-        Route::get('/data', "ProductInfoController@fetchData")->name('product.info.fetchData');
-        Route::post('/add', "ProductInfoController@store")->name('product.info.add');
+      Route::get('/', "ProductInfoController@index")->name('product.info.index');
+      Route::get('/data', "ProductInfoController@fetchData")->name('product.info.fetchData');
+      Route::get('/pagination/page', "ProductInfoController@dataPagination")->name('product.info.fetchData.pagination');
+      Route::post('/add', "ProductInfoController@store")->name('product.info.add');
+      Route::get('/countStock', "ProductInfoController@countStock")->name('product.info.count.stock');
+      Route::get('/filter-product/by-name', "ProductInfoController@filterProductByName")->name('product.info.filter.product.by.name');
+      Route::get('/filter-product/by-brand', "ProductInfoController@filterProductByBrand")->name('product.info.filter.product.by.brand');
+      Route::get('/filter-product/by-subcategory', "ProductInfoController@filterProductBySubcategory")->name('product.info.filter.product.by.subcategory');
     });
 
 

@@ -28,6 +28,32 @@
     .bootstrap-touchspin.input-group-lg{
       width: 100% !important;
     }
+    /*.categories-list{*/
+    /*  width: 100%;*/
+    /*  height: 200px;*/
+    /*  overflow: scroll;*/
+    /*}*/
+    .card-body, .collapse-margin .card-body{
+      padding: 0 1.5rem;
+    }
+    .collapse-margin .card-header{
+      padding: 0 5px !important;
+    }
+    .card-header{
+      padding-bottom: 0px !important;
+    }
+    .accordion{
+      cursor: pointer;
+    }
+    body.dark-layout .collapse-margin{
+      box-shadow: none !important;
+    }
+    .card{
+      margin-bottom: 0 !important;
+    }
+    input.form-control{
+      background-color: #10163a !important;
+    }
   </style>
 @endsection
 
@@ -35,26 +61,19 @@
 @section('content')
     <div class="content-detached content-right">
         <div class="content-body">
-
+            <section id="ecommerce-searchbar">
+              <div class="row mt-1">
+                <div class="col-sm-12">
+                  <fieldset class="form-group position-relative">
+                    <input type="text" class="form-control search-product" id="product_name" name="product_name" placeholder="Search here">
+                    <div class="form-control-position">
+                      <i class="feather icon-search"></i>
+                    </div>
+                  </fieldset>
+                </div>
+              </div>
+            </section>
             <section id="bg-variants">
-{{--                <div class="card-grid" id="block__card__skeleton">--}}
-{{--                    <div class="card__skeleton">--}}
-{{--                        <div class="card-body">--}}
-{{--                            <h2 class="card-category skeleton">--}}
-{{--                                <!-- wating for title to load from javascript -->--}}
-{{--                            </h2>--}}
-{{--                            <h2 class="card-title skeleton">--}}
-{{--                                <!-- wating for title to load from javascript -->--}}
-{{--                            </h2>--}}
-{{--                            <p class="card-intro skeleton">--}}
-{{--                                <!-- waiting for intro to load from Javascript -->--}}
-{{--                            </p>--}}
-{{--                            <p class="card-instock skeleton">--}}
-{{--                                <!-- waiting for intro to load from Javascript -->--}}
-{{--                            </p>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
                 <main class="card-layout" id="block__card__skeleton">
                     <div class="card-info-skeleton">
                         <p class="card-title skeleton"></p>
@@ -108,412 +127,154 @@
                 <main class="card-layout" id="productInfo__card">
 
                 </main>
+
+                <div class="d-flex">
+                    <div class="mx-auto">
+                        {{$products->links("pagination::bootstrap-4")}}
+                    </div>
+                </div>
             </section>
 
         </div>
     </div>
-    <div class="sidebar-detached sidebar-left">
-        <div class="sidebar">
-            <!-- Ecommerce Sidebar Starts -->
-            <div class="sidebar-shop" id="ecommerce-sidebar-toggler">
+    <div class="row">
+      <div class="col-md-12">
+        <h6 class="filter-heading d-none d-lg-block">Filters</h6>
+      </div>
+      <div class="col-md-12">
+        <div class="card left-side">
+          <div class="card-body">
+            <!-- Categories Starts -->
+            <div id="product-categories">
+              <div class="product-category-title mt-2">
+                <h6 class="filter-title mb-1">Subcategories</h6>
+              </div>
 
-                <div class="row">
-                    <div class="col-sm-12">
-                        <h6 class="filter-heading d-none d-lg-block">Filters</h6>
-                    </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <span class="vs-radio-con vs-radio-primary py-25 ml-0">
+                    <input type="radio" name="subcategory-filter" value="" checked>
+                    <span class="vs-radio">
+                        <span class="vs-radio--border"></span>
+                        <span class="vs-radio--circle"></span>
+                    </span>
+                    <span class="ml-50">All</span>
+                </span>
                 </div>
-                <span class="sidebar-close-icon d-block d-md-none">
-                            <i class="feather icon-x"></i>
-                        </span>
-                <div class="card">
-                    <div class="card-body">
-                        <div class="multi-range-price">
-                            <div class="multi-range-title pb-75">
-                                <h6 class="filter-title mb-0">Multi Range</h6>
-                            </div>
-                            <ul class="list-unstyled price-range" id="price-range">
-                                <li>
-                                            <span class="vs-radio-con vs-radio-primary py-25">
-                                                <input type="radio" name="price-range" checked value="false">
-                                                <span class="vs-radio">
-                                                    <span class="vs-radio--border"></span>
-                                                    <span class="vs-radio--circle"></span>
-                                                </span>
-                                                <span class="ml-50">All</span>
-                                            </span>
-                                </li>
-                                <li>
-                                            <span class="vs-radio-con vs-radio-primary py-25">
-                                                <input type="radio" name="price-range" value="false">
-                                                <span class="vs-radio">
-                                                    <span class="vs-radio--border"></span>
-                                                    <span class="vs-radio--circle"></span>
-                                                </span>
-                                                <span class="ml-50"> &lt;=$10</span>
-                                            </span>
-                                </li>
-                                <li>
-                                            <span class="vs-radio-con vs-radio-primary py-25">
-                                                <input type="radio" name="price-range" value="false">
-                                                <span class="vs-radio">
-                                                    <span class="vs-radio--border"></span>
-                                                    <span class="vs-radio--circle"></span>
-                                                </span>
-                                                <span class="ml-50">$10 - $100</span>
-                                            </span>
-                                </li>
-                                <li>
-                                            <span class="vs-radio-con vs-radio-primary py-25">
-                                                <input type="radio" name="price-range" value="false">
-                                                <span class="vs-radio">
-                                                    <span class="vs-radio--border"></span>
-                                                    <span class="vs-radio--circle"></span>
-                                                </span>
-                                                <span class="ml-50">$100 - $500</span>
-                                            </span>
-                                </li>
-                                <li>
-                                            <span class="vs-radio-con vs-radio-primary py-25">
-                                                <input type="radio" name="price-range" value="false">
-                                                <span class="vs-radio">
-                                                    <span class="vs-radio--border"></span>
-                                                    <span class="vs-radio--circle"></span>
-                                                </span>
-                                                <span class="ml-50">&gt;= $500</span>
-                                            </span>
-                                </li>
+              </div>
 
-                            </ul>
-                        </div>
-                        <!-- /Price Filter -->
-                        <hr>
-                        <!-- /Price Slider -->
-                        <div class="price-slider">
-                            <div class="price-slider-title mt-1">
-                                <h6 class="filter-title mb-0">Slider</h6>
-                            </div>
-                            <div class="price-slider">
-                                <div class="price_slider_amount mb-2">
-                                </div>
-                                <div class="form-group">
-                                    <div class="slider-sm my-1 range-slider" id="price-slider"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /Price Range -->
-                        <hr>
-                        <!-- Categories Starts -->
-                        <div id="product-categories">
-                            <div class="product-category-title">
-                                <h6 class="filter-title mb-1">Categories</h6>
-                            </div>
-                            <ul class="list-unstyled categories-list">
-                                <li>
-                                            <span class="vs-radio-con vs-radio-primary py-25">
-                                                <input type="radio" name="category-filter" value="false" checked>
-                                                <span class="vs-radio">
-                                                    <span class="vs-radio--border"></span>
-                                                    <span class="vs-radio--circle"></span>
-                                                </span>
-                                                <span class="ml-50">Appliances</span>
-                                            </span>
-                                </li>
-                                <li>
-                                            <span class="vs-radio-con vs-radio-primary py-25">
-                                                <input type="radio" name="category-filter" value="false">
-                                                <span class="vs-radio">
-                                                    <span class="vs-radio--border"></span>
-                                                    <span class="vs-radio--circle"></span>
-                                                </span>
-                                                <span class="ml-50"> Audio</span>
-                                            </span>
-                                </li>
-                                <li>
-                                            <span class="vs-radio-con vs-radio-primary py-25">
-                                                <input type="radio" name="category-filter" value="false">
-                                                <span class="vs-radio">
-                                                    <span class="vs-radio--border"></span>
-                                                    <span class="vs-radio--circle"></span>
-                                                </span>
-                                                <span class="ml-50">Cameras & Camcorders</span>
-                                            </span>
-                                </li>
-                                <li>
-                                            <span class="vs-radio-con vs-radio-primary py-25">
-                                                <input type="radio" name="category-filter" value="false">
-                                                <span class="vs-radio">
-                                                    <span class="vs-radio--border"></span>
-                                                    <span class="vs-radio--circle"></span>
-                                                </span>
-                                                <span class="ml-50">Car Electronics & GPS</span>
-                                            </span>
-                                </li>
-                                <li>
-                                            <span class="vs-radio-con vs-radio-primary py-25">
-                                                <input type="radio" name="category-filter" value="false">
-                                                <span class="vs-radio">
-                                                    <span class="vs-radio--border"></span>
-                                                    <span class="vs-radio--circle"></span>
-                                                </span>
-                                                <span class="ml-50">Cell Phones</span>
-                                            </span>
-                                </li>
-                                <li>
-                                            <span class="vs-radio-con vs-radio-primary py-25">
-                                                <input type="radio" name="category-filter" value="false">
-                                                <span class="vs-radio">
-                                                    <span class="vs-radio--border"></span>
-                                                    <span class="vs-radio--circle"></span>
-                                                </span>
-                                                <span class="ml-50">Computers & Tablets</span>
-                                            </span>
-                                </li>
-                                <li>
-                                            <span class="vs-radio-con vs-radio-primary py-25">
-                                                <input type="radio" name="category-filter" value="false">
-                                                <span class="vs-radio">
-                                                    <span class="vs-radio--border"></span>
-                                                    <span class="vs-radio--circle"></span>
-                                                </span>
-                                                <span class="ml-50"> Health, Fitness & Beauty</span>
-                                            </span>
-                                </li>
-                                <li>
-                                            <span class="vs-radio-con vs-radio-primary py-25">
-                                                <input type="radio" name="category-filter" value="false">
-                                                <span class="vs-radio">
-                                                    <span class="vs-radio--border"></span>
-                                                    <span class="vs-radio--circle"></span>
-                                                </span>
-                                                <span class="ml-50">Office & School Supplies</span>
-                                            </span>
-                                </li>
-                                <li>
-                                            <span class="vs-radio-con vs-radio-primary py-25">
-                                                <input type="radio" name="category-filter" value="false">
-                                                <span class="vs-radio">
-                                                    <span class="vs-radio--border"></span>
-                                                    <span class="vs-radio--circle"></span>
-                                                </span>
-                                                <span class="ml-50">TV & Home Theater</span>
-                                            </span>
-                                </li>
-                                <li>
-                                            <span class="vs-radio-con vs-radio-primary py-25">
-                                                <input type="radio" name="category-filter" value="false">
-                                                <span class="vs-radio">
-                                                    <span class="vs-radio--border"></span>
-                                                    <span class="vs-radio--circle"></span>
-                                                </span>
-                                                <span class="ml-50">Video Games
-                                                </span>
-                                            </span>
-                                </li>
-
-                            </ul>
-                        </div>
-                        <!-- Categories Ends -->
-                        <hr>
-                        <!-- Brands -->
-                        <div class="brands">
-                            <div class="brand-title mt-1 pb-1">
-                                <h6 class="filter-title mb-0">Brands</h6>
-                            </div>
-                            <div class="brand-list" id="brands">
-                                <ul class="list-unstyled">
-                                    <li class="d-flex justify-content-between align-items-center py-25">
-                                                <span class="vs-checkbox-con vs-checkbox-primary">
-                                                    <input type="checkbox" value="false">
-                                                    <span class="vs-checkbox">
-                                                        <span class="vs-checkbox--check">
-                                                            <i class="vs-icon feather icon-check"></i>
-                                                        </span>
-                                                    </span>
-                                                    <span class="">Insignia™</span>
-                                                </span>
-                                        <span>746</span>
-                                    </li>
-                                    <li class="d-flex justify-content-between align-items-center py-25">
-                                                <span class="vs-checkbox-con vs-checkbox-primary">
-                                                    <input type="checkbox" value="false">
-                                                    <span class="vs-checkbox">
-                                                        <span class="vs-checkbox--check">
-                                                            <i class="vs-icon feather icon-check"></i>
-                                                        </span>
-                                                    </span>
-                                                    <span class="">
-                                                        Samsung
-                                                    </span>
-                                                </span>
-                                        <span>633</span>
-                                    </li>
-                                    <li class="d-flex justify-content-between align-items-center py-25">
-                                                <span class="vs-checkbox-con vs-checkbox-primary">
-                                                    <input type="checkbox" value="false">
-                                                    <span class="vs-checkbox">
-                                                        <span class="vs-checkbox--check">
-                                                            <i class="vs-icon feather icon-check"></i>
-                                                        </span>
-                                                    </span>
-                                                    <span class="">
-                                                        Metra
-                                                    </span>
-                                                </span>
-                                        <span>591</span>
-                                    </li>
-                                    <li class="d-flex justify-content-between align-items-center py-25">
-                                                <span class="vs-checkbox-con vs-checkbox-primary">
-                                                    <input type="checkbox" value="false">
-                                                    <span class="vs-checkbox">
-                                                        <span class="vs-checkbox--check">
-                                                            <i class="vs-icon feather icon-check"></i>
-                                                        </span>
-                                                    </span>
-                                                    <span class="">HP</span>
-                                                </span>
-                                        <span>530</span>
-                                    </li>
-                                    <li class="d-flex justify-content-between align-items-center py-25">
-                                                <span class="vs-checkbox-con vs-checkbox-primary">
-                                                    <input type="checkbox" value="false">
-                                                    <span class="vs-checkbox">
-                                                        <span class="vs-checkbox--check">
-                                                            <i class="vs-icon feather icon-check"></i>
-                                                        </span>
-                                                    </span>
-                                                    <span class="">Apple</span>
-                                                </span>
-                                        <span>442</span>
-                                    </li>
-                                    <li class="d-flex justify-content-between align-items-center py-25">
-                                                <span class="vs-checkbox-con vs-checkbox-primary">
-                                                    <input type="checkbox" value="false">
-                                                    <span class="vs-checkbox">
-                                                        <span class="vs-checkbox--check">
-                                                            <i class="vs-icon feather icon-check"></i>
-                                                        </span>
-                                                    </span>
-                                                    <span class="">GE</span>
-                                                </span>
-                                        <span>394</span>
-                                    </li>
-                                    <li class="d-flex justify-content-between align-items-center py-25">
-                                                <span class="vs-checkbox-con vs-checkbox-primary">
-                                                    <input type="checkbox" value="false">
-                                                    <span class="vs-checkbox">
-                                                        <span class="vs-checkbox--check">
-                                                            <i class="vs-icon feather icon-check"></i>
-                                                        </span>
-                                                    </span>
-                                                    <span class="">Sony</span>
-                                                </span>
-                                        <span>350</span>
-                                    </li>
-                                    <li class="d-flex justify-content-between align-items-center py-25">
-                                                <span class="vs-checkbox-con vs-checkbox-primary">
-                                                    <input type="checkbox" value="false">
-                                                    <span class="vs-checkbox">
-                                                        <span class="vs-checkbox--check">
-                                                            <i class="vs-icon feather icon-check"></i>
-                                                        </span>
-                                                    </span>
-                                                    <span class="">Incipio</span>
-                                                </span>
-                                        <span>320</span>
-                                    </li>
-                                    <li class="d-flex justify-content-between align-items-center py-25">
-                                                <span class="vs-checkbox-con vs-checkbox-primary">
-                                                    <input type="checkbox" value="false">
-                                                    <span class="vs-checkbox">
-                                                        <span class="vs-checkbox--check">
-                                                            <i class="vs-icon feather icon-check"></i>
-                                                        </span>
-                                                    </span>
-                                                    <span class="">KitchenAid</span>
-                                                </span>
-                                        <span>318</span>
-                                    </li>
-                                    <li class="d-flex justify-content-between align-items-center py-25">
-                                                <span class="vs-checkbox-con vs-checkbox-primary">
-                                                    <input type="checkbox" value="false">
-                                                    <span class="vs-checkbox">
-                                                        <span class="vs-checkbox--check">
-                                                            <i class="vs-icon feather icon-check"></i>
-                                                        </span>
-                                                    </span>
-                                                    <span class="">Whirlpool</span>
-                                                </span>
-                                        <span>298</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <!-- /Brand -->
-                        <hr>
-                        <!-- Rating section starts -->
-                        <div id="ratings">
-                            <div class="ratings-title mt-1 pb-75">
-                                <h6 class="filter-title mb-0">Ratings</h6>
-                            </div>
-                            <div class="d-flex justify-content-between">
-                                <ul class="unstyled-list list-inline ratings-list mb-0">
-                                    <li class="ratings-list-item"><i class="feather icon-star text-warning"></i></li>
-                                    <li class="ratings-list-item"><i class="feather icon-star text-warning"></i></li>
-                                    <li class="ratings-list-item"><i class="feather icon-star text-warning"></i></li>
-                                    <li class="ratings-list-item"><i class="feather icon-star text-warning"></i></li>
-                                    <li class="ratings-list-item"><i class="feather icon-star text-light"></i></li>
-                                    <li>& up</li>
-                                </ul>
-                                <div class="stars-received">(160)</div>
-                            </div>
-                            <div class="d-flex justify-content-between">
-                                <ul class="unstyled-list list-inline ratings-list mb-0">
-                                    <li class="ratings-list-item"><i class="feather icon-star text-warning"></i></li>
-                                    <li class="ratings-list-item"><i class="feather icon-star text-warning"></i></li>
-                                    <li class="ratings-list-item"><i class="feather icon-star text-warning"></i></li>
-                                    <li class="ratings-list-item"><i class="feather icon-star text-light"></i></li>
-                                    <li class="ratings-list-item"><i class="feather icon-star text-light"></i></li>
-                                    <li>& up</li>
-                                </ul>
-                                <div class="stars-received">(176)</div>
-                            </div>
-                            <div class="d-flex justify-content-between">
-                                <ul class="unstyled-list list-inline ratings-list mb-0">
-                                    <li class="ratings-list-item"><i class="feather icon-star text-warning"></i></li>
-                                    <li class="ratings-list-item"><i class="feather icon-star text-warning"></i></li>
-                                    <li class="ratings-list-item"><i class="feather icon-star text-light"></i></li>
-                                    <li class="ratings-list-item"><i class="feather icon-star text-light"></i></li>
-                                    <li class="ratings-list-item"><i class="feather icon-star text-light"></i></li>
-                                    <li>& up</li>
-                                </ul>
-                                <div class="stars-received">(291)</div>
-                            </div>
-                            <div class="d-flex justify-content-between">
-                                <ul class="unstyled-list list-inline ratings-list mb-0 ">
-                                    <li class="ratings-list-item"><i class="feather icon-star text-warning"></i></li>
-                                    <li class="ratings-list-item"><i class="feather icon-star text-light"></i></li>
-                                    <li class="ratings-list-item"><i class="feather icon-star text-light"></i></li>
-                                    <li class="ratings-list-item"><i class="feather icon-star text-light"></i></li>
-                                    <li class="ratings-list-item"><i class="feather icon-star text-light"></i></li>
-                                    <li>& up</li>
-                                </ul>
-                                <div class="stars-received">(190)</div>
-                            </div>
-                        </div>
-                        <!-- Rating section Ends -->
-                        <hr>
-                        <!-- Clear Filters Starts -->
-                        <div id="clear-filters">
-                            <button class="btn btn-block btn-primary">CLEAR ALL FILTERS</button>
-                        </div>
-                        <!-- Clear Filters Ends -->
-
+              <div class="card bg-transparent border-0 shadow-none collapse-icon accordion-icon-rotate">
+                <div class="accordion search-content-info" id="accordionExample">
+                  <div class="collapse-margin search-content mt-0">
+                    <div class="card-header" id="headingOne" role="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                      <span>Women</span>
                     </div>
+                    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                      <div class="card-body">
+                        @foreach($subcategories as $subcategory)
+                          @if ($subcategory->categories->type_name == 'women')
+                            <div class="row">
+                              <span class="vs-radio-con vs-radio-primary py-25">
+                                  <input type="radio" name="subcategory-filter" value="{{ $subcategory->id }}">
+                                  <span class="vs-radio">
+                                      <span class="vs-radio--border"></span>
+                                      <span class="vs-radio--circle"></span>
+                                  </span>
+                                  <span class="ml-50">{{ $subcategory->subcategory_name }}</span>
+                              </span>
+                            </div>
+                          @endif
+                        @endforeach
+                      </div>
+                    </div>
+                  </div>
+                  <div class="collapse-margin">
+                    <div class="card-header" id="headingTwo" role="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                      <span>Men</span>
+                    </div>
+                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                      <div class="card-body">
+                        @foreach($subcategories as $subcategory)
+                          @if ($subcategory->categories->type_name == 'men')
+                            <div class="row">
+                            <span class="vs-radio-con vs-radio-primary py-25">
+                                <input type="radio" name="subcategory-filter" value="{{ $subcategory->id }}">
+                                <span class="vs-radio">
+                                    <span class="vs-radio--border"></span>
+                                    <span class="vs-radio--circle"></span>
+                                </span>
+                                <span class="ml-50">{{ $subcategory->subcategory_name }}</span>
+                            </span>
+                            </div>
+                          @endif
+                        @endforeach
+                      </div>
+                    </div>
+                  </div>
+                  <div class="collapse-margin">
+                    <div class="card-header" id="headingThree" role="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                      <span>Beauty</span>
+                    </div>
+                    <div id="collapseThree" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                      <div class="card-body">
+                        @foreach($subcategories as $subcategory)
+                          @if ($subcategory->categories->type_name == 'beauty')
+                            <div class="row">
+                            <span class="vs-radio-con vs-radio-primary py-25">
+                                <input type="radio" name="subcategory-filter" value="{{ $subcategory->id }}">
+                                <span class="vs-radio">
+                                    <span class="vs-radio--border"></span>
+                                    <span class="vs-radio--circle"></span>
+                                </span>
+                                <span class="ml-50">{{ $subcategory->subcategory_name }}</span>
+                            </span>
+                            </div>
+                          @endif
+                        @endforeach
+                      </div>
+                    </div>
+                  </div>
                 </div>
+              </div>
+
             </div>
-            <!-- Ecommerce Sidebar Ends -->
+            <!-- Categories Ends -->
+            <hr>
+            <!-- Brands -->
+            <div class="brands">
+              <div class="brand-title mt-1 pb-1">
+                <h6 class="filter-title mb-0">Brands</h6>
+              </div>
+              <div class="brand-list" id="brands">
+                <ul class="list-unstyled">
+                  @foreach($brands as $brand)
+                    <li class="d-flex justify-content-between align-items-center py-25">
+                      <span class="vs-checkbox-con vs-checkbox-primary">
+                          <input type="checkbox" name="brand-filter" value="{{ $brand->id }}">
+                          <span class="vs-checkbox">
+                              <span class="vs-checkbox--check">
+                                  <i class="vs-icon feather icon-check"></i>
+                              </span>
+                          </span>
+                          <span class="">{{ $brand->brand_name }}</span>
+                      </span>
+                      <span>{{ $brand->products->count() }}</span>
+                    </li>
+                  @endforeach
+                </ul>
+              </div>
+            </div>
+            <!-- /Brand -->
+            <hr>
+            <!-- Clear Filters Starts -->
+            <div id="clear-filters" class="mb-2">
+              <button id="clearAllFilter" class="btn btn-block btn-primary">CLEAR ALL FILTERS</button>
+            </div>
+            <!-- Clear Filters Ends -->
 
+          </div>
         </div>
+      </div>
     </div>
 
     <div class="modal fade" id="addStockForm" tabindex="-1" role="dialog" aria-labelledby="permissionModalTitle" aria-hidden="true">
@@ -543,14 +304,12 @@
                                                         <div class="form-label-group">
                                                             <input type="text" id="color" class="form-control" name="color" placeholder="Color">
                                                             <label for="name">Color</label>
-                                                            <span id="color_validate_error" class="validate text error-validate"></span>
                                                         </div>
                                                     </div>
                                                     <div class="col-12">
                                                         <div class="form-label-group">
                                                             <input type="text" id="size" class="form-control" name="size" placeholder="Size">
                                                             <label for="name">Size</label>
-                                                            <span id="size_validate_error" class="validate text error-validate"></span>
                                                         </div>
                                                     </div>
                                                     <div class="col-12">
@@ -610,28 +369,29 @@
                     url: "{{ route('admin.product.info.fetchData') }}",
                     dataType: "json",
                     success: function (data) {
-                        console.log(data);
-                        $.each(data.products, function (index, product) {
+                        $.each(data.products.data, function (index, product) {
                             let image_url = "'" +base_url+ '/' + product_image_path + '/' + product.product_image.original_images + "'";
-                            html += ' <div class="card-info" style="background-image: url('+image_url+')">\n' +
-                                '                                <div class="content-info">\n' +
-                                '                                    <h2 class="title">'+product.name+'</h2>\n' +
-                                '                                    <p class="copy">'+product.category.category_name+'</p>\n' +
-                                '                                    <p class="copy">'+product.subcategory.subcategory_name+'</p>\n' +
-                                '                                    <button class="btn__add__quantity addQuantity" data-id="'+product.id+'">Add Quantity</button>\n' +
-                                '                                    <div class="prod-info">\n' +
-                                '                                        <div class="stock-text">\n' +
-                                '                                           <span>\n' +
-                                '                                               In Stock :\n' +
-                                '                                               <strong class="countStock'+product.id+'">\n' +
-                                '                                                '+  +'' +
-                                '                                               </strong>\n' +
-                                '                                               <strong></strong>\n' +
-                                '                                           </span>\n' +
-                                '                                       </div>\n' +
-                                '                                   </div>\n' +
-                                '                                </div>\n' +
-                                '                            </div>';
+                            html += '<div class="card-info" style="background-image: url('+image_url+')">';
+                            html += '<div class="content-info">';
+                            html += '<h2 class="title">'+product.name+'</h2>';
+                            html += '<p class="copy">'+product.category.category_name+'</p>';
+                            html += '<p class="copy">'+product.subcategory.subcategory_name+'</p>';
+                            html += '<button class="btn__add__quantity addQuantity" data-id="'+product.id+'">Add Quantity</button>';
+                            html += '<div class="prod-info">';
+                            html += '<div class="stock-text">';
+                            html += '<span> Total In Stock :';
+                            html += '<strong class="countStock'+product.id+'">';
+                            $.each(data.total_quantity, function (key, item) {
+                                if (product.id == key){
+                                    html += item;
+                                }
+                            });
+                            html += '</strong>';
+                            html += '</span>';
+                            html += '</div>';
+                            html += '</div>';
+                            html += '</div>';
+                            html += '</div>';
                         });
                         $('#block__card__skeleton').addClass('d-none');
                         $("#productInfo__card").html('');
@@ -642,6 +402,68 @@
                     }
                 });
             };
+
+            // Ajax Pagination
+            $(document).on('click', ".pagination li a", function (e) {
+                e.preventDefault();
+                let page = $(this).attr('href').split('page=')[1];
+                fetchData(page);
+            });
+
+            function fetchData(page) {
+                $('#block__card__skeleton').removeClass('d-none');
+                $("#productInfo__card").html('');
+                let html = '';
+                $.ajax({
+                    type: 'GET',
+                    url: "{{ route('admin.product.info.fetchData.pagination') }}",
+                    data: { page : page },
+                    dataType: "json",
+                    success: function (data) {
+                        $.each(data.products.data, function (index, product) {
+                            let image_url = "'" +base_url+ '/' + product_image_path + '/' + product.product_image.original_images + "'";
+                            html += '<div class="card-info" style="background-image: url('+image_url+')">';
+                            html += '<div class="content-info">';
+                            html += '<h2 class="title">'+product.name+'</h2>';
+                            html += '<p class="copy">'+product.category.category_name+'</p>';
+                            html += '<p class="copy">'+product.subcategory.subcategory_name+'</p>';
+                            html += '<button class="btn__add__quantity addQuantity" data-id="'+product.id+'">Add Quantity</button>';
+                            html += '<div class="prod-info">';
+                            html += '<div class="stock-text">';
+                            html += '<span> Total In Stock :';
+                            html += '<strong class="countStock'+product.id+'">';
+                            $.each(data.total_quantity, function (key, item) {
+                                if (product.id == key){
+                                    html += item;
+                                }
+                            });
+                            html += '</strong>';
+                            html += '</span>';
+                            html += '</div>';
+                            html += '</div>';
+                            html += '</div>';
+                            html += '</div>';
+                        });
+                        $('#block__card__skeleton').addClass('d-none');
+                        $("#productInfo__card").html('');
+                        $("#productInfo__card").append(html);
+                    },
+                    error: function (data) {
+                        console.log(data);
+                    }
+                });
+            }
+
+            // Clear all filter input
+            $("#clearAllFilter").click(function () {
+                request();
+               clearAllFilter();
+            });
+            function clearAllFilter() {
+                $("input[name=subcategory-filter][value='']").prop("checked",true);
+                $("input[name='brand-filter']").prop('checked', false);
+                $("input[name='product_name']").val('');
+            }
 
             $(document).on('click', ".addQuantity", function () {
                 const product_id = $(this).data('id');
@@ -658,16 +480,14 @@
             }
 
             function clearValidateError(){
-                $("input[name='color']").removeClass('is-invalid');
-                $("#color_validate_error").text('');
-                $("input[name='size']").removeClass('is-invalid');
-                $("#size_validate_error").text('');
                 $("#quantity_validate_error").text('');
             }
 
             $(document).on('submit', "#product_infoForm", function (e) {
                 e.preventDefault();
+                const product_id = $("#product_id").val();
                 let formData = new FormData(this);
+                let html = '';
                 Notiflix.Loading.Dots('Processing...');
                 $.ajax({
                     url: "{{ route('admin.product.info.add') }}",
@@ -678,17 +498,9 @@
                     processData: false,
                     dataType: "json",
                     success: function (data) {
-                        console.log(data);
+                        // console.log(data);
                         Notiflix.Loading.Remove();
                         if (data.errors){
-                            if (data.errors.color){
-                                $("input[name='color']").addClass('is-invalid');
-                                $("#color_validate_error").text(data.errors.color);
-                            }
-                            if (data.errors.size){
-                                $("input[name='size']").addClass('is-invalid');
-                                $("#size_validate_error").text(data.errors.size);
-                            }
                             if (data.errors.quantity){
                                 $("#quantity_validate_error").text(data.errors.quantity);
                             }
@@ -696,6 +508,22 @@
                         else{
                             $('#addStockForm').modal('hide');
                             Notiflix.Notify.Success(data.message);
+                            $.ajax({
+                                type: "GET",
+                                url: "{{ route('admin.product.info.count.stock') }}",
+                                dataType: "json",
+                                success: function (response) {
+                                    $.each(response, function (i, value) {
+                                        if (product_id == i){
+                                            html = value;
+                                        }
+                                    });
+                                    $('.countStock' + product_id).html(html);
+                                },
+                                error: function (data) {
+                                    console.log("Error", data);
+                                }
+                            });
                         }
                     },
                     error: function (data) {
@@ -704,6 +532,152 @@
                 });
             });
 
+        //    Brand Filter
+            $("input[name='brand-filter']").on('change', function () {
+                $('#block__card__skeleton').removeClass('d-none');
+                $("input[name=subcategory-filter][value='']").prop("checked",true);
+                let brand_ids = [];
+                $("input[name='brand-filter']:checked").each(function () {
+                    brand_ids.push($(this).val());
+                });
+                let html = '';
+                $.ajax({
+                    type: "GET",
+                    url: "{{ route('admin.product.info.filter.product.by.brand') }}",
+                    data: { brand_ids : brand_ids },
+                    dataType: 'json',
+                    success: function (data) {
+                        console.log(data);
+                        if (data.products.length === 0){
+                            html = '<h2 class="text-center">Search Not Found!</h2>';
+                        }
+                        $.each(data.products, function (index, product) {
+                            let image_url = "'" +base_url+ '/' + product_image_path + '/' + product.product_image.original_images + "'";
+                            html += '<div class="card-info" style="background-image: url('+image_url+')">';
+                            html += '<div class="content-info">';
+                            html += '<h2 class="title">'+product.name+'</h2>';
+                            html += '<p class="copy">'+product.category.category_name+'</p>';
+                            html += '<p class="copy">'+product.subcategory.subcategory_name+'</p>';
+                            html += '<button class="btn__add__quantity addQuantity" data-id="'+product.id+'">Add Quantity</button>';
+                            html += '<div class="prod-info">';
+                            html += '<div class="stock-text">';
+                            html += '<span> Total In Stock :';
+                            html += '<strong class="countStock'+product.id+'">';
+                            $.each(data.total_quantity, function (key, item) {
+                                if (product.id == key){
+                                    html += item;
+                                }
+                            });
+                            html += '</strong>';
+                            html += '</span>';
+                            html += '</div>';
+                            html += '</div>';
+                            html += '</div>';
+                            html += '</div>';
+                        });
+                        $('#block__card__skeleton').addClass('d-none');
+                        $("#productInfo__card").html('');
+                        $("#productInfo__card").append(html);
+                    },
+                    error: function (data) {
+                        console.log("Error", data);
+                    }
+                });
+            });
+
+        //    Subcategory Filter
+            $("input[name='subcategory-filter']").on('change', function () {
+                $('#block__card__skeleton').removeClass('d-none');
+                const subcategory_id = $(this).val();
+                $("input[name='brand-filter']").prop('checked', false);
+                let html = '';
+                $.ajax({
+                    type: "GET",
+                    url: "{{ route('admin.product.info.filter.product.by.subcategory') }}",
+                    data: { subcategory_id : subcategory_id },
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.products.length === 0){
+                            html = '<h2 class="text-center">Search Not Found!</h2>';
+                        }
+                        $.each(data.products, function (index, product) {
+                            let image_url = "'" +base_url+ '/' + product_image_path + '/' + product.product_image.original_images + "'";
+                            html += '<div class="card-info" style="background-image: url('+image_url+')">';
+                            html += '<div class="content-info">';
+                            html += '<h2 class="title">'+product.name+'</h2>';
+                            html += '<p class="copy">'+product.category.category_name+'</p>';
+                            html += '<p class="copy">'+product.subcategory.subcategory_name+'</p>';
+                            html += '<button class="btn__add__quantity addQuantity" data-id="'+product.id+'">Add Quantity</button>';
+                            html += '<div class="prod-info">';
+                            html += '<div class="stock-text">';
+                            html += '<span> Total In Stock :';
+                            html += '<strong class="countStock'+product.id+'">';
+                            $.each(data.total_quantity, function (key, item) {
+                                if (product.id == key){
+                                    html += item;
+                                }
+                            });
+                            html += '</strong>';
+                            html += '</span>';
+                            html += '</div>';
+                            html += '</div>';
+                            html += '</div>';
+                            html += '</div>';
+                        });
+                        $('#block__card__skeleton').addClass('d-none');
+                        $("#productInfo__card").html('');
+                        $("#productInfo__card").append(html);
+                    },
+                    error: function (data) {
+                        console.log("Error", data);
+                    }
+                });
+            });
+
+        //    Product name Filter
+            $("input[name='product_name']").keyup(function () {
+                $('#block__card__skeleton').removeClass('d-none');
+               let product_name = $(this).val();
+               let html = '';
+               $.ajax({
+                   type: "GET",
+                   url: "{{ route('admin.product.info.filter.product.by.name') }}",
+                   data: { product_name : product_name },
+                   dataType: 'json',
+                   success: function (data) {
+                       $.each(data.products, function (index, product) {
+                           let image_url = "'" +base_url+ '/' + product_image_path + '/' + product.product_image.original_images + "'";
+                           html += '<div class="card-info" style="background-image: url('+image_url+')">';
+                           html += '<div class="content-info">';
+                           html += '<h2 class="title">'+product.name+'</h2>';
+                           html += '<p class="copy">'+product.category.category_name+'</p>';
+                           html += '<p class="copy">'+product.subcategory.subcategory_name+'</p>';
+                           html += '<button class="btn__add__quantity addQuantity" data-id="'+product.id+'">Add Quantity</button>';
+                           html += '<div class="prod-info">';
+                           html += '<div class="stock-text">';
+                           html += '<span> Total In Stock :';
+                           html += '<strong class="countStock'+product.id+'">';
+                           $.each(data.total_quantity, function (key, item) {
+                               if (product.id == key){
+                                   html += item;
+                               }
+                           });
+                           html += '</strong>';
+                           html += '</span>';
+                           html += '</div>';
+                           html += '</div>';
+                           html += '</div>';
+                           html += '</div>';
+                       });
+                       $('#block__card__skeleton').addClass('d-none');
+                       $("#productInfo__card").html('');
+                       $("#productInfo__card").append(html);
+                   },
+                   error: function (data) {
+                       console.log("Error", data);
+                   }
+               });
+            });
 
         });
     </script>

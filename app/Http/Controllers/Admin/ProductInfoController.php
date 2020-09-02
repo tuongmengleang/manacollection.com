@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Brand;
 use App\Models\Product;
 use App\Models\ProductInfo;
 use App\Models\ProductStock;
+use App\Models\ProductSubcategory;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class ProductInfoController extends Controller
 {
@@ -23,15 +26,19 @@ class ProductInfoController extends Controller
      */
     public function index()
     {
-        $products = Product::with('category', 'subcategory', 'productImage')->orderBy('created_at', "DESC")->get();
-
         $breadcrumbs = [
             ['link'=>route('admin.product.info.index'),'name'=> __('general.product_info')], ['name'=> __('general.products')]
         ];
 
+        $products = Product::with('category', 'subcategory', 'productImage')->orderBy('created_at', "DESC")->paginate(12);
+        $brands = Brand::orderBy("created_at", "DESC")->get();
+        $subcategories = ProductSubCategory::orderBy("created_at", "DESC")->get();
+
         return view('admin.product.product_info',[
             'breadcrumbs' => $breadcrumbs,
-            'products' => $products
+            'products' => $products,
+            'brands' => $brands,
+            'subcategories' => $subcategories,
         ]);
     }
 
@@ -55,13 +62,9 @@ class ProductInfoController extends Controller
     {
         if (request()->ajax()){
             $rules = [
-                'color' => "required|max:255",
-                'size' => "required|max:255",
                 'quantity' => "required|max:255"
             ];
             $message = [
-                "color.required" => "The color is required",
-                "size.required" => "The size is required",
                 "quantity.required" => "The quantity is required",
             ];
             $validator = \Validator::make($request->all(), $rules, $message);
@@ -132,11 +135,88 @@ class ProductInfoController extends Controller
 
     public function fetchData(Request $request){
         if (request()->ajax()){
-            $products = Product::with('category', 'subcategory', 'productImage')->orderBy('created_at', "DESC")->get();
+            $products = Product::with('category', 'subcategory', 'productImage')->orderBy('created_at', "DESC")->paginate(12);
             $total_quantity = ProductInfo::all()->groupBy('product_id')->map(function ($row){
                 return $row->sum('quantity');
             });
             return response()->json(['products' => $products, 'total_quantity' => $total_quantity]);
+        }
+    }
+
+    public function dataPagination(Request $request){
+        if (request()->ajax()){
+            $products = Product::with('category', 'subcategory', 'productImage')->orderBy('created_at', "DESC")->paginate(12);
+            $total_quantity = ProductInfo::all()->groupBy('product_id')->map(function ($row){
+                return $row->sum('quantity');
+            });
+            return response()->json(['products' => $products, 'total_quantity' => $total_quantity]);
+        }
+    }
+
+    public function countStock(Request $request)
+    {
+        if (request()->ajax()){
+            $total_quantity = ProductInfo::all()->groupBy('product_id')->map(function ($row){
+              return $row->sum('quantity');
+            });
+            return response()->json($total_quantity);
+        }
+    }
+
+    public function filterProductByname(Request $request){
+        if (request()->ajax()){
+            $product_name = $request->input('product_name');
+            if ($product_name != ''){
+                $getProducts = Product::with('category', 'subcategory', 'productImage', 'productStock')->where('name', 'LIKE',"%{$product_name}%")->get();
+                $total_quantity = ProductInfo::all()->groupBy('product_id')->map(function ($row){
+                    return $row->sum('quantity');
+                });
+            }
+            else{
+                $getProducts = Product::with('category', 'subcategory', 'productImage', 'productStock')->orderBy('created_at', "DESC")->get();
+                $total_quantity = ProductInfo::all()->groupBy('product_id')->map(function ($row){
+                    return $row->sum('quantity');
+                });
+            }
+            return response()->json(['products' => $getProducts, 'total_quantity' => $total_quantity]);
+        }
+    }
+
+    public function filterProductByBrand(Request $request){
+        if (request()->ajax()){
+            $brand_ids = $request->input('brand_ids');
+            if ($brand_ids != ''){
+                $getProducts = Product::with('category', 'subcategory', 'productImage', 'productStock')->whereIn('brand_id', $brand_ids)->get();
+                $total_quantity = ProductInfo::all()->groupBy('product_id')->map(function ($row){
+                  return $row->sum('quantity');
+                });
+            }
+            else{
+                $getProducts = Product::with('category', 'subcategory', 'productImage', 'productStock')->orderBy('created_at', "DESC")->get();
+                $total_quantity = ProductInfo::all()->groupBy('product_id')->map(function ($row){
+                  return $row->sum('quantity');
+                });
+            }
+            return response()->json(['products' => $getProducts, 'total_quantity' => $total_quantity]);
+        }
+    }
+
+    public function filterProductBySubcategory(Request $request){
+        if (request()->ajax()){
+            $subcategory_id = $request->input('subcategory_id');
+            if ($subcategory_id != ''){
+                $getProducts = Product::with('category', 'subcategory', 'productImage', 'productStock')->where('product_subcategory_id', $subcategory_id)->get();
+                $total_quantity = ProductInfo::all()->groupBy('product_id')->map(function ($row){
+                    return $row->sum('quantity');
+                });
+            }
+            else{
+                $getProducts = Product::with('category', 'subcategory', 'productImage', 'productStock')->orderBy('created_at', "DESC")->get();
+                $total_quantity = ProductInfo::all()->groupBy('product_id')->map(function ($row){
+                    return $row->sum('quantity');
+                });
+            }
+            return response()->json(['products' => $getProducts, 'total_quantity' => $total_quantity]);
         }
     }
 

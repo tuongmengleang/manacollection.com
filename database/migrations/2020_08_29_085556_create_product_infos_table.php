@@ -21,8 +21,8 @@ class CreateProductInfosTable extends Migration
             ->references('id')
             ->on('products')
             ->onDelete('cascade');
-          $table->string('color', 50);
-          $table->string('size', 50);
+          $table->string('color', 50)->nullable();
+          $table->string('size', 50)->nullable();
           $table->integer("quantity");
 
             $table->timestamps();
