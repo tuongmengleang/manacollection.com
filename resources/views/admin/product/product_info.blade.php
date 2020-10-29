@@ -11,7 +11,6 @@
 {{--    <link rel="stylesheet" href="{{ asset('admin/css/extra/card-skeleton.css') }}">--}}
   <link rel="stylesheet" href="{{ asset('admin/css/plugins/extensions/noui-slider.css') }}">
   <link rel="stylesheet" href="{{ asset('admin/css/pages/app-ecommerce-shop.css') }}">
-{{--  <link rel="stylesheet" href="{{ asset('admin/css/own.css') }}">--}}
   <link rel="stylesheet" href="{{ asset('admin/css/extra/product_info_card.css') }}">
   <style>
     body.dark-layout .modal .modal-content .form-control,
@@ -54,6 +53,9 @@
     input.form-control{
       background-color: #10163a !important;
     }
+    #clearAllFilter{
+        padding: 15px;
+    }
   </style>
 @endsection
 
@@ -74,65 +76,68 @@
               </div>
             </section>
             <section id="bg-variants">
-                <main class="card-layout" id="block__card__skeleton">
-                    <div class="card-info-skeleton">
-                        <p class="card-title skeleton"></p>
-                        <p class="card-category skeleton"></p>
-                        <p class="card-button skeleton"></p>
-                        <p class="card-stock skeleton"></p>
-                    </div>
-                    <div class="card-info-skeleton">
-                        <p class="card-title skeleton"></p>
-                        <p class="card-category skeleton"></p>
-                        <p class="card-button skeleton"></p>
-                        <p class="card-stock skeleton"></p>
-                    </div>
-                    <div class="card-info-skeleton">
-                        <p class="card-title skeleton"></p>
-                        <p class="card-category skeleton"></p>
-                        <p class="card-button skeleton"></p>
-                        <p class="card-stock skeleton"></p>
-                    </div>
-                    <div class="card-info-skeleton">
-                        <p class="card-title skeleton"></p>
-                        <p class="card-category skeleton"></p>
-                        <p class="card-button skeleton"></p>
-                        <p class="card-stock skeleton"></p>
-                    </div>
-                    <div class="card-info-skeleton">
-                        <p class="card-title skeleton"></p>
-                        <p class="card-category skeleton"></p>
-                        <p class="card-button skeleton"></p>
-                        <p class="card-stock skeleton"></p>
-                    </div>
-                    <div class="card-info-skeleton">
-                        <p class="card-title skeleton"></p>
-                        <p class="card-category skeleton"></p>
-                        <p class="card-button skeleton"></p>
-                        <p class="card-stock skeleton"></p>
-                    </div>
-                    <div class="card-info-skeleton">
-                        <p class="card-title skeleton"></p>
-                        <p class="card-category skeleton"></p>
-                        <p class="card-button skeleton"></p>
-                        <p class="card-stock skeleton"></p>
-                    </div>
-                    <div class="card-info-skeleton">
-                        <p class="card-title skeleton"></p>
-                        <p class="card-category skeleton"></p>
-                        <p class="card-button skeleton"></p>
-                        <p class="card-stock skeleton"></p>
-                    </div>
-                </main>
+{{--                <main class="card-layout" id="block__card__skeleton" >--}}
+{{--                    <div class="card-info-skeleton">--}}
+{{--                        <p class="card-title skeleton"></p>--}}
+{{--                        <p class="card-category skeleton"></p>--}}
+{{--                        <p class="card-button skeleton"></p>--}}
+{{--                        <p class="card-stock skeleton"></p>--}}
+{{--                    </div>--}}
+{{--                    <div class="card-info-skeleton">--}}
+{{--                        <p class="card-title skeleton"></p>--}}
+{{--                        <p class="card-category skeleton"></p>--}}
+{{--                        <p class="card-button skeleton"></p>--}}
+{{--                        <p class="card-stock skeleton"></p>--}}
+{{--                    </div>--}}
+{{--                    <div class="card-info-skeleton">--}}
+{{--                        <p class="card-title skeleton"></p>--}}
+{{--                        <p class="card-category skeleton"></p>--}}
+{{--                        <p class="card-button skeleton"></p>--}}
+{{--                        <p class="card-stock skeleton"></p>--}}
+{{--                    </div>--}}
+{{--                    <div class="card-info-skeleton">--}}
+{{--                        <p class="card-title skeleton"></p>--}}
+{{--                        <p class="card-category skeleton"></p>--}}
+{{--                        <p class="card-button skeleton"></p>--}}
+{{--                        <p class="card-stock skeleton"></p>--}}
+{{--                    </div>--}}
+{{--                    <div class="card-info-skeleton">--}}
+{{--                        <p class="card-title skeleton"></p>--}}
+{{--                        <p class="card-category skeleton"></p>--}}
+{{--                        <p class="card-button skeleton"></p>--}}
+{{--                        <p class="card-stock skeleton"></p>--}}
+{{--                    </div>--}}
+{{--                    <div class="card-info-skeleton">--}}
+{{--                        <p class="card-title skeleton"></p>--}}
+{{--                        <p class="card-category skeleton"></p>--}}
+{{--                        <p class="card-button skeleton"></p>--}}
+{{--                        <p class="card-stock skeleton"></p>--}}
+{{--                    </div>--}}
+{{--                    <div class="card-info-skeleton">--}}
+{{--                        <p class="card-title skeleton"></p>--}}
+{{--                        <p class="card-category skeleton"></p>--}}
+{{--                        <p class="card-button skeleton"></p>--}}
+{{--                        <p class="card-stock skeleton"></p>--}}
+{{--                    </div>--}}
+{{--                    <div class="card-info-skeleton">--}}
+{{--                        <p class="card-title skeleton"></p>--}}
+{{--                        <p class="card-category skeleton"></p>--}}
+{{--                        <p class="card-button skeleton"></p>--}}
+{{--                        <p class="card-stock skeleton"></p>--}}
+{{--                    </div>--}}
+{{--                </main>--}}
                 <main class="card-layout" id="productInfo__card">
 
                 </main>
 
-                <div class="d-flex">
-                    <div class="mx-auto">
-                        {{$products->links("pagination::bootstrap-4")}}
-                    </div>
-                </div>
+                @if (count($products) > 0)
+                    <section id="products-card">
+                        @include('admin.product.load_products_data')
+                    </section>
+                @else
+                    No data found :(
+                @endif
+
             </section>
 
         </div>
@@ -360,7 +365,8 @@
             let product_image_path = "{{ product_image_path() }}";
 
             // Load Data without refresh
-            request();
+            // request();
+            $('#block__card__skeleton').addClass('d-none');
 
             function request() {
                 let html = '';
@@ -404,60 +410,30 @@
             };
 
             // Ajax Pagination
-            $(document).on('click', ".pagination li a", function (e) {
-                e.preventDefault();
-                let page = $(this).attr('href').split('page=')[1];
-                fetchData(page);
+            $(document).on('click', '.pagination a', function(event){
+                event.preventDefault();
+                var page = $(this).attr('href').split('page=')[1];
+                fetch_data(page);
             });
 
-            function fetchData(page) {
-                $('#block__card__skeleton').removeClass('d-none');
-                $("#productInfo__card").html('');
-                let html = '';
+            function fetch_data(page)
+            {
                 $.ajax({
-                    type: 'GET',
-                    url: "{{ route('admin.product.info.fetchData.pagination') }}",
-                    data: { page : page },
-                    dataType: "json",
-                    success: function (data) {
-                        $.each(data.products.data, function (index, product) {
-                            let image_url = "'" +base_url+ '/' + product_image_path + '/' + product.product_image.original_images + "'";
-                            html += '<div class="card-info" style="background-image: url('+image_url+')">';
-                            html += '<div class="content-info">';
-                            html += '<h2 class="title">'+product.name+'</h2>';
-                            html += '<p class="copy">'+product.category.category_name+'</p>';
-                            html += '<p class="copy">'+product.subcategory.subcategory_name+'</p>';
-                            html += '<button class="btn__add__quantity addQuantity" data-id="'+product.id+'">Add Quantity</button>';
-                            html += '<div class="prod-info">';
-                            html += '<div class="stock-text">';
-                            html += '<span> Total In Stock :';
-                            html += '<strong class="countStock'+product.id+'">';
-                            $.each(data.total_quantity, function (key, item) {
-                                if (product.id == key){
-                                    html += item;
-                                }
-                            });
-                            html += '</strong>';
-                            html += '</span>';
-                            html += '</div>';
-                            html += '</div>';
-                            html += '</div>';
-                            html += '</div>';
-                        });
-                        $('#block__card__skeleton').addClass('d-none');
-                        $("#productInfo__card").html('');
-                        $("#productInfo__card").append(html);
-                    },
-                    error: function (data) {
-                        console.log(data);
+                    url: "{{ route('admin.product.info.pagination') }}",
+                    data: {page:page},
+                    success:function(data)
+                    {
+                        $('#products-card').html(data);
                     }
                 });
             }
 
             // Clear all filter input
             $("#clearAllFilter").click(function () {
-                request();
-               clearAllFilter();
+                // request();
+                $("#productInfo__card").html('');
+                $('#products-card').removeClass('d-none');
+                clearAllFilter();
             });
             function clearAllFilter() {
                 $("input[name=subcategory-filter][value='']").prop("checked",true);
@@ -547,7 +523,8 @@
                     data: { brand_ids : brand_ids },
                     dataType: 'json',
                     success: function (data) {
-                        console.log(data);
+                        // console.log(data);
+                        $('#products-card').addClass('d-none');
                         if (data.products.length === 0){
                             html = '<h2 class="text-center">Search Not Found!</h2>';
                         }
@@ -568,6 +545,12 @@
                                     html += item;
                                 }
                             });
+                            if(data.total_quantity[product.id]){
+                                html += '';
+                            }
+                            else{
+                                html += '0';
+                            }
                             html += '</strong>';
                             html += '</span>';
                             html += '</div>';
@@ -597,6 +580,7 @@
                     data: { subcategory_id : subcategory_id },
                     dataType: 'json',
                     success: function (data) {
+                        $('#products-card').addClass('d-none');
                         if (data.products.length === 0){
                             html = '<h2 class="text-center">Search Not Found!</h2>';
                         }
@@ -617,6 +601,12 @@
                                     html += item;
                                 }
                             });
+                            if(data.total_quantity[product.id]){
+                                html += '';
+                            }
+                            else{
+                                html += '0';
+                            }
                             html += '</strong>';
                             html += '</span>';
                             html += '</div>';
@@ -638,45 +628,58 @@
             $("input[name='product_name']").keyup(function () {
                 $('#block__card__skeleton').removeClass('d-none');
                let product_name = $(this).val();
-               let html = '';
-               $.ajax({
-                   type: "GET",
-                   url: "{{ route('admin.product.info.filter.product.by.name') }}",
-                   data: { product_name : product_name },
-                   dataType: 'json',
-                   success: function (data) {
-                       $.each(data.products, function (index, product) {
-                           let image_url = "'" +base_url+ '/' + product_image_path + '/' + product.product_image.original_images + "'";
-                           html += '<div class="card-info" style="background-image: url('+image_url+')">';
-                           html += '<div class="content-info">';
-                           html += '<h2 class="title">'+product.name+'</h2>';
-                           html += '<p class="copy">'+product.category.category_name+'</p>';
-                           html += '<p class="copy">'+product.subcategory.subcategory_name+'</p>';
-                           html += '<button class="btn__add__quantity addQuantity" data-id="'+product.id+'">Add Quantity</button>';
-                           html += '<div class="prod-info">';
-                           html += '<div class="stock-text">';
-                           html += '<span> Total In Stock :';
-                           html += '<strong class="countStock'+product.id+'">';
-                           $.each(data.total_quantity, function (key, item) {
-                               if (product.id == key){
-                                   html += item;
+               if (product_name.length > 0){
+                   let html = '';
+                   $.ajax({
+                       type: "GET",
+                       url: "{{ route('admin.product.info.filter.product.by.name') }}",
+                       data: { product_name : product_name },
+                       dataType: 'json',
+                       success: function (data) {
+                           $.each(data.products, function (index, product) {
+                               let image_url = "'" +base_url+ '/' + product_image_path + '/' + product.product_image.original_images + "'";
+                               html += '<div class="card-info" style="background-image: url('+image_url+')">';
+                               html += '<div class="content-info">';
+                               html += '<h2 class="title">'+product.name+'</h2>';
+                               html += '<p class="copy">'+product.category.category_name+'</p>';
+                               html += '<p class="copy">'+product.subcategory.subcategory_name+'</p>';
+                               html += '<button class="btn__add__quantity addQuantity" data-id="'+product.id+'">Add Quantity</button>';
+                               html += '<div class="prod-info">';
+                               html += '<div class="stock-text">';
+                               html += '<span> Total In Stock :';
+                               html += '<strong class="countStock'+product.id+'">';
+                               $.each(data.total_quantity, function (key, item) {
+                                   if (product.id == key){
+                                       html += item;
+                                   }
+                               });
+                               if(data.total_quantity[product.id]){
+                                   html += '';
                                }
+                               else{
+                                   html += '0';
+                               }
+                               html += '</strong>';
+                               html += '</span>';
+                               html += '</div>';
+                               html += '</div>';
+                               html += '</div>';
+                               html += '</div>';
                            });
-                           html += '</strong>';
-                           html += '</span>';
-                           html += '</div>';
-                           html += '</div>';
-                           html += '</div>';
-                           html += '</div>';
-                       });
-                       $('#block__card__skeleton').addClass('d-none');
-                       $("#productInfo__card").html('');
-                       $("#productInfo__card").append(html);
-                   },
-                   error: function (data) {
-                       console.log("Error", data);
-                   }
-               });
+                           $('#block__card__skeleton').addClass('d-none');
+                           $("#productInfo__card").html('');
+                           $('#products-card').addClass('d-none');
+                           $("#productInfo__card").append(html);
+                       },
+                       error: function (data) {
+                           console.log("Error", data);
+                       }
+                   });
+               }
+               else{
+                   $('#products-card').removeClass('d-none');
+                   $("#productInfo__card").html('');
+               }
             });
 
         });

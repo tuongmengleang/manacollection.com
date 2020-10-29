@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProductInfosTable extends Migration
+class CreateCommunesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,14 @@ class CreateProductInfosTable extends Migration
      */
     public function up()
     {
-        Schema::create('product_infos', function (Blueprint $table) {
+        Schema::create('communes', function (Blueprint $table) {
             $table->id();
-
-              $table->bigInteger('product_id')->unsigned()->index();
-              $table->foreign('product_id')
+            $table->bigInteger('district_id')->unsigned()->index();
+            $table->foreign('district_id')
                 ->references('id')
-                ->on('products')
+                ->on('districts')
                 ->onDelete('cascade');
-              $table->string('color', 50)->nullable();
-              $table->string('size', 50)->nullable();
-              $table->integer("quantity");
-
+            $table->string('name', '255');
             $table->timestamps();
         });
     }
@@ -36,6 +32,6 @@ class CreateProductInfosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('product_infos');
+        Schema::dropIfExists('communes');
     }
 }

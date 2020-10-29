@@ -99,19 +99,19 @@ Route::group(['middleware' => ['auth:admin']], function () {
   });
 
   // Product Stock
-  Route::prefix('product-stock')->group(function (){
-    Route::get('/', "ProductStockController@index")->name('product.stock.index');
-    Route::post('/add', "ProductStockController@store")->name('product.stock.add');
-    Route::get('/data', "ProductStockController@fetchData")->name('product.fetchData');
-    Route::POST('/countStock', "ProductStockController@countStock")->name('product.count.stock');
-    Route::get('/filter-product', "ProductStockController@filterByBrand")->name('product.filter.product');
-  });
+//  Route::prefix('product-stock')->group(function (){
+//    Route::get('/', "ProductStockController@index")->name('product.stock.index');
+//    Route::post('/add', "ProductStockController@store")->name('product.stock.add');
+//    Route::get('/data', "ProductStockController@fetchData")->name('product.fetchData');
+//    Route::POST('/countStock', "ProductStockController@countStock")->name('product.count.stock');
+//    Route::get('/filter-product', "ProductStockController@filterByBrand")->name('product.filter.product');
+//  });
 
   // Product Information
     Route::prefix('product-info')->group(function (){
       Route::get('/', "ProductInfoController@index")->name('product.info.index');
+      Route::get('/pagination', "ProductInfoController@pagination")->name('product.info.pagination');
       Route::get('/data', "ProductInfoController@fetchData")->name('product.info.fetchData');
-      Route::get('/pagination/page', "ProductInfoController@dataPagination")->name('product.info.fetchData.pagination');
       Route::post('/add', "ProductInfoController@store")->name('product.info.add');
       Route::get('/countStock', "ProductInfoController@countStock")->name('product.info.count.stock');
       Route::get('/filter-product/by-name', "ProductInfoController@filterProductByName")->name('product.info.filter.product.by.name');

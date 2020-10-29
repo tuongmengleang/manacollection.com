@@ -646,7 +646,7 @@
 {{--            <hr>--}}
             <!-- Clear Filters Starts -->
             <div id="clear-filters">
-              <button id="clearFilterButton" class="btn btn-block btn-primary">CLEAR ALL FILTERS</button>
+              <button id="clearFilterButton" class="btn btn-block btn-primary p-3">CLEAR ALL FILTERS</button>
             </div>
             <!-- Clear Filters Ends -->
 

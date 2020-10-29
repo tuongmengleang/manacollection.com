@@ -31,6 +31,9 @@ class ProductInfoController extends Controller
         ];
 
         $products = Product::with('category', 'subcategory', 'productImage')->orderBy('created_at', "DESC")->paginate(12);
+        $total_quantity = ProductInfo::all()->groupBy('product_id')->map(function ($row){
+            return $row->sum('quantity');
+        });
         $brands = Brand::orderBy("created_at", "DESC")->get();
         $subcategories = ProductSubCategory::orderBy("created_at", "DESC")->get();
 
@@ -39,8 +42,21 @@ class ProductInfoController extends Controller
             'products' => $products,
             'brands' => $brands,
             'subcategories' => $subcategories,
+            'total_quantity' => $total_quantity,
         ]);
     }
+
+    public function pagination(Request $request){
+        if($request->ajax())
+        {
+            $products = Product::with('category', 'subcategory', 'productImage')->orderBy('created_at', "DESC")->paginate(12);
+            $total_quantity = ProductInfo::all()->groupBy('product_id')->map(function ($row){
+                return $row->sum('quantity');
+            });
+            return view('admin.product.load_products_data', compact('products', 'total_quantity'))->render();
+        }
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -143,15 +159,6 @@ class ProductInfoController extends Controller
         }
     }
 
-    public function dataPagination(Request $request){
-        if (request()->ajax()){
-            $products = Product::with('category', 'subcategory', 'productImage')->orderBy('created_at', "DESC")->paginate(12);
-            $total_quantity = ProductInfo::all()->groupBy('product_id')->map(function ($row){
-                return $row->sum('quantity');
-            });
-            return response()->json(['products' => $products, 'total_quantity' => $total_quantity]);
-        }
-    }
 
     public function countStock(Request $request)
     {

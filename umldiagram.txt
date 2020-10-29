@@ -1,0 +1,51 @@
+product_categoies
+-
+id int PK
+category_name varchar(255)
+type_name varchar(155)
+
+product_subcategoies
+-
+id int PK
+product_category_id int FK >- product_categoies.id
+subcategory_name varchar(255)
+
+brands
+-
+id int PK
+brand_name varchar(255)
+category varchar(255)
+brand_image varchar(255)
+about NULL text
+url NULL string
+
+products
+-
+id int PK
+product_category_id int FK >- product_categoies.id
+product_subcategory_id int FK >- product_subcategoies.id
+brand_id int FK >- brands.id
+code varchar(155)
+name varchar(255)
+cost_price double
+sale_price double
+discount NULL tinyInteger
+discount_amount NULL int
+remark NULL text
+status tinyInteger
+video_link varchar(255)
+
+product_images
+-
+id int PK
+product_id int FK >- products.id
+original_images text
+resize_image NULL text
+
+product_infos
+-
+id int PK
+product_id int FK >- products.id
+color NULL varchar(50)
+size NULL varchar(50)
+quantity int

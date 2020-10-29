@@ -41,11 +41,6 @@
           "icon": "feather icon-box"
         },
         {
-          "url": "admin/product-stock",
-          "name": "Product Stocks",
-          "icon": "fa fa-shopping-cart"
-        },
-        {
             "url": "admin/product-info",
             "name": "Product Info",
             "icon": "fa fa-shopping-cart"
